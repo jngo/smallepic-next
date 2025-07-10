@@ -5,6 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+  --tracking-normal: var(--tracking-normal);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -36,6 +41,16 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  
+    --shadow-2xs: var(--shadow-2xs);
+    --shadow-xs: var(--shadow-xs);
+    --shadow-sm: var(--shadow-sm);
+    --shadow: var(--shadow);
+    --shadow-md: var(--shadow-md);
+    --shadow-lg: var(--shadow-lg);
+    --shadow-xl: var(--shadow-xl);
+    --shadow-2xl: var(--shadow-2xl);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -54,7 +69,7 @@
   --card-foreground: oklch(0.1504 0.0095 86.0541);
   --popover: oklch(0.9910 0.0041 91.4454);
   --popover-foreground: oklch(0.1504 0.0095 86.0541);
-  --primary: oklch(0.1801 0.0150 81.3705);
+  --primary: oklch(0.3798 0.0595 120.2827);
   --primary-foreground: oklch(0.9798 0.0045 78.2983);
   --secondary: oklch(0.9407 0.0086 84.5734);
   --secondary-foreground: oklch(0.2495 0.0157 84.5097);

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Mail, Linkedin, Github, Twitter } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function Home() {
   return (
@@ -15,6 +15,54 @@ export default function Home() {
           Designer by practice, engineer by training, researcher at heart. I tackle complex product challenges by combining technical depth with user-centered design, turning ambiguity into actionable insights and shipped solutions.
         </p>
       </header>
+
+      <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 mb-16">
+        <Card>
+          <CardHeader>
+            <CardTitle>Synthesiser</CardTitle>
+            <CardDescription>Generate a Minto Pyramid synthesis of any content.</CardDescription>
+          </CardHeader>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Podscriber</CardTitle>
+            <CardDescription>Transcribe and send podcasts to your read-it-later queue.</CardDescription>
+          </CardHeader>
+        </Card>
+        <Dialog modal={false}>
+          <DialogTrigger asChild>
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle>Mermaid Viewer</CardTitle>
+                <CardDescription>A lightweight, mobile-friendly Mermaid diagram viewer.</CardDescription>
+              </CardHeader>
+            </Card>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[600px]">
+            <DialogHeader>
+              <DialogTitle>Mermaid Viewer</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <p className="font-serif text-lg mb-2">A lightweight, mobile-friendly Mermaid diagram viewer for viewing and editing Mermaid diagrams.</p>
+              <p><strong>Mermaid Viewer</strong> was born out of the need for a simple, mobile-friendly viewer for the mountains of Mermaid diagrams coming out of my ChatGPT sessions.</p>
+              <p>As a tool for creating diagrams and visualisations using plain text, <a href="https://mermaid.js.org/" className="underline">Mermaid</a> is ideally suited for transforming the outputs of large language models (LLMs) into structured formats.</p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                <Badge variant="secondary">v0</Badge>
+                <Badge variant="secondary">Cursor</Badge>
+                <Badge variant="secondary">Next.js</Badge>
+                <Badge variant="secondary">Tailwind CSS</Badge>
+                <Badge variant="secondary">Mermaid.js</Badge>
+                <Badge variant="secondary">Vercel</Badge>
+              </div>
+                <Button asChild className="w-full">
+                  <a href="https://mermaid.smallepic.com/">
+                    Try Mermaid Viewer
+                  </a>
+                </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </section>
 
       <section className="mb-16">
         <h2 className="font-bold mb-2">Experience</h2>
@@ -51,7 +99,7 @@ export default function Home() {
           </li>
           <li className="flex items-center gap-4 border-t py-1">
             <span><a href="https://podscriber.smallepic.com/" className="text-muted-foreground font-bold hover:bg-muted">Podscriber</a></span>
-            <span className="grow">Instant transcribe podcast episodes and send them to your read-it-later queue.</span>
+            <span className="grow">Transcribe podcast episodes and send them to your read-it-later queue.</span>
           </li>
           <li className="flex items-center gap-4 border-t py-1">
             <span><a href="https://mermaid.smallepic.com/" className="text-muted-foreground font-bold hover:bg-muted">Mermaid Viewer</a></span>
