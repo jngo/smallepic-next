@@ -2,10 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Window } from "@/components/ui/window";
 
 export default function Home() {
   return (
-    <div className="container mx-auto px-4 py-16 max-w-4xl">
+    <div className="container relative mx-auto px-4 py-16 max-w-4xl">
       {/* Hero Section */}
       <header className="mb-16">
         <h1 className="text-4xl font-bold mb-6">
@@ -15,6 +16,10 @@ export default function Home() {
           Designer by practice, engineer by training, researcher at heart. I tackle complex product challenges by combining technical depth with user-centered design, turning ambiguity into actionable insights and shipped solutions.
         </p>
       </header>
+
+      <Window title="Demo">
+        <p>Draggable content goes here.</p>
+      </Window>
 
       <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 mb-16">
         <Card>
