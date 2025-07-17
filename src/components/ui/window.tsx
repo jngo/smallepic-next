@@ -1,23 +1,30 @@
 "use client"
 
 import * as React from "react"
-
 import { cn } from "@/lib/utils"
+import { X } from "lucide-react"
 
-let zIndexCounter = 10
+// Use a ref to track z-index counter to avoid SSR/client mismatch
+const zIndexCounterRef = { current: 10 }
 
 interface WindowProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   title: React.ReactNode
+  onClose?: () => void
 }
 
 const Window = React.forwardRef<HTMLDivElement, WindowProps>(
-  ({ title, className, children, style, ...props }, ref) => {
+  ({ title, className, children, style, onClose, ...props }, ref) => {
     const [position, setPosition] = React.useState({ x: 100, y: 100 })
-    const [zIndex, setZIndex] = React.useState(() => ++zIndexCounter)
+    const [zIndex, setZIndex] = React.useState(10) // Start with a fixed value
     const startRef = React.useRef({ x: 0, y: 0 })
     const originRef = React.useRef({ x: 0, y: 0 })
     const idRef = React.useRef<number | null>(null)
+
+    // Set z-index after mount to avoid SSR/client mismatch
+    React.useEffect(() => {
+      setZIndex(++zIndexCounterRef.current)
+    }, [])
 
     const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
       e.preventDefault()
@@ -25,7 +32,7 @@ const Window = React.forwardRef<HTMLDivElement, WindowProps>(
       ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
       startRef.current = { x: e.clientX, y: e.clientY }
       originRef.current = { ...position }
-      setZIndex(++zIndexCounter)
+      setZIndex(++zIndexCounterRef.current)
     }
 
     const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -62,9 +69,11 @@ const Window = React.forwardRef<HTMLDivElement, WindowProps>(
         >
           <span className="font-semibold">{title}</span>
           <div className="flex gap-1">
-            <span className="h-2 w-2 rounded-full bg-destructive" />
-            <span className="h-2 w-2 rounded-full bg-secondary" />
-            <span className="h-2 w-2 rounded-full bg-primary" />
+            <X
+              className="size-3 rounded-full text-muted bg-primary cursor-pointer hover:bg-destructive transition-colors"
+              onClick={onClose}
+              strokeWidth={0.8}
+            />
           </div>
         </div>
         <div className="p-2">{children}</div>
