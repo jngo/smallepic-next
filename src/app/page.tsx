@@ -22,7 +22,7 @@ export default function Home() {
       {showWelcome && (
       <Window title="Welcome" className="w-1/2" onClose={() => setShowWelcome(false)}>
         <h1 className="text-4xl font-bold mb-6">
-          Hi, I'm John.
+          Hi, I’m John.
         </h1>
         <p className="text-xl leading-relaxed">
           Designer by practice, engineer by training, researcher at heart. I tackle complex product challenges by combining technical depth with user-centered design, turning ambiguity into actionable insights and shipped solutions.
