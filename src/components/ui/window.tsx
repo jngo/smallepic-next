@@ -13,18 +13,30 @@ interface WindowProps
   onClose?: () => void
 }
 
-const Window = React.forwardRef<HTMLDivElement, WindowProps>(
+export interface WindowRef {
+  bringToFront: () => void
+}
+
+const Window = React.forwardRef<WindowRef, WindowProps>(
   ({ title, className, children, style, onClose, ...props }, ref) => {
     const [position, setPosition] = React.useState({ x: 100, y: 100 })
     const [zIndex, setZIndex] = React.useState(10) // Start with a fixed value
     const startRef = React.useRef({ x: 0, y: 0 })
     const originRef = React.useRef({ x: 0, y: 0 })
     const idRef = React.useRef<number | null>(null)
+    const divRef = React.useRef<HTMLDivElement>(null)
 
     // Set z-index after mount to avoid SSR/client mismatch
     React.useEffect(() => {
       setZIndex(++zIndexCounterRef.current)
     }, [])
+
+    // Expose bringToFront method to parent components
+    React.useImperativeHandle(ref, () => ({
+      bringToFront: () => {
+        setZIndex(++zIndexCounterRef.current)
+      }
+    }))
 
     const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
       e.preventDefault()
@@ -53,12 +65,13 @@ const Window = React.forwardRef<HTMLDivElement, WindowProps>(
 
     return (
       <div
-        ref={ref}
+        ref={divRef}
         style={{ left: position.x, top: position.y, zIndex, ...style }}
         className={cn(
           "absolute w-80 rounded-sm border bg-card text-card-foreground shadow-md",
           className
         )}
+        onClick={() => setZIndex(++zIndexCounterRef.current)}
         {...props}
       >
         <div
@@ -83,4 +96,3 @@ const Window = React.forwardRef<HTMLDivElement, WindowProps>(
 Window.displayName = "Window"
 
 export { Window }
-
