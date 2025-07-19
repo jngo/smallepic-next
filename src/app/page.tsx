@@ -8,7 +8,7 @@ import { BriefcaseBusiness, Clapperboard, FolderOpen, Heart, LibraryBig, Mail, N
 
 export default function Home() {
   const [showWelcome, setShowWelcome] = useState(true);
-  const [showExperience, setShowExperience] = useState(false);
+  const [showExperience, setShowExperience] = useState(true);
   const [showRandom, setShowRandom] = useState(false);
   const [showContact, setShowContact] = useState(false);
   const [showMermaidViewer, setShowMermaidViewer] = useState(false);
@@ -16,6 +16,10 @@ export default function Home() {
   const [showSynthesiser, setShowSynthesiser] = useState(false);
   const [showFilmsAndConversations, setShowFilmsAndConversations] = useState(false);
   const [showBooksAndConversations, setShowBooksAndConversations] = useState(false);
+  const [showMcKinseyAndCompany, setShowMcKinseyAndCompany] = useState(false);
+  const [showUP42, setShowUP42] = useState(false);
+  const [showCandis, setShowCandis] = useState(false);
+  const [showUrbanSportsClub, setShowUrbanSportsClub] = useState(false);
 
   return (
     <div className="container relative mx-auto px-4 py-16 max-w-4xl">
@@ -30,7 +34,7 @@ export default function Home() {
       </Window>
       )}
 
-      <Window title="Menu" className="w-1/4">
+      <Window title="Menu" className="w-53">
         <button onClick={() => setShowWelcome(true)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
           <Heart strokeWidth={0.8} className="size-12"/>
           <span>Welcome</span>
@@ -49,6 +53,25 @@ export default function Home() {
         </button>
       </Window>
 
+      <Window title="Experience" className="w-101">
+        <button onClick={() => setShowMcKinseyAndCompany(true)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
+          <span>McKinsey & Company</span>
+        </button>
+        <button onClick={() => setShowUP42(true)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
+          <span>UP42</span>
+        </button>
+        <button onClick={() => setShowCandis(true)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
+          <span>Candis</span>
+        </button>
+        <button onClick={() => setShowUrbanSportsClub(true)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
+          <span>Urban Sports Club</span>
+        </button>
+      </Window>
+
       {showExperience && (
       <Window title="Experience" className="w-full" onClose={() => setShowExperience(false)}>
         <ul>
@@ -59,12 +82,12 @@ export default function Home() {
           </li>
           <li className="flex items-center gap-4 border-t py-1">
             <span><a href="https://up42.com/" className="text-muted-foreground font-bold hover:bg-muted">UP42</a></span>
-            <span className="grow">Established two-person design practice and launched several keystone projects.</span>
+            <span className="grow">Established design practice and launched several keystone projects.</span>
             <span className="w-1/8 text-right text-muted-foreground">2019–2021</span>
           </li>
           <li className="flex items-center gap-4 border-t py-1">
             <span><a href="https://www.candis.io/" className="text-muted-foreground font-bold hover:bg-muted">Candis</a></span>
-            <span className="grow">Design team of one, hands-on across end-to-end from research to React.js.</span>
+            <span className="grow">Design team of one, hands-on end-to-end from research to frontend.</span>
             <span className="w-1/8 text-right text-muted-foreground">2017–2019</span>
           </li>
           <li className="flex items-center gap-4 border-t py-1">
@@ -76,7 +99,7 @@ export default function Home() {
       </Window>
       )}
 
-      <Window title="Random" className="w-5/8" onClose={() => setShowRandom(false)}>
+      <Window title="Random" className="w-125" onClose={() => setShowRandom(false)}>
         <button onClick={() => setShowSynthesiser(true)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
           <Network strokeWidth={0.8} className="size-12"/>
           <span>Synthesiser</span>
@@ -130,6 +153,47 @@ export default function Home() {
       <Window title="Reach Out" className="w-1/2" onClose={() => setShowContact(false)}>
         <p>Send me an <a href="mailto:john@smallepic.com" className="text-muted-foreground font-bold hover:bg-muted">email</a>, or find me on <a href="https://www.linkedin.com/in/jngo/" className="text-muted-foreground font-bold hover:bg-muted">LinkedIn</a>, <a href="https://github.com/jngo" className="text-muted-foreground font-bold hover:bg-muted">GitHub</a>, or <a href="https://twitter.com/jngo" className="text-muted-foreground font-bold hover:bg-muted  ">Twitter</a>.</p>
       </Window>
+      )}
+
+      {showMcKinseyAndCompany && (
+        <Window title="McKinsey & Company" onClose={() => setShowMcKinseyAndCompany(false)}>
+          <p className="font-serif text-lg mb-2">Leading design across digital transformation initiatives.</p>
+          <p className="mb-2">Working within a Service Design & Innovation team with a portfolio of transformation initiatives, my role involves: evangelizing the work of the design team with stakeholders, collaborating cross-functionally on complex projects to ensure the voice of design is heard, and coaching team members through guidance and a vision for success.</p>
+        </Window>
+      )}
+
+      {showUP42 && (
+        <Window title="UP42" className="w-3/4" onClose={() => setShowUP42(false)}>
+          <p className="font-serif text-lg mb-2">Established design practice and launched several keystone projects.</p>
+          <p className="mb-2">As the first design hire within the Airbus Defence and Space subsidiary, I established design practice within the organisation.</p>
+          <p className="mb-2">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques—to ensure decisions were made with the best data and insights at hand.</p>
+          <p className="mb-2">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
+          <h2 className="mb-2">Highlights</h2>
+          <ul className="space-y-2">
+            <li><strong>Product Vision</strong><br />Collaborating with leaders and colleagues to create a narrative and concrete vision as an inspirational “north star” for teams to rally behind.</li>
+            <li><strong>Documentation Hub</strong><br />A rethinking of our documentation as the foundation for delivering a great developer experience.</li>
+            <li><strong>Catalog Search</strong><br />A technically ambitious project to provide real-time visibility into available satellite imagery from multiple providers.</li>
+            <li><strong>Geospatial Solutions Marketplace</strong><br />Facilitation of a design sprint exploring the opportunities for a lucrative, yet potentially high risk venture into a new market.</li>
+            <li><strong>Marketing Website</strong><br />A holistic redesign of the marketing website driven by a research led understanding of customers.</li>
+            <li><strong>Research Operations</strong><br />Working closely with sales, marketing, and business intelligence to implement a research stack for gathering, aggregating, and disseminating customer research and insights.</li>
+          </ul>
+        </Window>
+      )}
+
+      {showCandis && (
+        <Window title="Candis" onClose={() => setShowCandis(false)}>
+          <p className="font-serif text-lg mb-2">Design team of one, hands-on end-to-end from research to frontend.</p>
+          <p className="mb-2">As a single person design team, I was responsible for user experience across the portfolio of products at Candis. Practically speaking, I conducted user research, produced design concepts and prototypes, documented epics and user stories, and contributed UI enhancements to the React codebase.</p>
+          <p className="mb-2">I also led the initiative to scale design to meet the needs of a growing engineering team through the development of a design system that served as the style guide and component library for current and future Candis products.</p>
+        </Window>
+      )}
+
+      {showUrbanSportsClub && (
+        <Window title="Urban Sports Club" onClose={() => setShowUrbanSportsClub(false)}>
+          <p className="font-serif text-lg mb-2">I helped lay the technical and product foundations for European expansion at <a href="https://urbansportsclub.com/" className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</a>.</p>
+          <p className="mb-2">I played a key technical leadership and product design role, responsible for the digital transformation of key technical infrastructure and the venue check-in experience. My achievements were instrumental to the ambitious expansion of the flat-rate sports membership from Berlin into over 88 cities and 8,000 sporting venues.</p>
+          <p className="mb-2">My key achievement was leading the delivery team, where I designed the REST API specification and mobile app experiences. Within three months, we replaced the existing manual membership card and log sheet processes with an API and mobile apps enabling members to check-in with their iOS and Android devices.</p>
+        </Window>
       )}
 
       {showSynthesiser && (

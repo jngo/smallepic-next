@@ -72,7 +72,6 @@ const Window = React.forwardRef<HTMLDivElement, WindowProps>(
             <X
               className="size-3 rounded-full text-muted bg-primary cursor-pointer hover:bg-destructive transition-colors"
               onClick={onClose}
-              strokeWidth={0.8}
             />
           </div>
         </div>
