@@ -194,7 +194,7 @@ export default function Home() {
           <p className="mb-2">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
           <h2 className="mb-2">Highlights</h2>
           <ul className="space-y-2">
-            <li><strong>Product Vision</strong><br />Collaborating with leaders and colleagues to create a narrative and concrete vision as an inspirational "north star" for teams to rally behind.</li>
+            <li><strong>Product Vision</strong><br />Collaborating with leaders and colleagues to create a narrative and concrete vision as an inspirational ‘north star’ for teams to rally behind.</li>
             <li><strong>Documentation Hub</strong><br />A rethinking of our documentation as the foundation for delivering a great developer experience.</li>
             <li><strong>Catalog Search</strong><br />A technically ambitious project to provide real-time visibility into available satellite imagery from multiple providers.</li>
             <li><strong>Geospatial Solutions Marketplace</strong><br />Facilitation of a design sprint exploring the opportunities for a lucrative, yet potentially high risk venture into a new market.</li>
