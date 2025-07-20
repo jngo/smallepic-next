@@ -116,13 +116,23 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
           <span className="font-semibold">{title}</span>
           <div className="flex gap-1">
             <button
+              type="button"
               className="size-5 -m-1 p-1 group"
-              onClick={onClose}
+              onClick={(e) => {
+                e.stopPropagation()
+                onClose?.()
+              }}
               aria-label="Close"
             >
-              <X className={cn(
-                "size-3 rounded-full text-muted group-hover:bg-destructive transition-colors",
-                focused ? "bg-primary-foreground text-primary" : "bg-foreground text-muted")} />
+              <X
+                className={cn(
+                  "size-3 rounded-full text-muted group-hover:bg-destructive transition-colors",
+                  focused
+                    ? "bg-primary-foreground text-primary"
+                    : "bg-foreground text-muted"
+                )}
+              />
+              <span className="sr-only">Close</span>
             </button>
           </div>
         </div>
