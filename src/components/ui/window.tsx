@@ -9,6 +9,8 @@ class WindowManager {
   private static instance: WindowManager
   private windowStack: string[] = []
   private listeners: Map<string, (zIndex: number) => void> = new Map()
+  private focusListeners: Map<string, (isFocused: boolean) => void> = new Map()
+  private focusedWindow: string | null = null
   private baseZIndex = 10
 
   static getInstance(): WindowManager {
@@ -18,21 +20,30 @@ class WindowManager {
     return WindowManager.instance
   }
 
-  registerWindow(windowId: string, callback: (zIndex: number) => void): void {
-    this.listeners.set(windowId, callback)
+  registerWindow(windowId: string, zIndexCallback: (zIndex: number) => void, focusCallback: (isFocused: boolean) => void): void {
+    this.listeners.set(windowId, zIndexCallback)
+    this.focusListeners.set(windowId, focusCallback)
     // Add to stack if not already present
     if (!this.windowStack.includes(windowId)) {
       this.windowStack.push(windowId)
       this.updateZIndices()
+      // Focus the newly created window
+      this.setFocusedWindow(windowId)
     }
   }
 
   unregisterWindow(windowId: string): void {
     this.listeners.delete(windowId)
+    this.focusListeners.delete(windowId)
     const index = this.windowStack.indexOf(windowId)
     if (index > -1) {
       this.windowStack.splice(index, 1)
       this.updateZIndices()
+      // If the focused window was removed, focus the top window
+      if (this.focusedWindow === windowId) {
+        const topWindow = this.windowStack[this.windowStack.length - 1]
+        this.setFocusedWindow(topWindow || null)
+      }
     }
   }
 
@@ -43,6 +54,28 @@ class WindowManager {
       this.windowStack.splice(index, 1)
       this.windowStack.push(windowId)
       this.updateZIndices()
+      this.setFocusedWindow(windowId)
+    }
+  }
+
+  private setFocusedWindow(windowId: string | null): void {
+    if (this.focusedWindow === windowId) return
+    
+    // Update previous focused window
+    if (this.focusedWindow) {
+      const prevFocusCallback = this.focusListeners.get(this.focusedWindow)
+      if (prevFocusCallback) {
+        prevFocusCallback(false)
+      }
+    }
+    
+    // Update new focused window
+    this.focusedWindow = windowId
+    if (windowId) {
+      const newFocusCallback = this.focusListeners.get(windowId)
+      if (newFocusCallback) {
+        newFocusCallback(true)
+      }
     }
   }
 
@@ -70,6 +103,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
   ({ title, className, children, style, onClose, ...props }, ref) => {
     const [position, setPosition] = React.useState({ x: 100, y: 100 })
     const [zIndex, setZIndex] = React.useState(10)
+    const [isFocused, setIsFocused] = React.useState(false)
     const startRef = React.useRef({ x: 0, y: 0 })
     const originRef = React.useRef({ x: 0, y: 0 })
     const idRef = React.useRef<number | null>(null)
@@ -77,10 +111,10 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
     const windowIdRef = React.useRef<string>(`window-${Math.random().toString(36).substr(2, 9)}`)
     const windowManager = WindowManager.getInstance()
 
-    // Register window with the manager and set up z-index callback
+    // Register window with the manager and set up z-index and focus callbacks
     React.useEffect(() => {
       const windowId = windowIdRef.current
-      windowManager.registerWindow(windowId, setZIndex)
+      windowManager.registerWindow(windowId, setZIndex, setIsFocused)
       
       return () => {
         windowManager.unregisterWindow(windowId)
@@ -131,7 +165,12 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
         {...props}
       >
         <div
-          className="flex select-none items-center justify-between gap-2 bg-muted px-2 py-1 text-sm cursor-move touch-none"
+          className={cn(
+            "flex select-none items-center justify-between gap-2 px-2 py-1 text-sm cursor-move touch-none",
+            isFocused 
+              ? "bg-primary text-primary-foreground" 
+              : "bg-muted text-foreground"
+          )}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
