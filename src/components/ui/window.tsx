@@ -38,7 +38,6 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
     const startRef = React.useRef({ x: 0, y: 0 })
     const originRef = React.useRef({ x: 0, y: 0 })
     const idRef = React.useRef<number | null>(null)
-    const divRef = React.useRef<HTMLDivElement>(null)
 
     // Register this window in the stack on mount
     React.useEffect(() => {
@@ -95,7 +94,6 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
 
     return (
       <div
-        ref={divRef}
         style={{ left: position.x, top: position.y, zIndex, ...style }}
         className={cn(
           "absolute w-80 rounded-sm border bg-card text-card-foreground shadow-md",
