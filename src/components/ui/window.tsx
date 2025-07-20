@@ -4,12 +4,20 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { X } from "lucide-react"
 
-// Global array to keep track of window stacking order
-const windowStack: Array<React.Dispatch<React.SetStateAction<number>>> = []
+// Track window order and focus state for all windows
+interface StackEntry {
+  setZIndex: React.Dispatch<React.SetStateAction<number>>
+  setFocused: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-// Update z-index for all windows based on their order in the stack
+const windowStack: StackEntry[] = []
+
+// Update z-indices and focus flags for every window based on stack order
 const updateZIndices = () => {
-  windowStack.forEach((set, index) => set(10 + index))
+  windowStack.forEach(({ setZIndex, setFocused }, index) => {
+    setZIndex(10 + index)
+    setFocused(index === windowStack.length - 1)
+  })
 }
 
 interface WindowProps
@@ -26,6 +34,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
   ({ title, className, children, style, onClose, ...props }, ref) => {
     const [position, setPosition] = React.useState({ x: 100, y: 100 })
     const [zIndex, setZIndex] = React.useState(10) // Start with a fixed value
+    const [focused, setFocused] = React.useState(false)
     const startRef = React.useRef({ x: 0, y: 0 })
     const originRef = React.useRef({ x: 0, y: 0 })
     const idRef = React.useRef<number | null>(null)
@@ -33,10 +42,11 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
 
     // Register this window in the stack on mount
     React.useEffect(() => {
-      windowStack.push(setZIndex)
+      const entry: StackEntry = { setZIndex, setFocused }
+      windowStack.push(entry)
       updateZIndices()
       return () => {
-        const idx = windowStack.indexOf(setZIndex)
+        const idx = windowStack.indexOf(entry)
         if (idx !== -1) {
           windowStack.splice(idx, 1)
           updateZIndices()
@@ -46,10 +56,10 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
 
     // Expose bringToFront method to parent components
     const bringToFront = React.useCallback(() => {
-      const idx = windowStack.indexOf(setZIndex)
+      const idx = windowStack.findIndex((w) => w.setZIndex === setZIndex)
       if (idx !== -1) {
-        windowStack.splice(idx, 1)
-        windowStack.push(setZIndex)
+        const [entry] = windowStack.splice(idx, 1)
+        windowStack.push(entry)
         updateZIndices()
       }
     }, [])
@@ -95,7 +105,10 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
         {...props}
       >
         <div
-          className="flex select-none items-center justify-between gap-2 bg-muted px-2 py-1 text-sm cursor-move touch-none"
+          className={cn(
+            "flex select-none items-center justify-between gap-2 px-2 py-1 text-sm cursor-move touch-none",
+            focused ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
+          )}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
