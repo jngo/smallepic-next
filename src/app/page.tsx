@@ -100,22 +100,22 @@ export default function Home() {
       <Window ref={experienceRef} title="Experience" className="w-full" onClose={() => setShowExperience(false)}>
         <ul>
           <li className="flex items-center gap-4 py-1">
-            <span><a href="https://www.mckinsey.com/" className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</a></span>
+            <span><button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</button></span>
             <span className="grow">Leading design across digital transformation initiatives.</span>
             <span className="w-1/8 text-right text-muted-foreground">2021–Present</span>
           </li>
           <li className="flex items-center gap-4 border-t py-1">
-            <span><a href="https://up42.com/" className="text-muted-foreground font-bold hover:bg-muted">UP42</a></span>
+            <span><button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-muted-foreground font-bold hover:bg-muted">UP42</button></span>
             <span className="grow">Established design practice and launched several keystone projects.</span>
             <span className="w-1/8 text-right text-muted-foreground">2019–2021</span>
           </li>
           <li className="flex items-center gap-4 border-t py-1">
-            <span><a href="https://www.candis.io/" className="text-muted-foreground font-bold hover:bg-muted">Candis</a></span>
+            <span><button onClick={() => showWindow(setShowCandis, candisRef)} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
             <span className="grow">Design team of one, hands-on end-to-end from research to frontend.</span>
             <span className="w-1/8 text-right text-muted-foreground">2017–2019</span>
           </li>
           <li className="flex items-center gap-4 border-t py-1">
-            <span><a href="https://urbansportsclub.com/" className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</a></span>
+            <span><button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</button></span>
             <span className="grow">Laid the technical and product foundations for European expansion.</span>
             <span className="w-1/8 text-right text-muted-foreground">2015</span>
           </li>
@@ -150,23 +150,23 @@ export default function Home() {
       <Window ref={randomRef} title="Random" className="w-full" onClose={() => setShowRandom(false)}>
         <ul>
           <li className="flex items-center gap-4 py-1">
-            <span><a href="https://synthesiser.smallepic.com" className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</a></span>
+            <span><button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</button></span>
             <span className="grow">Generate a Minto Pyramid synthesis of any content.</span>
           </li>
           <li className="flex items-center gap-4 border-t py-1">
-            <span><a href="https://podscriber.smallepic.com/" className="text-muted-foreground font-bold hover:bg-muted">Podscriber</a></span>
+            <span><button onClick={() => showWindow(setShowPodscriber, podscriberRef)} className="text-muted-foreground font-bold hover:bg-muted">Podscriber</button></span>
             <span className="grow">Transcribe podcast episodes and send them to your read-it-later queue.</span>
           </li>
           <li className="flex items-center gap-4 border-t py-1">
-            <span><a href="https://mermaid.smallepic.com/" className="text-muted-foreground font-bold hover:bg-muted">Mermaid Viewer</a></span>
+            <span><button onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)} className="text-muted-foreground font-bold hover:bg-muted">Mermaid Viewer</button></span>
             <span className="grow">A lightweight, mobile-friendly Mermaid diagram viewer.</span>
           </li>
           <li className="flex items-center gap-4 border-t py-1">
-            <span><a href="http://filmsandconversations.com/" className="text-muted-foreground font-bold hover:bg-muted">Films & Conversations</a></span>
+            <span><button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Films & Conversations</button></span>
             <span className="grow">A monthly film club bringing together people, documentaries, and discussions.</span>
           </li>
           <li className="flex items-center gap-4 border-t py-1">
-            <span><a href="http://booksandconversations.com/" className="text-muted-foreground font-bold hover:bg-muted">Books & Conversations</a></span>
+            <span><button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Books & Conversations</button></span>
             <span className="grow">Roundtable discussions with good friends and great books.</span>
           </li>
         </ul>
