@@ -4,8 +4,57 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { X } from "lucide-react"
 
-// Use a ref to track z-index counter to avoid SSR/client mismatch
-const zIndexCounterRef = { current: 10 }
+// Global window management system using an array-based approach
+class WindowManager {
+  private static instance: WindowManager
+  private windowStack: string[] = []
+  private listeners: Map<string, (zIndex: number) => void> = new Map()
+  private baseZIndex = 10
+
+  static getInstance(): WindowManager {
+    if (!WindowManager.instance) {
+      WindowManager.instance = new WindowManager()
+    }
+    return WindowManager.instance
+  }
+
+  registerWindow(windowId: string, callback: (zIndex: number) => void): void {
+    this.listeners.set(windowId, callback)
+    // Add to stack if not already present
+    if (!this.windowStack.includes(windowId)) {
+      this.windowStack.push(windowId)
+      this.updateZIndices()
+    }
+  }
+
+  unregisterWindow(windowId: string): void {
+    this.listeners.delete(windowId)
+    const index = this.windowStack.indexOf(windowId)
+    if (index > -1) {
+      this.windowStack.splice(index, 1)
+      this.updateZIndices()
+    }
+  }
+
+  bringToFront(windowId: string): void {
+    const index = this.windowStack.indexOf(windowId)
+    if (index > -1) {
+      // Remove from current position and add to end (top of stack)
+      this.windowStack.splice(index, 1)
+      this.windowStack.push(windowId)
+      this.updateZIndices()
+    }
+  }
+
+  private updateZIndices(): void {
+    this.windowStack.forEach((windowId, index) => {
+      const callback = this.listeners.get(windowId)
+      if (callback) {
+        callback(this.baseZIndex + index)
+      }
+    })
+  }
+}
 
 interface WindowProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
@@ -20,21 +69,28 @@ export interface WindowRef {
 const Window = React.forwardRef<WindowRef, WindowProps>(
   ({ title, className, children, style, onClose, ...props }, ref) => {
     const [position, setPosition] = React.useState({ x: 100, y: 100 })
-    const [zIndex, setZIndex] = React.useState(10) // Start with a fixed value
+    const [zIndex, setZIndex] = React.useState(10)
     const startRef = React.useRef({ x: 0, y: 0 })
     const originRef = React.useRef({ x: 0, y: 0 })
     const idRef = React.useRef<number | null>(null)
     const divRef = React.useRef<HTMLDivElement>(null)
+    const windowIdRef = React.useRef<string>(`window-${Math.random().toString(36).substr(2, 9)}`)
+    const windowManager = WindowManager.getInstance()
 
-    // Set z-index after mount to avoid SSR/client mismatch
+    // Register window with the manager and set up z-index callback
     React.useEffect(() => {
-      setZIndex(++zIndexCounterRef.current)
-    }, [])
+      const windowId = windowIdRef.current
+      windowManager.registerWindow(windowId, setZIndex)
+      
+      return () => {
+        windowManager.unregisterWindow(windowId)
+      }
+    }, [windowManager])
 
     // Expose bringToFront method to parent components
     React.useImperativeHandle(ref, () => ({
       bringToFront: () => {
-        setZIndex(++zIndexCounterRef.current)
+        windowManager.bringToFront(windowIdRef.current)
       }
     }))
 
@@ -44,7 +100,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
       ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
       startRef.current = { x: e.clientX, y: e.clientY }
       originRef.current = { ...position }
-      setZIndex(++zIndexCounterRef.current)
+      windowManager.bringToFront(windowIdRef.current)
     }
 
     const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -71,7 +127,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
           "absolute w-80 rounded-sm border bg-card text-card-foreground shadow-md",
           className
         )}
-        onClick={() => setZIndex(++zIndexCounterRef.current)}
+        onClick={() => windowManager.bringToFront(windowIdRef.current)}
         {...props}
       >
         <div
