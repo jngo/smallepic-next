@@ -4,8 +4,21 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { X } from "lucide-react"
 
-// Use a ref to track z-index counter to avoid SSR/client mismatch
-const zIndexCounterRef = { current: 10 }
+// Track window order and focus state for all windows
+interface StackEntry {
+  setZIndex: React.Dispatch<React.SetStateAction<number>>
+  setFocused: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const windowStack: StackEntry[] = []
+
+// Update z-indices and focus flags for every window based on stack order
+const updateZIndices = () => {
+  windowStack.forEach(({ setZIndex, setFocused }, index) => {
+    setZIndex(10 + index)
+    setFocused(index === windowStack.length - 1)
+  })
+}
 
 interface WindowProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
@@ -21,21 +34,38 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
   ({ title, className, children, style, onClose, ...props }, ref) => {
     const [position, setPosition] = React.useState({ x: 100, y: 100 })
     const [zIndex, setZIndex] = React.useState(10) // Start with a fixed value
+    const [focused, setFocused] = React.useState(false)
     const startRef = React.useRef({ x: 0, y: 0 })
     const originRef = React.useRef({ x: 0, y: 0 })
     const idRef = React.useRef<number | null>(null)
     const divRef = React.useRef<HTMLDivElement>(null)
 
-    // Set z-index after mount to avoid SSR/client mismatch
+    // Register this window in the stack on mount
     React.useEffect(() => {
-      setZIndex(++zIndexCounterRef.current)
+      const entry: StackEntry = { setZIndex, setFocused }
+      windowStack.push(entry)
+      updateZIndices()
+      return () => {
+        const idx = windowStack.indexOf(entry)
+        if (idx !== -1) {
+          windowStack.splice(idx, 1)
+          updateZIndices()
+        }
+      }
     }, [])
 
     // Expose bringToFront method to parent components
-    React.useImperativeHandle(ref, () => ({
-      bringToFront: () => {
-        setZIndex(++zIndexCounterRef.current)
+    const bringToFront = React.useCallback(() => {
+      const idx = windowStack.findIndex((w) => w.setZIndex === setZIndex)
+      if (idx !== -1) {
+        const [entry] = windowStack.splice(idx, 1)
+        windowStack.push(entry)
+        updateZIndices()
       }
+    }, [])
+
+    React.useImperativeHandle(ref, () => ({
+      bringToFront
     }))
 
     const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -44,7 +74,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
       ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
       startRef.current = { x: e.clientX, y: e.clientY }
       originRef.current = { ...position }
-      setZIndex(++zIndexCounterRef.current)
+      bringToFront()
     }
 
     const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -71,21 +101,29 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
           "absolute w-80 rounded-sm border bg-card text-card-foreground shadow-md",
           className
         )}
-        onClick={() => setZIndex(++zIndexCounterRef.current)}
+        onClick={bringToFront}
         {...props}
       >
         <div
-          className="flex select-none items-center justify-between gap-2 bg-muted px-2 py-1 text-sm cursor-move touch-none"
+          className={cn(
+            "flex select-none items-center justify-between gap-2 px-2 py-1 text-sm cursor-move touch-none",
+            focused ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
+          )}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
         >
           <span className="font-semibold">{title}</span>
           <div className="flex gap-1">
-            <X
-              className="size-3 rounded-full text-muted bg-primary cursor-pointer hover:bg-destructive transition-colors"
+            <button
+              className="size-5 -m-1 p-1 group"
               onClick={onClose}
-            />
+              aria-label="Close"
+            >
+              <X className={cn(
+                "size-3 rounded-full text-muted group-hover:bg-destructive transition-colors",
+                focused ? "bg-primary-foreground text-primary" : "bg-foreground text-muted")} />
+            </button>
           </div>
         </div>
         <div className="p-2">{children}</div>
