@@ -4,8 +4,13 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { X } from "lucide-react"
 
-// Use a ref to track z-index counter to avoid SSR/client mismatch
-const zIndexCounterRef = { current: 10 }
+// Global array to keep track of window stacking order
+const windowStack: Array<React.Dispatch<React.SetStateAction<number>>> = []
+
+// Update z-index for all windows based on their order in the stack
+const updateZIndices = () => {
+  windowStack.forEach((set, index) => set(10 + index))
+}
 
 interface WindowProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
@@ -26,16 +31,31 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
     const idRef = React.useRef<number | null>(null)
     const divRef = React.useRef<HTMLDivElement>(null)
 
-    // Set z-index after mount to avoid SSR/client mismatch
+    // Register this window in the stack on mount
     React.useEffect(() => {
-      setZIndex(++zIndexCounterRef.current)
+      windowStack.push(setZIndex)
+      updateZIndices()
+      return () => {
+        const idx = windowStack.indexOf(setZIndex)
+        if (idx !== -1) {
+          windowStack.splice(idx, 1)
+          updateZIndices()
+        }
+      }
     }, [])
 
     // Expose bringToFront method to parent components
-    React.useImperativeHandle(ref, () => ({
-      bringToFront: () => {
-        setZIndex(++zIndexCounterRef.current)
+    const bringToFront = React.useCallback(() => {
+      const idx = windowStack.indexOf(setZIndex)
+      if (idx !== -1) {
+        windowStack.splice(idx, 1)
+        windowStack.push(setZIndex)
+        updateZIndices()
       }
+    }, [])
+
+    React.useImperativeHandle(ref, () => ({
+      bringToFront
     }))
 
     const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -44,7 +64,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
       ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
       startRef.current = { x: e.clientX, y: e.clientY }
       originRef.current = { ...position }
-      setZIndex(++zIndexCounterRef.current)
+      bringToFront()
     }
 
     const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -71,7 +91,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
           "absolute w-80 rounded-sm border bg-card text-card-foreground shadow-md",
           className
         )}
-        onClick={() => setZIndex(++zIndexCounterRef.current)}
+        onClick={bringToFront}
         {...props}
       >
         <div
