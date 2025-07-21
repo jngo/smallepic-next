@@ -96,7 +96,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
       <div
         style={{ left: position.x, top: position.y, zIndex, ...style }}
         className={cn(
-          "absolute w-80 rounded-sm border bg-card text-card-foreground shadow-md",
+          "absolute w-80 max-w-[90svw] max-h-[90svh] flex flex-col rounded-sm border bg-card text-card-foreground shadow-md",
           className
         )}
         onClick={bringToFront}
@@ -124,7 +124,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
             </button>
           </div>
         </div>
-        <div className="p-2">{children}</div>
+        <div className="flex-1 h-full p-2 overflow-y-auto">{children}</div>
       </div>
     )
   }
