@@ -18,7 +18,9 @@ import Clock from "@/components/ui/clock";
 export default function Home() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [showExperience, setShowExperience] = useState(true);
-  const [showRandom, setShowRandom] = useState(false);
+  const [experienceListView, setExperienceListView] = useState(false);
+  const [showRandom, setShowRandom] = useState(true);
+  const [randomListView, setRandomListView] = useState(false);
   const [showContact, setShowContact] = useState(false);
   const [showMermaidViewer, setShowMermaidViewer] = useState(false);
   const [showPodscriber, setShowPodscriber] = useState(false);
@@ -67,7 +69,14 @@ export default function Home() {
         <MenubarMenu>
           <MenubarTrigger>Experience</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow(setShowExperience, experienceRef)}>View All</MenubarItem>
+            <MenubarItem
+              onClick={() => {
+                setExperienceListView(true);
+                showWindow(setShowExperience, experienceRef);
+              }}
+            >
+              View All
+            </MenubarItem>
             <MenubarSeparator />
             <MenubarItem onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
@@ -91,7 +100,14 @@ export default function Home() {
         <MenubarMenu>
           <MenubarTrigger>Random</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow(setShowRandom, randomRef)}>View All</MenubarItem>
+            <MenubarItem
+              onClick={() => {
+                setRandomListView(true);
+                showWindow(setShowRandom, randomRef);
+              }}
+            >
+              View All
+            </MenubarItem>
             <MenubarSeparator />
             <MenubarItem onClick={() => showWindow(setShowSynthesiser, synthesiserRef)}>
               <Network className="mr-2 h-4 w-4" />
@@ -161,99 +177,258 @@ export default function Home() {
       </Window>
       )}
 
-      <Window title="Experience" className="w-101">
-        <button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-          <span>McKinsey & Company</span>
-        </button>
-        <button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-          <span>UP42</span>
-        </button>
-        <button onClick={() => showWindow(setShowCandis, candisRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-          <span>Candis</span>
-        </button>
-        <button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-          <span>Urban Sports Club</span>
-        </button>
-      </Window>
-
       {showExperience && (
-      <Window ref={experienceRef} title="Experience" className="w-208" onClose={() => setShowExperience(false)}>
-        <ul>
-          <li className="flex items-center gap-4 py-1">
-            <span><button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</button></span>
-            <span className="grow">Leading design across digital transformation initiatives.</span>
-            <span className="w-1/8 text-right text-muted-foreground">2021–Present</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-muted-foreground font-bold hover:bg-muted">UP42</button></span>
-            <span className="grow">Established design practice and launched several keystone projects.</span>
-            <span className="w-1/8 text-right text-muted-foreground">2019–2021</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowCandis, candisRef)} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
-            <span className="grow">Design team of one, hands-on end-to-end from research to frontend.</span>
-            <span className="w-1/8 text-right text-muted-foreground">2017–2019</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</button></span>
-            <span className="grow">Laid the technical and product foundations for European expansion.</span>
-            <span className="w-1/8 text-right text-muted-foreground">2015</span>
-          </li>
-        </ul>
+      <Window
+        ref={experienceRef}
+        title="Experience"
+        className={experienceListView ? "w-208" : "w-101"}
+        onClose={() => setShowExperience(false)}
+      >
+        <div className="mb-2 text-right">
+          <button
+            className="text-xs underline hover:text-foreground text-muted-foreground"
+            onClick={() => setExperienceListView((v) => !v)}
+          >
+            {experienceListView ? "Icon View" : "List View"}
+          </button>
+        </div>
+        {experienceListView ? (
+          <ul>
+            <li className="flex items-center gap-4 py-1">
+              <span>
+                <button
+                  onClick={() =>
+                    showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)
+                  }
+                  className="text-muted-foreground font-bold hover:bg-muted"
+                >
+                  McKinsey & Company
+                </button>
+              </span>
+              <span className="grow">
+                Leading design across digital transformation initiatives.
+              </span>
+              <span className="w-1/8 text-right text-muted-foreground">
+                2021–Present
+              </span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span>
+                <button
+                  onClick={() => showWindow(setShowUP42, up42Ref)}
+                  className="text-muted-foreground font-bold hover:bg-muted"
+                >
+                  UP42
+                </button>
+              </span>
+              <span className="grow">
+                Established design practice and launched several keystone
+                projects.
+              </span>
+              <span className="w-1/8 text-right text-muted-foreground">
+                2019–2021
+              </span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span>
+                <button
+                  onClick={() => showWindow(setShowCandis, candisRef)}
+                  className="text-muted-foreground font-bold hover:bg-muted"
+                >
+                  Candis
+                </button>
+              </span>
+              <span className="grow">
+                Design team of one, hands-on end-to-end from research to
+                frontend.
+              </span>
+              <span className="w-1/8 text-right text-muted-foreground">
+                2017–2019
+              </span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span>
+                <button
+                  onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)}
+                  className="text-muted-foreground font-bold hover:bg-muted"
+                >
+                  Urban Sports Club
+                </button>
+              </span>
+              <span className="grow">
+                Laid the technical and product foundations for European
+                expansion.
+              </span>
+              <span className="w-1/8 text-right text-muted-foreground">2015</span>
+            </li>
+          </ul>
+        ) : (
+          <>
+            <button
+              onClick={() =>
+                showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)
+              }
+              className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center"
+            >
+              <BriefcaseBusiness strokeWidth={0.8} className="size-12" />
+              <span>McKinsey & Company</span>
+            </button>
+            <button
+              onClick={() => showWindow(setShowUP42, up42Ref)}
+              className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center"
+            >
+              <BriefcaseBusiness strokeWidth={0.8} className="size-12" />
+              <span>UP42</span>
+            </button>
+            <button
+              onClick={() => showWindow(setShowCandis, candisRef)}
+              className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center"
+            >
+              <BriefcaseBusiness strokeWidth={0.8} className="size-12" />
+              <span>Candis</span>
+            </button>
+            <button
+              onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)}
+              className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center"
+            >
+              <BriefcaseBusiness strokeWidth={0.8} className="size-12" />
+              <span>Urban Sports Club</span>
+            </button>
+          </>
+        )}
       </Window>
       )}
 
-      <Window title="Random" className="w-125" onClose={() => setShowRandom(false)}>
-        <button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <Network strokeWidth={0.8} className="size-12"/>
-          <span>Synthesiser</span>
-        </button>
-        <button onClick={() => showWindow(setShowPodscriber, podscriberRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <Podcast strokeWidth={0.8} className="size-12"/>
-          <span>Podscriber</span>
-        </button>
-        <button onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <ScanText strokeWidth={0.8} className="size-12"/>
-          <span>Mermaid Viewer</span>
-        </button>
-        <button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <Clapperboard strokeWidth={0.8} className="size-12"/>
-          <span>Films & Conversations</span>
-        </button>
-        <button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <LibraryBig strokeWidth={0.8} className="size-12"/>
-          <span>Books & Conversations</span>
-        </button>
-      </Window>
-
       {showRandom && (
-      <Window ref={randomRef} title="Random" className="w-208" onClose={() => setShowRandom(false)}>
-        <ul>
-          <li className="flex items-center gap-4 py-1">
-            <span><button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</button></span>
-            <span className="grow">Generate a Minto Pyramid synthesis of any content.</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowPodscriber, podscriberRef)} className="text-muted-foreground font-bold hover:bg-muted">Podscriber</button></span>
-            <span className="grow">Transcribe podcast episodes and send them to your read-it-later queue.</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)} className="text-muted-foreground font-bold hover:bg-muted">Mermaid Viewer</button></span>
-            <span className="grow">A lightweight, mobile-friendly Mermaid diagram viewer.</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Films & Conversations</button></span>
-            <span className="grow">A monthly film club bringing together people, documentaries, and discussions.</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Books & Conversations</button></span>
-            <span className="grow">Roundtable discussions with good friends and great books.</span>
-          </li>
-        </ul>
+      <Window
+        ref={randomRef}
+        title="Random"
+        className={randomListView ? "w-208" : "w-125"}
+        onClose={() => setShowRandom(false)}
+      >
+        <div className="mb-2 text-right">
+          <button
+            className="text-xs underline hover:text-foreground text-muted-foreground"
+            onClick={() => setRandomListView((v) => !v)}
+          >
+            {randomListView ? "Icon View" : "List View"}
+          </button>
+        </div>
+        {randomListView ? (
+          <ul>
+            <li className="flex items-center gap-4 py-1">
+              <span>
+                <button
+                  onClick={() => showWindow(setShowSynthesiser, synthesiserRef)}
+                  className="text-muted-foreground font-bold hover:bg-muted"
+                >
+                  Synthesiser
+                </button>
+              </span>
+              <span className="grow">
+                Generate a Minto Pyramid synthesis of any content.
+              </span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span>
+                <button
+                  onClick={() => showWindow(setShowPodscriber, podscriberRef)}
+                  className="text-muted-foreground font-bold hover:bg-muted"
+                >
+                  Podscriber
+                </button>
+              </span>
+              <span className="grow">
+                Transcribe podcast episodes and send them to your read-it-later
+                queue.
+              </span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span>
+                <button
+                  onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)}
+                  className="text-muted-foreground font-bold hover:bg-muted"
+                >
+                  Mermaid Viewer
+                </button>
+              </span>
+              <span className="grow">
+                A lightweight, mobile-friendly Mermaid diagram viewer.
+              </span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span>
+                <button
+                  onClick={() =>
+                    showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)
+                  }
+                  className="text-muted-foreground font-bold hover:bg-muted"
+                >
+                  Films & Conversations
+                </button>
+              </span>
+              <span className="grow">
+                A monthly film club bringing together people, documentaries, and
+                discussions.
+              </span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span>
+                <button
+                  onClick={() =>
+                    showWindow(setShowBooksAndConversations, booksAndConversationsRef)
+                  }
+                  className="text-muted-foreground font-bold hover:bg-muted"
+                >
+                  Books & Conversations
+                </button>
+              </span>
+              <span className="grow">
+                Roundtable discussions with good friends and great books.
+              </span>
+            </li>
+          </ul>
+        ) : (
+          <>
+            <button
+              onClick={() => showWindow(setShowSynthesiser, synthesiserRef)}
+              className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center"
+            >
+              <Network strokeWidth={0.8} className="size-12" />
+              <span>Synthesiser</span>
+            </button>
+            <button
+              onClick={() => showWindow(setShowPodscriber, podscriberRef)}
+              className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center"
+            >
+              <Podcast strokeWidth={0.8} className="size-12" />
+              <span>Podscriber</span>
+            </button>
+            <button
+              onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)}
+              className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center"
+            >
+              <ScanText strokeWidth={0.8} className="size-12" />
+              <span>Mermaid Viewer</span>
+            </button>
+            <button
+              onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)}
+              className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center"
+            >
+              <Clapperboard strokeWidth={0.8} className="size-12" />
+              <span>Films & Conversations</span>
+            </button>
+            <button
+              onClick={() =>
+                showWindow(setShowBooksAndConversations, booksAndConversationsRef)
+              }
+              className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center"
+            >
+              <LibraryBig strokeWidth={0.8} className="size-12" />
+              <span>Books & Conversations</span>
+            </button>
+          </>
+        )}
       </Window>
       )}
 
