@@ -12,7 +12,7 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { BriefcaseBusiness, Clapperboard, LibraryBig, Mail, Network, Podcast, ScanText } from "lucide-react";
+import { BriefcaseBusiness, Clapperboard, LibraryBig, Mail, Network, Podcast, ScanText, Grid3X3, List } from "lucide-react";
 import Clock from "@/components/ui/clock";
 
 export default function Home() {
@@ -29,6 +29,10 @@ export default function Home() {
   const [showUP42, setShowUP42] = useState(false);
   const [showCandis, setShowCandis] = useState(false);
   const [showUrbanSportsClub, setShowUrbanSportsClub] = useState(false);
+
+  // View mode states for toggleable windows
+  const [experienceViewMode, setExperienceViewMode] = useState<'icon' | 'list'>('icon');
+  const [randomViewMode, setRandomViewMode] = useState<'icon' | 'list'>('icon');
 
   // Refs for each window
   const welcomeRef = useRef<WindowRef>(null);
@@ -161,99 +165,137 @@ export default function Home() {
       </Window>
       )}
 
-      <Window title="Experience" className="w-101">
-        <button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-          <span>McKinsey & Company</span>
-        </button>
-        <button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-          <span>UP42</span>
-        </button>
-        <button onClick={() => showWindow(setShowCandis, candisRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-          <span>Candis</span>
-        </button>
-        <button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-          <span>Urban Sports Club</span>
-        </button>
-      </Window>
-
       {showExperience && (
-      <Window ref={experienceRef} title="Experience" className="w-208" onClose={() => setShowExperience(false)}>
-        <ul>
-          <li className="flex items-center gap-4 py-1">
-            <span><button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</button></span>
-            <span className="grow">Leading design across digital transformation initiatives.</span>
-            <span className="w-1/8 text-right text-muted-foreground">2021–Present</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-muted-foreground font-bold hover:bg-muted">UP42</button></span>
-            <span className="grow">Established design practice and launched several keystone projects.</span>
-            <span className="w-1/8 text-right text-muted-foreground">2019–2021</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowCandis, candisRef)} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
-            <span className="grow">Design team of one, hands-on end-to-end from research to frontend.</span>
-            <span className="w-1/8 text-right text-muted-foreground">2017–2019</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</button></span>
-            <span className="grow">Laid the technical and product foundations for European expansion.</span>
-            <span className="w-1/8 text-right text-muted-foreground">2015</span>
-          </li>
-        </ul>
+      <Window ref={experienceRef} title="Experience" className={experienceViewMode === 'icon' ? 'w-101' : 'w-208'} onClose={() => setShowExperience(false)}>
+        <div className="flex justify-end mb-2 gap-1">
+          <Button 
+            variant={experienceViewMode === 'icon' ? 'default' : 'ghost'} 
+            size="sm"
+            onClick={() => setExperienceViewMode('icon')}
+          >
+            <Grid3X3 className="h-4 w-4" />
+          </Button>
+          <Button 
+            variant={experienceViewMode === 'list' ? 'default' : 'ghost'} 
+            size="sm"
+            onClick={() => setExperienceViewMode('list')}
+          >
+            <List className="h-4 w-4" />
+          </Button>
+        </div>
+        
+        {experienceViewMode === 'icon' ? (
+          <div>
+            <button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+              <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
+              <span>McKinsey & Company</span>
+            </button>
+            <button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+              <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
+              <span>UP42</span>
+            </button>
+            <button onClick={() => showWindow(setShowCandis, candisRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+              <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
+              <span>Candis</span>
+            </button>
+            <button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+              <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
+              <span>Urban Sports Club</span>
+            </button>
+          </div>
+        ) : (
+          <ul>
+            <li className="flex items-center gap-4 py-1">
+              <span><button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</button></span>
+              <span className="grow">Leading design across digital transformation initiatives.</span>
+              <span className="w-1/8 text-right text-muted-foreground">2021–Present</span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span><button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-muted-foreground font-bold hover:bg-muted">UP42</button></span>
+              <span className="grow">Established design practice and launched several keystone projects.</span>
+              <span className="w-1/8 text-right text-muted-foreground">2019–2021</span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span><button onClick={() => showWindow(setShowCandis, candisRef)} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
+              <span className="grow">Design team of one, hands-on end-to-end from research to frontend.</span>
+              <span className="w-1/8 text-right text-muted-foreground">2017–2019</span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span><button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</button></span>
+              <span className="grow">Laid the technical and product foundations for European expansion.</span>
+              <span className="w-1/8 text-right text-muted-foreground">2015</span>
+            </li>
+          </ul>
+        )}
       </Window>
       )}
 
-      <Window title="Random" className="w-125" onClose={() => setShowRandom(false)}>
-        <button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <Network strokeWidth={0.8} className="size-12"/>
-          <span>Synthesiser</span>
-        </button>
-        <button onClick={() => showWindow(setShowPodscriber, podscriberRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <Podcast strokeWidth={0.8} className="size-12"/>
-          <span>Podscriber</span>
-        </button>
-        <button onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <ScanText strokeWidth={0.8} className="size-12"/>
-          <span>Mermaid Viewer</span>
-        </button>
-        <button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <Clapperboard strokeWidth={0.8} className="size-12"/>
-          <span>Films & Conversations</span>
-        </button>
-        <button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-          <LibraryBig strokeWidth={0.8} className="size-12"/>
-          <span>Books & Conversations</span>
-        </button>
-      </Window>
-
       {showRandom && (
-      <Window ref={randomRef} title="Random" className="w-208" onClose={() => setShowRandom(false)}>
-        <ul>
-          <li className="flex items-center gap-4 py-1">
-            <span><button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</button></span>
-            <span className="grow">Generate a Minto Pyramid synthesis of any content.</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowPodscriber, podscriberRef)} className="text-muted-foreground font-bold hover:bg-muted">Podscriber</button></span>
-            <span className="grow">Transcribe podcast episodes and send them to your read-it-later queue.</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)} className="text-muted-foreground font-bold hover:bg-muted">Mermaid Viewer</button></span>
-            <span className="grow">A lightweight, mobile-friendly Mermaid diagram viewer.</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Films & Conversations</button></span>
-            <span className="grow">A monthly film club bringing together people, documentaries, and discussions.</span>
-          </li>
-          <li className="flex items-center gap-4 border-t py-1">
-            <span><button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Books & Conversations</button></span>
-            <span className="grow">Roundtable discussions with good friends and great books.</span>
-          </li>
-        </ul>
+      <Window ref={randomRef} title="Random" className={randomViewMode === 'icon' ? 'w-125' : 'w-208'} onClose={() => setShowRandom(false)}>
+        <div className="flex justify-end mb-2 gap-1">
+          <Button 
+            variant={randomViewMode === 'icon' ? 'default' : 'ghost'} 
+            size="sm"
+            onClick={() => setRandomViewMode('icon')}
+          >
+            <Grid3X3 className="h-4 w-4" />
+          </Button>
+          <Button 
+            variant={randomViewMode === 'list' ? 'default' : 'ghost'} 
+            size="sm"
+            onClick={() => setRandomViewMode('list')}
+          >
+            <List className="h-4 w-4" />
+          </Button>
+        </div>
+        
+        {randomViewMode === 'icon' ? (
+          <div>
+            <button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+              <Network strokeWidth={0.8} className="size-12"/>
+              <span>Synthesiser</span>
+            </button>
+            <button onClick={() => showWindow(setShowPodscriber, podscriberRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+              <Podcast strokeWidth={0.8} className="size-12"/>
+              <span>Podscriber</span>
+            </button>
+            <button onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+              <ScanText strokeWidth={0.8} className="size-12"/>
+              <span>Mermaid Viewer</span>
+            </button>
+            <button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+              <Clapperboard strokeWidth={0.8} className="size-12"/>
+              <span>Films & Conversations</span>
+            </button>
+            <button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+              <LibraryBig strokeWidth={0.8} className="size-12"/>
+              <span>Books & Conversations</span>
+            </button>
+          </div>
+        ) : (
+          <ul>
+            <li className="flex items-center gap-4 py-1">
+              <span><button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</button></span>
+              <span className="grow">Generate a Minto Pyramid synthesis of any content.</span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span><button onClick={() => showWindow(setShowPodscriber, podscriberRef)} className="text-muted-foreground font-bold hover:bg-muted">Podscriber</button></span>
+              <span className="grow">Transcribe podcast episodes and send them to your read-it-later queue.</span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span><button onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)} className="text-muted-foreground font-bold hover:bg-muted">Mermaid Viewer</button></span>
+              <span className="grow">A lightweight, mobile-friendly Mermaid diagram viewer.</span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span><button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Films & Conversations</button></span>
+              <span className="grow">A monthly film club bringing together people, documentaries, and discussions.</span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span><button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Books & Conversations</button></span>
+              <span className="grow">Roundtable discussions with good friends and great books.</span>
+            </li>
+          </ul>
+        )}
       </Window>
       )}
 
