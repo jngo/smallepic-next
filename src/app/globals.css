@@ -29,6 +29,7 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -42,19 +43,14 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
   
-    --shadow-2xs: var(--shadow-2xs);
-    --shadow-xs: var(--shadow-xs);
-    --shadow-sm: var(--shadow-sm);
-    --shadow: var(--shadow);
-    --shadow-md: var(--shadow-md);
-    --shadow-lg: var(--shadow-lg);
-    --shadow-xl: var(--shadow-xl);
-    --shadow-2xl: var(--shadow-2xl);
-
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --shadow-2xs: var(--shadow-2xs);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
 }
 
 :root {
@@ -96,6 +92,15 @@
   --sidebar-border: oklch(0.8796 0.0101 87.4768);
   --sidebar-ring: oklch(0.3500 0.0196 86.4530);
   
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-4xl: 0;
+
   --shadow-2xs: 2px 2px 0px 0px hsl(28 18% 25% / 0.09);
   --shadow-xs: 2px 2px 0px 0px hsl(28 18% 25% / 0.09);
   --shadow-sm: 2px 2px 0px 0px hsl(28 18% 25% / 0.18), 2px 1px 2px -1px hsl(28 18% 25% / 0.18);
@@ -105,7 +110,6 @@
   --shadow-xl: 2px 2px 0px 0px hsl(28 18% 25% / 0.18), 2px 8px 10px -1px hsl(28 18% 25% / 0.18);
   --shadow-2xl: 2px 2px 0px 0px hsl(28 18% 25% / 0.45);
 
-  --radius: 0rem;
   --spacing: 0.25rem;
 }
 
