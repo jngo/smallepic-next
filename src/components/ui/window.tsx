@@ -54,6 +54,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
     const [position, setPosition] = React.useState({ x: 100, y: 100 })
     const [zIndex, setZIndex] = React.useState(10)
     const [focused, setFocused] = React.useState(false)
+    const [dragging, setDragging] = React.useState(false)
     const startRef = React.useRef({ x: 0, y: 0 })
     const originRef = React.useRef({ x: 0, y: 0 })
     const idRef = React.useRef<number | null>(null)
@@ -109,6 +110,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
       ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
       startRef.current = { x: e.clientX, y: e.clientY }
       originRef.current = { ...position }
+      setDragging(true)
       bringToFront()
     }
 
@@ -125,6 +127,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
         e.preventDefault()
         ;(e.target as HTMLElement).releasePointerCapture(e.pointerId)
         idRef.current = null
+        setDragging(false)
       }
     }
 
@@ -150,6 +153,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
                 onPointerMove,
                 onPointerUp,
                 onClose,
+                dragging,
               } as WindowTitleProps)
             }
             return child
@@ -168,6 +172,7 @@ interface WindowTitleProps {
   onPointerMove?: (e: React.PointerEvent<HTMLDivElement>) => void
   onPointerUp?: (e: React.PointerEvent<HTMLDivElement>) => void
   onClose?: () => void
+  dragging?: boolean
 }
 
 const WindowTitle: React.FC<WindowTitleProps> = ({
@@ -175,7 +180,8 @@ const WindowTitle: React.FC<WindowTitleProps> = ({
   onPointerDown,
   onPointerMove,
   onPointerUp,
-  onClose
+  onClose,
+  dragging
 }) => {
   const { activeView, setActiveView, availableViews, focused } = useWindowContext()
 
@@ -193,7 +199,8 @@ const WindowTitle: React.FC<WindowTitleProps> = ({
   return (
     <div
       className={cn(
-        "relative flex select-none items-center justify-between h-8 px-2 py-1.5 text-sm cursor-grab touch-none",
+        "relative flex select-none items-center justify-between h-8 px-2 py-1.5 text-sm touch-none",
+        dragging ? "cursor-grabbing" : "cursor-grab",
         focused ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
       )}
       onPointerDown={onPointerDown}
