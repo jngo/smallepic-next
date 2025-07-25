@@ -177,26 +177,26 @@ export default function Home() {
           </button>
         </WindowContent>
 
-        <WindowContent view="list">
+        <WindowContent view="list" className="@container">
           <ul>
-            <li className="flex items-center gap-4 pb-1">
-              <span><button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</button></span>
+            <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 pb-1">
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</button></span>
               <span className="grow">Generate a Minto Pyramid synthesis of any content.</span>
             </li>
-            <li className="flex items-center gap-4 border-t py-1">
-              <span><button onClick={() => showWindow(setShowPodscriber, podscriberRef)} className="text-muted-foreground font-bold hover:bg-muted">Podscriber</button></span>
+            <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowPodscriber, podscriberRef)} className="text-muted-foreground font-bold hover:bg-muted">Podscriber</button></span>
               <span className="grow">Transcribe podcast episodes and send them to your read-it-later queue.</span>
             </li>
-            <li className="flex items-center gap-4 border-t py-1">
-              <span><button onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)} className="text-muted-foreground font-bold hover:bg-muted">Mermaid Viewer</button></span>
+            <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)} className="text-muted-foreground font-bold hover:bg-muted">Mermaid Viewer</button></span>
               <span className="grow">A lightweight, mobile-friendly Mermaid diagram viewer.</span>
             </li>
-            <li className="flex items-center gap-4 border-t py-1">
-              <span><button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Films & Conversations</button></span>
-              <span className="grow">A monthly film club bringing together people, documentaries, and discussions.</span>
+            <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Films & Conversations</button></span>
+              <span className="flex-grow">A film club bringing together people, documentaries, and discussions.</span>
             </li>
-            <li className="flex items-center gap-4 border-t pt-1">
-              <span><button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Books & Conversations</button></span>
+            <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t pt-1">
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Books & Conversations</button></span>
               <span className="grow">Roundtable discussions with good friends and great books.</span>
             </li>
           </ul>
@@ -227,27 +227,27 @@ export default function Home() {
           </button>
         </WindowContent>
 
-        <WindowContent view="list">
+        <WindowContent view="list" className="@container">
           <ul>
-            <li className="flex items-center gap-4 pb-1">
-              <span><button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</button></span>
-              <span className="grow">Leading design across digital transformation initiatives.</span>
-              <span className="w-1/8 text-right text-muted-foreground">2021–Present</span>
+            <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 pb-1">
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</button></span>
+              <span className="flex-grow">Leading design across digital transformation initiatives.</span>
+              <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2021–Present</span>
             </li>
-            <li className="flex items-center gap-4 border-t py-1">
-              <span><button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-muted-foreground font-bold hover:bg-muted">UP42</button></span>
-              <span className="grow">Established design practice and launched several keystone projects.</span>
-              <span className="w-1/8 text-right text-muted-foreground">2019–2021</span>
+            <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-muted-foreground font-bold hover:bg-muted">UP42</button></span>
+              <span className="flex-grow">Established design practice and launched several keystone projects.</span>
+              <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2019–2021</span>
             </li>
-            <li className="flex items-center gap-4 border-t py-1">
-              <span><button onClick={() => showWindow(setShowCandis, candisRef)} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
+            <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowCandis, candisRef)} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
               <span className="grow">Design team of one, hands-on end-to-end from research to frontend.</span>
-              <span className="w-1/8 text-right text-muted-foreground">2017–2019</span>
+              <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2017–2019</span>
             </li>
-            <li className="flex items-center gap-4 border-t pt-1">
-              <span><button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</button></span>
+            <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t pt-1">
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</button></span>
               <span className="grow">Laid the technical and product foundations for European expansion.</span>
-              <span className="w-1/8 text-right text-muted-foreground">2015</span>
+              <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2015</span>
             </li>
           </ul>
         </WindowContent>
@@ -281,8 +281,8 @@ export default function Home() {
       <Window ref={mckinseyAndCompanyRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMcKinseyAndCompany(false)}>
         <WindowTitle>McKinsey & Company</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-xl mb-2">I’m currently leading design across digital transformation initiatives at <a href="https://www.mckinsey.com/" className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</a>.</p>
-          <p>Working within a Service Design & Innovation team with a portfolio of transformation initiatives, my role involves: evangelizing the work of the design team with stakeholders, collaborating cross-functionally on complex projects to ensure the voice of design is heard, and coaching team members through guidance and a vision for success.</p>
+          <p className="font-serif text-xl mb-4">I’m currently leading design across digital transformation initiatives at <a href="https://www.mckinsey.com/" className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</a>.</p>
+          <p>Leading a design team of three for a flagship product experience serving the daily visual graphics needs for management consultants across the Firm. I balance strategic leadership with hands-on design execution, bridging user experience and technical implementation across multiple initiatives.</p>
         </WindowContent>
       </Window>
       )}
@@ -291,18 +291,18 @@ export default function Home() {
       <Window ref={up42Ref} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowUP42(false)}>
         <WindowTitle>UP42</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-xl mb-2">I established design practice and launched several keystone projects at <a href="https://www.up42.com/" className="text-muted-foreground font-bold hover:bg-muted">UP42</a>.</p>
-          <p className="mb-2">As the first design hire within the Airbus Defence and Space subsidiary, I established design practice within the organisation.</p>
-          <p className="mb-2">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques—to ensure decisions were made with the best data and insights at hand.</p>
-          <p className="mb-2">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
-          <h2 className="mb-2">Highlights</h2>
+          <p className="font-serif text-xl mb-4">I established design practice and launched several keystone projects at <a href="https://www.up42.com/" className="text-muted-foreground font-bold hover:bg-muted">UP42</a>.</p>
+          <p className="mb-4">As the first design hire within the Airbus Defence and Space subsidiary, I established design practice within the organisation.</p>
+          <p className="mb-4">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques—to ensure decisions were made with the best data and insights at hand.</p>
+          <p className="mb-4">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
+          <h2 className="mb-4">Highlights</h2>
           <ul className="space-y-2">
-            <li><strong>Product Vision</strong><br />Collaborating with leaders and colleagues to create a narrative and concrete vision as an inspirational ‘north star’ for teams to rally behind.</li>
-            <li><strong>Documentation Hub</strong><br />A rethinking of our documentation as the foundation for delivering a great developer experience.</li>
-            <li><strong>Catalog Search</strong><br />A technically ambitious project to provide real-time visibility into available satellite imagery from multiple providers.</li>
-            <li><strong>Geospatial Solutions Marketplace</strong><br />Facilitation of a design sprint exploring the opportunities for a lucrative, yet potentially high risk venture into a new market.</li>
-            <li><strong>Marketing Website</strong><br />A holistic redesign of the marketing website driven by a research led understanding of customers.</li>
-            <li><strong>Research Operations</strong><br />Working closely with sales, marketing, and business intelligence to implement a research stack for gathering, aggregating, and disseminating customer research and insights.</li>
+            <li className="border-t"><strong>Product Vision</strong><br />Collaborating with leaders and colleagues to create a narrative and concrete vision as an inspirational ‘north star’ for teams to rally behind.</li>
+            <li className="border-t"><strong>Documentation Hub</strong><br />A rethinking of our documentation as the foundation for delivering a great developer experience.</li>
+            <li className="border-t"><strong>Catalog Search</strong><br />A technically ambitious project to provide real-time visibility into available satellite imagery from multiple providers.</li>
+            <li className="border-t"><strong>Geospatial Solutions Marketplace</strong><br />Facilitation of a design sprint exploring the opportunities for a lucrative, yet potentially high risk venture into a new market.</li>
+            <li className="border-t"><strong>Research Operations</strong><br />Working closely with sales, marketing, and business intelligence to implement a research stack for gathering, aggregating, and disseminating customer research and insights.</li>
+            <li className="border-t"><strong>Marketing Website</strong><br />A holistic redesign of the marketing website driven by a research led understanding of customers.</li>
           </ul>
         </WindowContent>
       </Window>
@@ -391,6 +391,8 @@ export default function Home() {
             <Badge variant="secondary">Mermaid.js</Badge>
             <Badge variant="secondary">Vercel</Badge>
           </div>
+          <p className="mb-4"><strong>Mermaid Viewer</strong> was born out of the need for a simple, mobile-friendly viewer for the mountains of Mermaid diagrams coming out of my ChatGPT sessions.</p>
+          <p className="mb-4">As a tool for creating diagrams and visualisations using plain text, <a href="https://mermaid.js.org/" className="underline">Mermaid</a> is ideally suited for transforming the outputs of large language models (LLMs) into structured formats.</p>
           <Button asChild className="w-full">
             <a href="https://mermaid.smallepic.com/">
               Check Out Mermaid Viewer
