@@ -51,13 +51,14 @@ export interface WindowRef {
 
 const Window = React.forwardRef<WindowRef, WindowProps>(
   ({ className, children, style, onClose, defaultView, viewSizes, ...props }, ref) => {
-    const [position, setPosition] = React.useState({ x: 100, y: 100 })
+    const [position, setPosition] = React.useState<{ x: number; y: number } | null>(null)
     const [zIndex, setZIndex] = React.useState(10)
     const [focused, setFocused] = React.useState(false)
     const [dragging, setDragging] = React.useState(false)
     const startRef = React.useRef({ x: 0, y: 0 })
     const originRef = React.useRef({ x: 0, y: 0 })
     const idRef = React.useRef<number | null>(null)
+    const windowRef = React.useRef<HTMLDivElement>(null)
 
     // Extract available views from WindowContent children
     const availableViews = React.useMemo(() => {
@@ -109,7 +110,16 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
       idRef.current = e.pointerId
       ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
       startRef.current = { x: e.clientX, y: e.clientY }
-      originRef.current = { ...position }
+      if (position === null && windowRef.current) {
+        const rect = windowRef.current.getBoundingClientRect()
+        // Get computed style for left/top relative to offset parent
+        const computedStyle = window.getComputedStyle(windowRef.current)
+        const left = parseInt(computedStyle.left, 10) || rect.left
+        const top = parseInt(computedStyle.top, 10) || rect.top
+        originRef.current = { x: left, y: top }
+      } else {
+        originRef.current = position ?? { x: 0, y: 0 }
+      }
       setDragging(true)
       bringToFront()
     }
@@ -136,7 +146,8 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
 
     return (
       <div
-        style={{ left: position.x, top: position.y, zIndex, ...style }}
+        ref={windowRef}
+        style={position ? { left: position.x, top: position.y, zIndex, ...style } : { zIndex, ...style }}
         className={cn(
           "absolute max-w-[90svw] max-h-[90svh] flex flex-col rounded-sm border bg-card text-card-foreground shadow-md",
           currentViewSize,
@@ -271,7 +282,7 @@ const WindowContent: React.FC<WindowContentProps> = ({ view = 'default', childre
   }
 
   return (
-    <div className={cn("flex-1 h-full p-2 overflow-y-auto", className)} {...props}>
+    <div className={cn("flex-1 h-full p-4 overflow-y-auto", className)} {...props}>
       {children}
     </div>
   )
