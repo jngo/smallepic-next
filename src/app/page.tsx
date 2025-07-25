@@ -16,7 +16,7 @@ import { BriefcaseBusiness, Clapperboard, LibraryBig, Mail, Network, Podcast, Sc
 import Clock from "@/components/ui/clock";
 
 export default function Home() {
-  const [showWelcome, setShowWelcome] = useState(true);
+  const [showAbout, setShowAbout] = useState(true);
   const [showExperience, setShowExperience] = useState(true);
   const [showRandom, setShowRandom] = useState(true);
   const [showContact, setShowContact] = useState(false);
@@ -31,7 +31,7 @@ export default function Home() {
   const [showUrbanSportsClub, setShowUrbanSportsClub] = useState(false);
 
   // Refs for each window
-  const welcomeRef = useRef<WindowRef>(null);
+  const aboutRef = useRef<WindowRef>(null);
   const experienceRef = useRef<WindowRef>(null);
   const randomRef = useRef<WindowRef>(null);
   const contactRef = useRef<WindowRef>(null);
@@ -60,7 +60,7 @@ export default function Home() {
         <MenubarMenu>
           <MenubarTrigger className="font-bold">John Ngo</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow(setShowWelcome, welcomeRef)}>About this Site</MenubarItem>
+            <MenubarItem onClick={() => showWindow(setShowAbout, aboutRef)}>About</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
@@ -149,72 +149,9 @@ export default function Home() {
         <Clock className="ml-auto pr-2" />
       </Menubar>
 
-      {showWelcome && (
-      <Window ref={welcomeRef} className="w-125" onClose={() => setShowWelcome(false)}>
-        <WindowTitle>Welcome</WindowTitle>
-        <WindowContent>
-          <h1 className="text-4xl font-bold mb-6">
-            Hi, I’m John.
-          </h1>
-          <p className="text-xl leading-relaxed">
-            Designer by practice, engineer by training, researcher at heart. I tackle complex product challenges by combining technical depth with user-centered design, turning ambiguity into actionable insights and shipped solutions.
-          </p>
-        </WindowContent>
-      </Window>
-      )}
-
-      {showExperience && (
-      <Window ref={experienceRef} defaultView="list" className="w-208" onClose={() => setShowExperience(false)}>
-        <WindowTitle>Experience</WindowTitle>
-
-        <WindowContent view="icon">
-          <button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-            <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-            <span>McKinsey & Company</span>
-          </button>
-          <button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-            <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-            <span>UP42</span>
-          </button>
-          <button onClick={() => showWindow(setShowCandis, candisRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-            <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-            <span>Candis</span>
-          </button>
-          <button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-            <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-            <span>Urban Sports Club</span>
-          </button>
-        </WindowContent>
-
-        <WindowContent view="list">
-          <ul>
-            <li className="flex items-center gap-4 py-1">
-              <span><button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</button></span>
-              <span className="grow">Leading design across digital transformation initiatives.</span>
-              <span className="w-1/8 text-right text-muted-foreground">2021–Present</span>
-            </li>
-            <li className="flex items-center gap-4 border-t py-1">
-              <span><button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-muted-foreground font-bold hover:bg-muted">UP42</button></span>
-              <span className="grow">Established design practice and launched several keystone projects.</span>
-              <span className="w-1/8 text-right text-muted-foreground">2019–2021</span>
-            </li>
-            <li className="flex items-center gap-4 border-t py-1">
-              <span><button onClick={() => showWindow(setShowCandis, candisRef)} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
-              <span className="grow">Design team of one, hands-on end-to-end from research to frontend.</span>
-              <span className="w-1/8 text-right text-muted-foreground">2017–2019</span>
-            </li>
-            <li className="flex items-center gap-4 border-t py-1">
-              <span><button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</button></span>
-              <span className="grow">Laid the technical and product foundations for European expansion.</span>
-              <span className="w-1/8 text-right text-muted-foreground">2015</span>
-            </li>
-          </ul>
-        </WindowContent>
-      </Window>
-      )}
 
       {showRandom && (
-      <Window ref={randomRef} defaultView="list" className="w-208" onClose={() => setShowRandom(false)}>
+        <Window ref={randomRef} defaultView="list" className="w-210 left-4 top-14" onClose={() => setShowRandom(false)}>
         <WindowTitle>Random</WindowTitle>
 
         <WindowContent view="icon">
@@ -242,7 +179,7 @@ export default function Home() {
 
         <WindowContent view="list">
           <ul>
-            <li className="flex items-center gap-4 py-1">
+            <li className="flex items-center gap-4 pb-1">
               <span><button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</button></span>
               <span className="grow">Generate a Minto Pyramid synthesis of any content.</span>
             </li>
@@ -258,7 +195,7 @@ export default function Home() {
               <span><button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Films & Conversations</button></span>
               <span className="grow">A monthly film club bringing together people, documentaries, and discussions.</span>
             </li>
-            <li className="flex items-center gap-4 border-t py-1">
+            <li className="flex items-center gap-4 border-t pt-1">
               <span><button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Books & Conversations</button></span>
               <span className="grow">Roundtable discussions with good friends and great books.</span>
             </li>
@@ -267,8 +204,72 @@ export default function Home() {
       </Window>
       )}
 
+      {showExperience && (
+      <Window ref={experienceRef} defaultView="list" className="w-210 left-16 top-30" onClose={() => setShowExperience(false)}>
+        <WindowTitle>Experience</WindowTitle>
+
+        <WindowContent view="icon">
+          <button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+            <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
+            <span>McKinsey & Company</span>
+          </button>
+          <button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+            <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
+            <span>UP42</span>
+          </button>
+          <button onClick={() => showWindow(setShowCandis, candisRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+            <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
+            <span>Candis</span>
+          </button>
+          <button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+            <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
+            <span>Urban Sports Club</span>
+          </button>
+        </WindowContent>
+
+        <WindowContent view="list">
+          <ul>
+            <li className="flex items-center gap-4 pb-1">
+              <span><button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</button></span>
+              <span className="grow">Leading design across digital transformation initiatives.</span>
+              <span className="w-1/8 text-right text-muted-foreground">2021–Present</span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span><button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-muted-foreground font-bold hover:bg-muted">UP42</button></span>
+              <span className="grow">Established design practice and launched several keystone projects.</span>
+              <span className="w-1/8 text-right text-muted-foreground">2019–2021</span>
+            </li>
+            <li className="flex items-center gap-4 border-t py-1">
+              <span><button onClick={() => showWindow(setShowCandis, candisRef)} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
+              <span className="grow">Design team of one, hands-on end-to-end from research to frontend.</span>
+              <span className="w-1/8 text-right text-muted-foreground">2017–2019</span>
+            </li>
+            <li className="flex items-center gap-4 border-t pt-1">
+              <span><button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</button></span>
+              <span className="grow">Laid the technical and product foundations for European expansion.</span>
+              <span className="w-1/8 text-right text-muted-foreground">2015</span>
+            </li>
+          </ul>
+        </WindowContent>
+      </Window>
+      )}
+
+      {showAbout && (
+        <Window ref={aboutRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowAbout(false)}>
+        <WindowTitle>About</WindowTitle>
+        <WindowContent>
+          <h1 className="text-4xl font-bold mt-6 mb-6">
+            Hi, I’m John.
+          </h1>
+          <p className="text-xl leading-relaxed">
+            Designer by practice, engineer by training, researcher at heart. I tackle complex product challenges by combining technical depth with user-centered design, turning ambiguity into actionable insights and shipped solutions.
+          </p>
+        </WindowContent>
+      </Window>
+      )}
+
       {showContact && (
-      <Window ref={contactRef} className="w-1/2" onClose={() => setShowContact(false)}>
+        <Window ref={contactRef} className="w-1/2 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowContact(false)}>
         <WindowTitle>Reach Out</WindowTitle>
         <WindowContent>
           <p>Send me an <a href="mailto:john@smallepic.com" className="text-muted-foreground font-bold hover:bg-muted">email</a>, or find me on <a href="https://www.linkedin.com/in/jngo/" className="text-muted-foreground font-bold hover:bg-muted">LinkedIn</a>, <a href="https://github.com/jngo" className="text-muted-foreground font-bold hover:bg-muted">GitHub</a>, or <a href="https://twitter.com/jngo" className="text-muted-foreground font-bold hover:bg-muted  ">Twitter</a>.</p>
@@ -277,20 +278,20 @@ export default function Home() {
       )}
 
       {showMcKinseyAndCompany && (
-      <Window ref={mckinseyAndCompanyRef} className="w-125" onClose={() => setShowMcKinseyAndCompany(false)}>
+      <Window ref={mckinseyAndCompanyRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMcKinseyAndCompany(false)}>
         <WindowTitle>McKinsey & Company</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-lg mb-2">Leading design across digital transformation initiatives.</p>
-          <p className="mb-2">Working within a Service Design & Innovation team with a portfolio of transformation initiatives, my role involves: evangelizing the work of the design team with stakeholders, collaborating cross-functionally on complex projects to ensure the voice of design is heard, and coaching team members through guidance and a vision for success.</p>
+          <p className="font-serif text-xl mb-2">I’m currently leading design across digital transformation initiatives at <a href="https://www.mckinsey.com/" className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</a>.</p>
+          <p>Working within a Service Design & Innovation team with a portfolio of transformation initiatives, my role involves: evangelizing the work of the design team with stakeholders, collaborating cross-functionally on complex projects to ensure the voice of design is heard, and coaching team members through guidance and a vision for success.</p>
         </WindowContent>
       </Window>
       )}
 
       {showUP42 && (
-      <Window ref={up42Ref} className="w-125" onClose={() => setShowUP42(false)}>
+      <Window ref={up42Ref} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowUP42(false)}>
         <WindowTitle>UP42</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-lg mb-2">Established design practice and launched several keystone projects.</p>
+          <p className="font-serif text-xl mb-2">I established design practice and launched several keystone projects at <a href="https://www.up42.com/" className="text-muted-foreground font-bold hover:bg-muted">UP42</a>.</p>
           <p className="mb-2">As the first design hire within the Airbus Defence and Space subsidiary, I established design practice within the organisation.</p>
           <p className="mb-2">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques—to ensure decisions were made with the best data and insights at hand.</p>
           <p className="mb-2">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
@@ -308,32 +309,32 @@ export default function Home() {
       )}
 
       {showCandis && (
-      <Window ref={candisRef} className="w-125" onClose={() => setShowCandis(false)}>
+      <Window ref={candisRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowCandis(false)}>
         <WindowTitle>Candis</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-lg mb-2">Design team of one, hands-on end-to-end from research to frontend.</p>
+          <p className="font-serif text-xl mb-2">Design team of one, hands-on end-to-end from research to frontend.</p>
           <p className="mb-2">As a single person design team, I was responsible for user experience across the portfolio of products at Candis. Practically speaking, I conducted user research, produced design concepts and prototypes, documented epics and user stories, and contributed UI enhancements to the React codebase.</p>
-          <p className="mb-2">I also led the initiative to scale design to meet the needs of a growing engineering team through the development of a design system that served as the style guide and component library for current and future Candis products.</p>
+          <p>I also led the initiative to scale design to meet the needs of a growing engineering team through the development of a design system that served as the style guide and component library for current and future Candis products.</p>
         </WindowContent>
       </Window>
       )}
 
       {showUrbanSportsClub && (
-      <Window ref={urbanSportsClubRef} className="w-125" onClose={() => setShowUrbanSportsClub(false)}>
+      <Window ref={urbanSportsClubRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowUrbanSportsClub(false)}>
         <WindowTitle>Urban Sports Club</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-lg mb-2">I helped lay the technical and product foundations for European expansion at <a href="https://urbansportsclub.com/" className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</a>.</p>
+          <p className="font-serif text-xl mb-2">I helped lay the technical and product foundations for European expansion at <a href="https://urbansportsclub.com/" className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</a>.</p>
           <p className="mb-2">I played a key technical leadership and product design role, responsible for the digital transformation of key technical infrastructure and the venue check-in experience. My achievements were instrumental to the ambitious expansion of the flat-rate sports membership from Berlin into over 88 cities and 8,000 sporting venues.</p>
-          <p className="mb-2">My key achievement was leading the delivery team, where I designed the REST API specification and mobile app experiences. Within three months, we replaced the existing manual membership card and log sheet processes with an API and mobile apps enabling members to check-in with their iOS and Android devices.</p>
+          <p>My key achievement was leading the delivery team, where I designed the REST API specification and mobile app experiences. Within three months, we replaced the existing manual membership card and log sheet processes with an API and mobile apps enabling members to check-in with their iOS and Android devices.</p>
         </WindowContent>
       </Window>
       )}
 
       {showSynthesiser && (
-      <Window ref={synthesiserRef} className="w-96" onClose={() => setShowSynthesiser(false)}>
+      <Window ref={synthesiserRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowSynthesiser(false)}>
         <WindowTitle>Synthesiser</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-lg mb-2">Generate a Minto Pyramid synthesis of any content.</p>
+          <p className="font-serif text-xl mb-2">Generate a Minto Pyramid synthesis of any content.</p>
           <div className="flex flex-wrap gap-2 mb-4">
             <Badge variant="secondary">v0</Badge>
             <Badge variant="secondary">Cursor</Badge>
@@ -345,7 +346,7 @@ export default function Home() {
           </div>
           <Button asChild className="w-full">
             <a href="https://synthesiser.smallepic.com/">
-              Try Synthesiser
+              Check Out Synthesiser
             </a>
           </Button>
         </WindowContent>
@@ -353,10 +354,10 @@ export default function Home() {
       )}
 
       {showPodscriber && (
-      <Window ref={podscriberRef} className="w-96" onClose={() => setShowPodscriber(false)}>
+      <Window ref={podscriberRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowPodscriber(false)}>
         <WindowTitle>Podscriber</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-lg mb-2">Transcribe podcast episodes and send them to your read-it-later queue.</p>
+          <p className="font-serif text-xl mb-2">Transcribe podcast episodes and send them to your read-it-later queue.</p>
           <div className="flex flex-wrap gap-2 mb-4">
             <Badge variant="secondary">v0</Badge>
             <Badge variant="secondary">Cursor</Badge>
@@ -368,7 +369,7 @@ export default function Home() {
           </div>
           <Button asChild className="w-full">
             <a href="https://podscriber.smallepic.com/">
-              Try Podscriber
+              Check Out Podscriber
             </a>
           </Button>
         </WindowContent>
@@ -376,10 +377,10 @@ export default function Home() {
       )}
 
       {showMermaidViewer && (
-      <Window ref={mermaidViewerRef} className="w-96" onClose={() => setShowMermaidViewer(false)}>
+      <Window ref={mermaidViewerRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMermaidViewer(false)}>
         <WindowTitle>Mermaid Viewer</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-lg mb-2">A lightweight, mobile-friendly Mermaid diagram viewer for viewing and editing Mermaid diagrams.</p>
+          <p className="font-serif text-xl mb-2">A lightweight, mobile-friendly Mermaid diagram viewer for viewing and editing Mermaid diagrams.</p>
           <p><strong>Mermaid Viewer</strong> was born out of the need for a simple, mobile-friendly viewer for the mountains of Mermaid diagrams coming out of my ChatGPT sessions.</p>
           <p>As a tool for creating diagrams and visualisations using plain text, <a href="https://mermaid.js.org/" className="underline">Mermaid</a> is ideally suited for transforming the outputs of large language models (LLMs) into structured formats.</p>
           <div className="flex flex-wrap gap-2 mb-4">
@@ -392,7 +393,7 @@ export default function Home() {
           </div>
           <Button asChild className="w-full">
             <a href="https://mermaid.smallepic.com/">
-              Try Mermaid Viewer
+              Check Out Mermaid Viewer
             </a>
           </Button>
         </WindowContent>
@@ -400,10 +401,10 @@ export default function Home() {
       )}
 
       {showFilmsAndConversations && (
-      <Window ref={filmsAndConversationsRef} className="w-96" onClose={() => setShowFilmsAndConversations(false)}>
+      <Window ref={filmsAndConversationsRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowFilmsAndConversations(false)}>
         <WindowTitle>Films & Conversations</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-lg mb-2">A monthly film club bringing together people, documentaries, and discussions.</p>
+          <p className="font-serif text-xl mb-2">A monthly film club bringing together people, documentaries, and discussions.</p>
           <div className="flex flex-wrap gap-2 mb-4">
             <Badge variant="secondary">Jekyll</Badge>
             <Badge variant="secondary">Github Pages</Badge>
@@ -418,7 +419,7 @@ export default function Home() {
       )}
 
       {showBooksAndConversations && (
-      <Window ref={booksAndConversationsRef} className="w-96" onClose={() => setShowBooksAndConversations(false)}>
+      <Window ref={booksAndConversationsRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowBooksAndConversations(false)}>
         <WindowTitle>Books & Conversations</WindowTitle>
         <WindowContent>
           <p className="font-serif text-lg mb-2">Roundtable discussions with good friends and great books.</p>
