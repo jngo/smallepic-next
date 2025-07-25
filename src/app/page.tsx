@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/menubar";
 import { BriefcaseBusiness, Clapperboard, LibraryBig, Mail, Network, Podcast, ScanText } from "lucide-react";
 import Clock from "@/components/ui/clock";
+import Image from "next/image";
 
 export default function Home() {
   const [showAbout, setShowAbout] = useState(true);
@@ -380,9 +381,8 @@ export default function Home() {
       <Window ref={mermaidViewerRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMermaidViewer(false)}>
         <WindowTitle>Mermaid Viewer</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-xl mb-2">A lightweight, mobile-friendly Mermaid diagram viewer for viewing and editing Mermaid diagrams.</p>
-          <p><strong>Mermaid Viewer</strong> was born out of the need for a simple, mobile-friendly viewer for the mountains of Mermaid diagrams coming out of my ChatGPT sessions.</p>
-          <p>As a tool for creating diagrams and visualisations using plain text, <a href="https://mermaid.js.org/" className="underline">Mermaid</a> is ideally suited for transforming the outputs of large language models (LLMs) into structured formats.</p>
+          <Image src="/mermaid-viewer.png" alt="Mermaid Viewer" width={400} height={300} className="w-full h-auto mb-4" />
+          <p className="font-serif text-xl mb-4">A lightweight, mobile-friendly way to view and edit Mermaid diagrams.</p>
           <div className="flex flex-wrap gap-2 mb-4">
             <Badge variant="secondary">v0</Badge>
             <Badge variant="secondary">Cursor</Badge>
