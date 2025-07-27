@@ -214,7 +214,7 @@ export default function Home() {
       )}
 
       {showExperience && (
-      <Window ref={experienceRef} defaultView="list" className="w-210 left-16 top-30" onClose={() => setShowExperience(false)}>
+      <Window ref={experienceRef} defaultView="icon" className="w-210 left-16 top-30" onClose={() => setShowExperience(false)}>
         <WindowTitle>Experience</WindowTitle>
 
         <WindowContent view="icon">
@@ -314,13 +314,13 @@ export default function Home() {
             <FileSymlink strokeWidth={0.8} className="size-12"/>
             <span>documentation-experience.url</span>
           </a>
-          <button onClick={() => showWindow(setShowCatalogSearchPrototype, catalogSearchPrototypeRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
-            <FileBox strokeWidth={0.8} className="size-12"/>
-            <span>catalog-search-prototype.figma</span>
-          </button>
           <button onClick={() => showWindow(setShowCatalogSearchPresentation, catalogSearchPresentationRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileChartPie strokeWidth={0.8} className="size-12"/>
             <span>catalog-search-case-study.figma</span>
+          </button>
+          <button onClick={() => showWindow(setShowCatalogSearchPrototype, catalogSearchPrototypeRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+            <FileBox strokeWidth={0.8} className="size-12"/>
+            <span>catalog-search-prototype.figma</span>
           </button>
           <button onClick={() => showWindow(setShowGISOS, GISOSRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileBox strokeWidth={0.8} className="size-12"/>
@@ -331,7 +331,7 @@ export default function Home() {
       )}
 
       {showDocumentationHub && (
-      <Window ref={documentationHubRef} className="w-200 h-138 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowDocumentationHub(false)}>
+      <Window ref={documentationHubRef} className="w-200 aspect-16/9 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowDocumentationHub(false)}>
         <WindowTitle>Documentation Hub</WindowTitle>
         <WindowContent className="p-0">
           <iframe
@@ -343,9 +343,9 @@ export default function Home() {
       </Window>
       )}
 
-      {showCatalogSearchPrototype && (
-      <Window ref={catalogSearchPrototypeRef} className="w-200 h-138 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowCatalogSearchPrototype(false)}>
-        <WindowTitle>Prototype — Catalog Search</WindowTitle>
+      {showCatalogSearchPresentation && (
+        <Window ref={catalogSearchPresentationRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowCatalogSearchPresentation(false)}>
+        <WindowTitle>Case Study — Catalog Search</WindowTitle>
         <WindowContent className="p-0">
           <iframe
             src="https://embed.figma.com/proto/L7o2shGNkBjhNIiuqzKJh3/John-Ngo-%C2%B7-Curriculum-Vitae?page-id=204%3A0&node-id=204-1&p=f&viewport=631%2C234%2C0.33&scaling=contain&content-scaling=fixed&embed-host=smallepic&hide_ui=1&footer=false&theme=system"
@@ -356,21 +356,21 @@ export default function Home() {
       </Window>
       )}
 
-      {showCatalogSearchPresentation && (
-      <Window ref={catalogSearchPresentationRef} className="w-200 h-138 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowCatalogSearchPresentation(false)}>
-        <WindowTitle>Case Study — Catalog Search</WindowTitle>
+      {showCatalogSearchPrototype && (
+      <Window ref={catalogSearchPrototypeRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowCatalogSearchPrototype(false)}>
+        <WindowTitle>Prototype — Catalog Search</WindowTitle>
         <WindowContent className="p-0">
           <iframe
-            src="https://embed.figma.com/proto/hEGpVA61WH1Zw8Q5DPcL4h/Case-Study-%C2%B7-Catalog-Search?node-id=1-17&viewport=34%2C594%2C0.5786359906196594&scaling=contain&content-scaling=fixed&embed-host=smallepic&hide_ui=1&footer=false&theme=system"
+            src="https://embed.figma.com/proto/DxUQrLPUFJap2u8FoYLxMe/UP%E2%81%B4%C2%B2-%C2%B7-Catalog-Search?node-id=432-1054&viewport=179%2C205%2C0.133953258395195&scaling=contain&content-scaling=fixed&embed-host=smallepic&hide_ui=1&footer=false&theme=system"
             allowFullScreen
             className="w-full h-full"
-          />
+            />
         </WindowContent>
       </Window>
       )}
 
       {showGISOS && (
-      <Window ref={GISOSRef} className="w-200 h-138 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowGISOS(false)}>
+      <Window ref={GISOSRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowGISOS(false)}>
         <WindowTitle>GIS OS</WindowTitle>
         <WindowContent className="p-0">
           <iframe
