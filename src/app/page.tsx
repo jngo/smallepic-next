@@ -421,7 +421,7 @@ export default function Home() {
             <Badge variant="secondary">Vercel</Badge>
           </div>
           <Button asChild className="w-full">
-            <a href="https://synthesiser.smallepic.com/" target="_blank" rel="noopener noreferrer">
+            <a href="https://synthesiser.smallepic.com/" target="_blank" rel="noopener">
               Check Out Synthesiser
             </a>
           </Button>
@@ -433,6 +433,7 @@ export default function Home() {
       <Window ref={podscriberRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowPodscriber(false)}>
         <WindowTitle>Podscriber</WindowTitle>
         <WindowContent>
+          <Image src="/podscriber.gif" alt="Podscriber" width={480} height={1040} className="w-1/2 h-auto mx-auto mb-4" />
           <p className="font-serif text-xl mb-2">Transcribe podcast episodes and send them to your read-it-later queue.</p>
           <div className="flex flex-wrap gap-2 mb-4">
             <Badge variant="secondary">v0</Badge>
@@ -443,8 +444,11 @@ export default function Home() {
             <Badge variant="secondary">Reader</Badge>
             <Badge variant="secondary">Vercel</Badge>
           </div>
+          <p className="mb-4">As someone who loves listening to podcasts whilst doing other things, capturing notes can be challenging.</p>
+          <p className="mb-4">After trying a few different apps, I decided to build a simple podcast transcriber to streamline my workflow from listening to synthesizing notes.</p>
+          <p className="mb-4">Instead of pausing and transcribing by hand, I just drop in an Apple Podcasts URL, and it generates a transcript for me. It’s integrated with Readwise Reader, so I can highlight key insights and have everything synced to my Obsidian notes.</p>
           <Button asChild className="w-full">
-            <a href="https://podscriber.smallepic.com/" target="_blank" rel="noopener noreferrer">
+            <a href="https://podscriber.smallepic.com/" target="_blank" rel="noopener">
               Check Out Podscriber
             </a>
           </Button>
@@ -469,7 +473,7 @@ export default function Home() {
           <p className="mb-4"><strong>Mermaid Viewer</strong> was born out of the need for a simple, mobile-friendly viewer for the mountains of Mermaid diagrams coming out of my ChatGPT sessions.</p>
           <p className="mb-4">As a tool for creating diagrams and visualisations using plain text, <a href="https://mermaid.js.org/" className="underline">Mermaid</a> is ideally suited for transforming the outputs of large language models (LLMs) into structured formats.</p>
           <Button asChild className="w-full">
-            <a href="https://mermaid.smallepic.com/" target="_blank" rel="noopener noreferrer">
+            <a href="https://mermaid.smallepic.com/" target="_blank" rel="noopener">
               Check Out Mermaid Viewer
             </a>
           </Button>
@@ -487,7 +491,7 @@ export default function Home() {
             <Badge variant="secondary">Github Pages</Badge>
           </div>
           <Button asChild className="w-full">
-            <a href="http://filmsandconversations.com/" target="_blank" rel="noopener noreferrer">
+            <a href="http://filmsandconversations.com/" target="_blank" rel="noopener">
               Check Out Films & Conversations
             </a>
           </Button>
@@ -505,7 +509,7 @@ export default function Home() {
             <Badge variant="secondary">Github Pages</Badge>
           </div>
           <Button asChild className="w-full">
-            <a href="http://booksandconversations.com/" target="_blank" rel="noopener noreferrer">
+            <a href="http://booksandconversations.com/" target="_blank" rel="noopener">
               Check Out Books & Conversations
             </a>
           </Button>
