@@ -12,7 +12,7 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { BriefcaseBusiness, Clapperboard, LibraryBig, Mail, Network, Podcast, ScanText } from "lucide-react";
+import { BriefcaseBusiness, Clapperboard, FileBox, FileChartPie, FileSymlink, FileText, FileVideo, Folder, LibraryBig, Mail, Network, Podcast, ScanText } from "lucide-react";
 import Clock from "@/components/ui/clock";
 import Image from "next/image";
 
@@ -28,6 +28,10 @@ export default function Home() {
   const [showBooksAndConversations, setShowBooksAndConversations] = useState(false);
   const [showMcKinseyAndCompany, setShowMcKinseyAndCompany] = useState(false);
   const [showUP42, setShowUP42] = useState(false);
+  const [showDocumentationHub, setShowDocumentationHub] = useState(false);
+  const [showCatalogSearchPrototype, setShowCatalogSearchPrototype] = useState(false);
+  const [showCatalogSearchPresentation, setShowCatalogSearchPresentation] = useState(false);
+  const [showGISOS, setShowGISOS] = useState(false);
   const [showCandis, setShowCandis] = useState(false);
   const [showUrbanSportsClub, setShowUrbanSportsClub] = useState(false);
 
@@ -43,6 +47,10 @@ export default function Home() {
   const booksAndConversationsRef = useRef<WindowRef>(null);
   const mckinseyAndCompanyRef = useRef<WindowRef>(null);
   const up42Ref = useRef<WindowRef>(null);
+  const documentationHubRef = useRef<WindowRef>(null);
+  const catalogSearchPrototypeRef = useRef<WindowRef>(null);
+  const catalogSearchPresentationRef = useRef<WindowRef>(null);
+  const GISOSRef = useRef<WindowRef>(null);
   const candisRef = useRef<WindowRef>(null);
   const urbanSportsClubRef = useRef<WindowRef>(null);
 
@@ -156,25 +164,25 @@ export default function Home() {
         <WindowTitle>Random</WindowTitle>
 
         <WindowContent view="icon">
-          <button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <Network strokeWidth={0.8} className="size-12"/>
-            <span>Synthesiser</span>
+            <span>synthesiser.html</span>
           </button>
-          <button onClick={() => showWindow(setShowPodscriber, podscriberRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <button onClick={() => showWindow(setShowPodscriber, podscriberRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <Podcast strokeWidth={0.8} className="size-12"/>
-            <span>Podscriber</span>
+            <span>podscriber.html</span>
           </button>
-          <button onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <button onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <ScanText strokeWidth={0.8} className="size-12"/>
-            <span>Mermaid Viewer</span>
+            <span>mermaid-viewer.html</span>
           </button>
-          <button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <Clapperboard strokeWidth={0.8} className="size-12"/>
-            <span>Films & Conversations</span>
+            <span>films-and-conversations.html</span>
           </button>
-          <button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <LibraryBig strokeWidth={0.8} className="size-12"/>
-            <span>Books & Conversations</span>
+            <span>books-and-conversations.html</span>
           </button>
         </WindowContent>
 
@@ -210,21 +218,21 @@ export default function Home() {
         <WindowTitle>Experience</WindowTitle>
 
         <WindowContent view="icon">
-          <button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-            <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-            <span>McKinsey & Company</span>
+          <button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+            <FileText strokeWidth={0.8} className="size-12"/>
+            <span>mckinsey-and-company.html</span>
           </button>
-          <button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-            <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-            <span>UP42</span>
+          <button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+            <Folder strokeWidth={0.8} className="size-12"/>
+            <span>up42</span>
           </button>
-          <button onClick={() => showWindow(setShowCandis, candisRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-            <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-            <span>Candis</span>
+          <button onClick={() => showWindow(setShowCandis, candisRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+            <FileText strokeWidth={0.8} className="size-12"/>
+            <span>candis.html</span>
           </button>
-          <button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-sm/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
-            <BriefcaseBusiness strokeWidth={0.8} className="size-12"/>
-            <span>Urban Sports Club</span>
+          <button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+            <FileText strokeWidth={0.8} className="size-12"/>
+            <span>urban-sports-club.html</span>
           </button>
         </WindowContent>
 
@@ -242,7 +250,7 @@ export default function Home() {
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
               <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowCandis, candisRef)} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
-              <span className="grow">Design team of one, hands-on end-to-end from research to frontend.</span>
+              <span className="grow">Design team of one, hands-on from research to frontend.</span>
               <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2017–2019</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t pt-1">
@@ -282,7 +290,8 @@ export default function Home() {
       <Window ref={mckinseyAndCompanyRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMcKinseyAndCompany(false)}>
         <WindowTitle>McKinsey & Company</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-xl mb-4">I’m currently leading design across digital transformation initiatives at <a href="https://www.mckinsey.com/" className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</a>.</p>
+          <p className="text-sm text-muted-foreground">2021–Present</p>
+          <p className="font-serif text-xl mb-4">I’m currently leading design across digital transformation initiatives at <a href="https://www.mckinsey.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</a>.</p>
           <p>Leading a design team of three for a flagship product experience serving the daily visual graphics needs for management consultants across the Firm. I balance strategic leadership with hands-on design execution, bridging user experience and technical implementation across multiple initiatives.</p>
         </WindowContent>
       </Window>
@@ -292,19 +301,83 @@ export default function Home() {
       <Window ref={up42Ref} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowUP42(false)}>
         <WindowTitle>UP42</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-xl mb-4">I established design practice and launched several keystone projects at <a href="https://www.up42.com/" className="text-muted-foreground font-bold hover:bg-muted">UP42</a>.</p>
+          <p className="text-sm text-muted-foreground">2019–2021</p>
+          <p className="font-serif text-xl mb-4">I established design practice and launched several keystone projects at <a href="https://www.up42.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted">UP42</a>.</p>
           <p className="mb-4">As the first design hire within the Airbus Defence and Space subsidiary, I established design practice within the organisation.</p>
           <p className="mb-4">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques—to ensure decisions were made with the best data and insights at hand.</p>
           <p className="mb-4">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
-          <h2 className="mb-4">Highlights</h2>
-          <ul className="space-y-2">
-            <li className="border-t"><strong>Product Vision</strong><br />Collaborating with leaders and colleagues to create a narrative and concrete vision as an inspirational ‘north star’ for teams to rally behind.</li>
-            <li className="border-t"><strong>Documentation Hub</strong><br />A rethinking of our documentation as the foundation for delivering a great developer experience.</li>
-            <li className="border-t"><strong>Catalog Search</strong><br />A technically ambitious project to provide real-time visibility into available satellite imagery from multiple providers.</li>
-            <li className="border-t"><strong>Geospatial Solutions Marketplace</strong><br />Facilitation of a design sprint exploring the opportunities for a lucrative, yet potentially high risk venture into a new market.</li>
-            <li className="border-t"><strong>Research Operations</strong><br />Working closely with sales, marketing, and business intelligence to implement a research stack for gathering, aggregating, and disseminating customer research and insights.</li>
-            <li className="border-t"><strong>Marketing Website</strong><br />A holistic redesign of the marketing website driven by a research led understanding of customers.</li>
-          </ul>
+          <button onClick={() => showWindow(setShowDocumentationHub, documentationHubRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+            <FileVideo strokeWidth={0.8} className="size-12"/>
+            <span>documentation-hub.mp4</span>
+          </button>
+          <a href="https://up42.com/blog/rethinking-our-documentation-experience" target="_blank" rel="noopener noreferrer" className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+            <FileSymlink strokeWidth={0.8} className="size-12"/>
+            <span>documentation-experience.url</span>
+          </a>
+          <button onClick={() => showWindow(setShowCatalogSearchPrototype, catalogSearchPrototypeRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+            <FileBox strokeWidth={0.8} className="size-12"/>
+            <span>catalog-search-prototype.figma</span>
+          </button>
+          <button onClick={() => showWindow(setShowCatalogSearchPresentation, catalogSearchPresentationRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+            <FileChartPie strokeWidth={0.8} className="size-12"/>
+            <span>catalog-search-case-study.figma</span>
+          </button>
+          <button onClick={() => showWindow(setShowGISOS, GISOSRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+            <FileBox strokeWidth={0.8} className="size-12"/>
+            <span>gis-os.figma</span>
+          </button>
+        </WindowContent>
+      </Window>
+      )}
+
+      {showDocumentationHub && (
+      <Window ref={documentationHubRef} className="w-200 h-138 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowDocumentationHub(false)}>
+        <WindowTitle>Documentation Hub</WindowTitle>
+        <WindowContent className="p-0">
+          <iframe
+            src="https://www.youtube.com/embed/XpdvVltqWtc"
+            allowFullScreen
+            className="w-full h-full">
+          </iframe>
+        </WindowContent>
+      </Window>
+      )}
+
+      {showCatalogSearchPrototype && (
+      <Window ref={catalogSearchPrototypeRef} className="w-200 h-138 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowCatalogSearchPrototype(false)}>
+        <WindowTitle>Prototype — Catalog Search</WindowTitle>
+        <WindowContent className="p-0">
+          <iframe
+            src="https://embed.figma.com/proto/L7o2shGNkBjhNIiuqzKJh3/John-Ngo-%C2%B7-Curriculum-Vitae?page-id=204%3A0&node-id=204-1&p=f&viewport=631%2C234%2C0.33&scaling=contain&content-scaling=fixed&embed-host=smallepic&hide_ui=1&footer=false&theme=system"
+            allowFullScreen
+            className="w-full h-full"
+          />
+        </WindowContent>
+      </Window>
+      )}
+
+      {showCatalogSearchPresentation && (
+      <Window ref={catalogSearchPresentationRef} className="w-200 h-138 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowCatalogSearchPresentation(false)}>
+        <WindowTitle>Case Study — Catalog Search</WindowTitle>
+        <WindowContent className="p-0">
+          <iframe
+            src="https://embed.figma.com/proto/hEGpVA61WH1Zw8Q5DPcL4h/Case-Study-%C2%B7-Catalog-Search?node-id=1-17&viewport=34%2C594%2C0.5786359906196594&scaling=contain&content-scaling=fixed&embed-host=smallepic&hide_ui=1&footer=false&theme=system"
+            allowFullScreen
+            className="w-full h-full"
+          />
+        </WindowContent>
+      </Window>
+      )}
+
+      {showGISOS && (
+      <Window ref={GISOSRef} className="w-200 h-138 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowGISOS(false)}>
+        <WindowTitle>GIS OS</WindowTitle>
+        <WindowContent className="p-0">
+          <iframe
+            src="https://embed.figma.com/proto/I4CSylVpVDpCe15J0NYQ74/UP%E2%81%B4%C2%B2-%C2%B7-Product-Vision?node-id=269-290&viewport=77%2C474%2C0.0725146234035492&scaling=contain&content-scaling=fixed&embed-host=smallepic&hide_ui=1&footer=false&theme=system"
+            allowFullScreen
+            className="w-full h-full"
+          />
         </WindowContent>
       </Window>
       )}
@@ -313,7 +386,8 @@ export default function Home() {
       <Window ref={candisRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowCandis(false)}>
         <WindowTitle>Candis</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-xl mb-2">Design team of one, hands-on end-to-end from research to frontend.</p>
+          <p className="text-sm text-muted-foreground">2017–2019</p>
+          <p className="font-serif text-xl mb-2">I was a design team of one, hands-on from research to frontend at <a href="https://www.candis.io/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted">Candis</a>.</p>
           <p className="mb-2">As a single person design team, I was responsible for user experience across the portfolio of products at Candis. Practically speaking, I conducted user research, produced design concepts and prototypes, documented epics and user stories, and contributed UI enhancements to the React codebase.</p>
           <p>I also led the initiative to scale design to meet the needs of a growing engineering team through the development of a design system that served as the style guide and component library for current and future Candis products.</p>
         </WindowContent>
@@ -324,7 +398,8 @@ export default function Home() {
       <Window ref={urbanSportsClubRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowUrbanSportsClub(false)}>
         <WindowTitle>Urban Sports Club</WindowTitle>
         <WindowContent>
-          <p className="font-serif text-xl mb-2">I helped lay the technical and product foundations for European expansion at <a href="https://urbansportsclub.com/" className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</a>.</p>
+          <p className="text-sm text-muted-foreground">2015</p>
+          <p className="font-serif text-xl mb-2">I helped lay the technical and product foundations for European expansion at <a href="https://urbansportsclub.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</a>.</p>
           <p className="mb-2">I played a key technical leadership and product design role, responsible for the digital transformation of key technical infrastructure and the venue check-in experience. My achievements were instrumental to the ambitious expansion of the flat-rate sports membership from Berlin into over 88 cities and 8,000 sporting venues.</p>
           <p>My key achievement was leading the delivery team, where I designed the REST API specification and mobile app experiences. Within three months, we replaced the existing manual membership card and log sheet processes with an API and mobile apps enabling members to check-in with their iOS and Android devices.</p>
         </WindowContent>
@@ -346,7 +421,7 @@ export default function Home() {
             <Badge variant="secondary">Vercel</Badge>
           </div>
           <Button asChild className="w-full">
-            <a href="https://synthesiser.smallepic.com/">
+            <a href="https://synthesiser.smallepic.com/" target="_blank" rel="noopener noreferrer">
               Check Out Synthesiser
             </a>
           </Button>
@@ -369,7 +444,7 @@ export default function Home() {
             <Badge variant="secondary">Vercel</Badge>
           </div>
           <Button asChild className="w-full">
-            <a href="https://podscriber.smallepic.com/">
+            <a href="https://podscriber.smallepic.com/" target="_blank" rel="noopener noreferrer">
               Check Out Podscriber
             </a>
           </Button>
@@ -394,7 +469,7 @@ export default function Home() {
           <p className="mb-4"><strong>Mermaid Viewer</strong> was born out of the need for a simple, mobile-friendly viewer for the mountains of Mermaid diagrams coming out of my ChatGPT sessions.</p>
           <p className="mb-4">As a tool for creating diagrams and visualisations using plain text, <a href="https://mermaid.js.org/" className="underline">Mermaid</a> is ideally suited for transforming the outputs of large language models (LLMs) into structured formats.</p>
           <Button asChild className="w-full">
-            <a href="https://mermaid.smallepic.com/">
+            <a href="https://mermaid.smallepic.com/" target="_blank" rel="noopener noreferrer">
               Check Out Mermaid Viewer
             </a>
           </Button>
@@ -412,7 +487,7 @@ export default function Home() {
             <Badge variant="secondary">Github Pages</Badge>
           </div>
           <Button asChild className="w-full">
-            <a href="http://filmsandconversations.com/">
+            <a href="http://filmsandconversations.com/" target="_blank" rel="noopener noreferrer">
               Check Out Films & Conversations
             </a>
           </Button>
@@ -430,7 +505,7 @@ export default function Home() {
             <Badge variant="secondary">Github Pages</Badge>
           </div>
           <Button asChild className="w-full">
-            <a href="http://booksandconversations.com/">
+            <a href="http://booksandconversations.com/" target="_blank" rel="noopener noreferrer">
               Check Out Books & Conversations
             </a>
           </Button>
