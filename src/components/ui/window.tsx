@@ -3,6 +3,7 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { X, Grid3x3, List } from "lucide-react"
+import { analytics } from "@/lib/analytics"
 
 // Track window order and focus state for all windows
 interface StackEntry {
@@ -244,7 +245,20 @@ const WindowTitle: React.FC<WindowTitleProps> = ({
               return (
                 <button
                   key={view}
-                  onClick={() => setActiveView(view)}
+                  onClick={() => {
+                    const previousView = activeView;
+                    setActiveView(view);
+                    
+                    // Track view change if it's different
+                    if (previousView !== view && (view === 'icon' || view === 'list')) {
+                      analytics.trackWindowViewChange({
+                        window_type: 'experience', // This should be dynamic based on window
+                        window_id: 'window', // This should be dynamic based on window
+                        from_view: previousView as 'icon' | 'list',
+                        to_view: view as 'icon' | 'list'
+                      });
+                    }
+                  }}
                   className={cn(
                     "p-1 rounded-[0.25rem] transition-colors",
                     activeView === view
