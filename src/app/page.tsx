@@ -61,7 +61,7 @@ export default function Home() {
     setShow: (show: boolean) => void,
     ref: React.RefObject<WindowRef | null>
   ) => {
-    track("window_open", { name });
+    track("window_open", { id: name });
     setShow(true);
     // Use setTimeout to ensure the window is rendered before bringing to front
     setTimeout(() => {
@@ -70,7 +70,7 @@ export default function Home() {
   };
 
   const closeWindow = (name: string, setShow: (show: boolean) => void) => {
-    track("window_close", { name });
+    track("window_close", { id: name });
     setShow(false);
   };
 
@@ -140,25 +140,25 @@ export default function Home() {
           <MenubarTrigger>Contact</MenubarTrigger>
           <MenubarContent>
             <MenubarItem asChild>
-              <a href="mailto:john@smallepic.com" onClick={() => track("link_open", { name: "contact_email" })}>
+              <a href="mailto:john@smallepic.com" onClick={() => track("link_open", { id: "contact_email", url: "mailto:john@smallepic.com" })}>
                 <Mail className="mr-2 h-4 w-4" />
                 Email
               </a>
             </MenubarItem>
             <MenubarItem asChild>
-              <a href="https://www.linkedin.com/in/jngo/" onClick={() => track("link_open", { name: "contact_linkedin" })}>
+              <a href="https://www.linkedin.com/in/jngo/" onClick={() => track("link_open", { id: "contact_linkedin", url: "https://www.linkedin.com/in/jngo/" })}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide mr-2 h-4 w-4"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
                 LinkedIn
               </a>
             </MenubarItem>
             <MenubarItem asChild>
-              <a href="https://github.com/jngo" onClick={() => track("link_open", { name: "contact_github" })}>
+              <a href="https://github.com/jngo" onClick={() => track("link_open", { id: "contact_github", url: "https://github.com/jngo" })}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide mr-2 h-4 w-4"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
                 GitHub
               </a>
             </MenubarItem>
             <MenubarItem asChild>
-              <a href="https://twitter.com/jngo" onClick={() => track("link_open", { name: "contact_twitter" })}>
+              <a href="https://twitter.com/jngo" onClick={() => track("link_open", { id: "contact_twitter", url: "https://twitter.com/jngo" })}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide mr-2 h-4 w-4"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
                 Twitter
               </a>
@@ -292,7 +292,7 @@ export default function Home() {
         <Window name="contact" ref={contactRef} className="w-1/2 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("contact", setShowContact)}>
         <WindowTitle>Reach Out</WindowTitle>
         <WindowContent>
-          <p>Send me an <a href="mailto:john@smallepic.com" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { name: "contact_email" })}>email</a>, or find me on <a href="https://www.linkedin.com/in/jngo/" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { name: "contact_linkedin" })}>LinkedIn</a>, <a href="https://github.com/jngo" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { name: "contact_github" })}>GitHub</a>, or <a href="https://twitter.com/jngo" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { name: "contact_twitter" })}>Twitter</a>.</p>
+          <p>Send me an <a href="mailto:john@smallepic.com" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "contact_email", url: "mailto:john@smallepic.com" })}>email</a>, or find me on <a href="https://www.linkedin.com/in/jngo/" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "contact_linkedin", url: "https://www.linkedin.com/in/jngo/" })}>LinkedIn</a>, <a href="https://github.com/jngo" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "contact_github", url: "https://github.com/jngo" })}>GitHub</a>, or <a href="https://twitter.com/jngo" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "contact_twitter", url: "https://twitter.com/jngo" })}>Twitter</a>.</p>
         </WindowContent>
       </Window>
       )}
@@ -302,7 +302,7 @@ export default function Home() {
         <WindowTitle>McKinsey & Company</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2021–Present</p>
-          <p className="font-serif text-xl mb-4">I’m currently leading design across digital transformation initiatives at <a href="https://www.mckinsey.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { name: "mckinsey_and_company_site" })}>McKinsey & Company</a>.</p>
+          <p className="font-serif text-xl mb-4">I’m currently leading design across digital transformation initiatives at <a href="https://www.mckinsey.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "mckinsey_and_company_site", url: "https://www.mckinsey.com/" })}>McKinsey & Company</a>.</p>
           <p>Leading a design team of three for a flagship product experience serving the daily visual graphics needs for management consultants across the Firm. I balance strategic leadership with hands-on design execution, bridging user experience and technical implementation across multiple initiatives.</p>
         </WindowContent>
       </Window>
@@ -313,7 +313,7 @@ export default function Home() {
         <WindowTitle>UP42</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2019–2021</p>
-          <p className="font-serif text-xl mb-4">I established design practice and launched several keystone projects at <a href="https://www.up42.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { name: "up42_site" })}>UP42</a>.</p>
+          <p className="font-serif text-xl mb-4">I established design practice and launched several keystone projects at <a href="https://www.up42.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "up42_site", url: "https://www.up42.com/" })}>UP42</a>.</p>
           <p className="mb-4">As the first design hire within the Airbus Defence and Space subsidiary, I established design practice within the organisation.</p>
           <p className="mb-4">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques—to ensure decisions were made with the best data and insights at hand.</p>
           <p className="mb-4">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
@@ -321,7 +321,7 @@ export default function Home() {
             <FileVideo strokeWidth={0.8} className="size-12"/>
             <span>documentation-hub.mp4</span>
           </button>
-          <a href="https://up42.com/blog/rethinking-our-documentation-experience" target="_blank" rel="noopener noreferrer" className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center" onClick={() => track("link_open", { name: "up42_blog_documentation_experience" })}>
+          <a href="https://up42.com/blog/rethinking-our-documentation-experience" target="_blank" rel="noopener noreferrer" className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center" onClick={() => track("link_open", { id: "up42_blog_documentation_experience", url: "https://up42.com/blog/rethinking-our-documentation-experience" })}>
             <FileSymlink strokeWidth={0.8} className="size-12"/>
             <span>documentation-experience.url</span>
           </a>
@@ -398,7 +398,7 @@ export default function Home() {
         <WindowTitle>Candis</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2017–2019</p>
-          <p className="font-serif text-xl mb-2">I was a design team of one, hands-on from research to frontend at <a href="https://www.candis.io/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { name: "candis_site" })}>Candis</a>.</p>
+          <p className="font-serif text-xl mb-2">I was a design team of one, hands-on from research to frontend at <a href="https://www.candis.io/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "candis_site", url: "https://www.candis.io/" })}>Candis</a>.</p>
           <p className="mb-2">As a single person design team, I was responsible for user experience across the portfolio of products at Candis. Practically speaking, I conducted user research, produced design concepts and prototypes, documented epics and user stories, and contributed UI enhancements to the React codebase.</p>
           <p>I also led the initiative to scale design to meet the needs of a growing engineering team through the development of a design system that served as the style guide and component library for current and future Candis products.</p>
         </WindowContent>
@@ -410,7 +410,7 @@ export default function Home() {
         <WindowTitle>Urban Sports Club</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2015</p>
-          <p className="font-serif text-xl mb-2">I helped lay the technical and product foundations for European expansion at <a href="https://urbansportsclub.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { name: "urban_sports_club_site" })}>Urban Sports Club</a>.</p>
+          <p className="font-serif text-xl mb-2">I helped lay the technical and product foundations for European expansion at <a href="https://urbansportsclub.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "urban_sports_club_site", url: "https://urbansportsclub.com/" })}>Urban Sports Club</a>.</p>
           <p className="mb-2">I played a key technical leadership and product design role, responsible for the digital transformation of key technical infrastructure and the venue check-in experience. My achievements were instrumental to the ambitious expansion of the flat-rate sports membership from Berlin into over 88 cities and 8,000 sporting venues.</p>
           <p>My key achievement was leading the delivery team, where I designed the REST API specification and mobile app experiences. Within three months, we replaced the existing manual membership card and log sheet processes with an API and mobile apps enabling members to check-in with their iOS and Android devices.</p>
         </WindowContent>
@@ -432,7 +432,7 @@ export default function Home() {
             <Badge variant="secondary">Vercel</Badge>
           </div>
           <Button asChild className="w-full">
-            <a href="https://synthesiser.smallepic.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { name: "synthesiser_site" })}>
+            <a href="https://synthesiser.smallepic.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { id: "synthesiser_site", url: "https://synthesiser.smallepic.com/" })}>
               Check Out Synthesiser
             </a>
           </Button>
@@ -459,7 +459,7 @@ export default function Home() {
           <p className="mb-4">After trying a few different apps, I decided to build a simple podcast transcriber to streamline my workflow from listening to synthesizing notes.</p>
           <p className="mb-4">Instead of pausing and transcribing by hand, I just drop in an Apple Podcasts URL, and it generates a transcript for me. It’s integrated with Readwise Reader, so I can highlight key insights and have everything synced to my Obsidian notes.</p>
           <Button asChild className="w-full">
-            <a href="https://podscriber.smallepic.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { name: "podscriber_site" })}>
+            <a href="https://podscriber.smallepic.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { id: "podscriber_site", url: "https://podscriber.smallepic.com/" })}>
               Check Out Podscriber
             </a>
           </Button>
@@ -482,9 +482,9 @@ export default function Home() {
             <Badge variant="secondary">Vercel</Badge>
           </div>
           <p className="mb-4"><strong>Mermaid Viewer</strong> was born out of the need for a simple, mobile-friendly viewer for the mountains of Mermaid diagrams coming out of my ChatGPT sessions.</p>
-          <p className="mb-4">As a tool for creating diagrams and visualisations using plain text, <a href="https://mermaid.js.org/" className="underline" onClick={() => track("link_open", { name: "mermaid_js_docs" })}>Mermaid</a> is ideally suited for transforming the outputs of large language models (LLMs) into structured formats.</p>
+          <p className="mb-4">As a tool for creating diagrams and visualisations using plain text, <a href="https://mermaid.js.org/" className="underline" onClick={() => track("link_open", { id: "mermaid_js_docs", url: "https://mermaid.js.org/" })}>Mermaid</a> is ideally suited for transforming the outputs of large language models (LLMs) into structured formats.</p>
           <Button asChild className="w-full">
-            <a href="https://mermaid.smallepic.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { name: "mermaid_viewer_site" })}>
+            <a href="https://mermaid.smallepic.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { id: "mermaid_viewer_site", url: "https://mermaid.smallepic.com/" })}>
               Check Out Mermaid Viewer
             </a>
           </Button>
@@ -502,7 +502,7 @@ export default function Home() {
             <Badge variant="secondary">Github Pages</Badge>
           </div>
           <Button asChild className="w-full">
-            <a href="http://filmsandconversations.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { name: "films_and_conversations_site" })}>
+            <a href="http://filmsandconversations.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { id: "films_and_conversations_site", url: "http://filmsandconversations.com/" })}>
               Check Out Films & Conversations
             </a>
           </Button>
@@ -520,7 +520,7 @@ export default function Home() {
             <Badge variant="secondary">Github Pages</Badge>
           </div>
           <Button asChild className="w-full">
-            <a href="http://booksandconversations.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { name: "books_and_conversations_site" })}>
+            <a href="http://booksandconversations.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { id: "books_and_conversations_site", url: "http://booksandconversations.com/" })}>
               Check Out Books & Conversations
             </a>
           </Button>

@@ -248,7 +248,7 @@ const WindowTitle: React.FC<WindowTitleProps> = ({
                 <button
                   key={view}
                   onClick={() => {
-                    track("window_view_set", { name: windowName, view })
+                    track("window_change_view", { id: windowName, view })
                     setActiveView(view)
                   }}
                   className={cn(

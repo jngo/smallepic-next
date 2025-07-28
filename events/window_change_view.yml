@@ -1,0 +1,12 @@
+name: window_change_view
+version: 1
+description: User selects a new view within a window.
+required_props: [id, view]
+props:
+  id:
+    type: string
+  view:
+    type: string
+context: [user_id, session_id, page]
+notes: >
+  Use when a view button is explicitly selected.
