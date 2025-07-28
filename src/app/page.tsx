@@ -32,6 +32,7 @@ export default function Home() {
   const [showDocumentationHub, setShowDocumentationHub] = useState(false);
   const [showCatalogSearchPrototype, setShowCatalogSearchPrototype] = useState(false);
   const [showCatalogSearchPresentation, setShowCatalogSearchPresentation] = useState(false);
+  const [showMarketingWebsitePresentation, setShowMarketingWebsitePresentation] = useState(false);
   const [showGISOS, setShowGISOS] = useState(false);
   const [showCandis, setShowCandis] = useState(false);
   const [showUrbanSportsClub, setShowUrbanSportsClub] = useState(false);
@@ -51,6 +52,7 @@ export default function Home() {
   const documentationHubRef = useRef<WindowRef>(null);
   const catalogSearchPrototypeRef = useRef<WindowRef>(null);
   const catalogSearchPresentationRef = useRef<WindowRef>(null);
+  const marketingWebsitePresentationRef = useRef<WindowRef>(null);
   const GISOSRef = useRef<WindowRef>(null);
   const candisRef = useRef<WindowRef>(null);
   const urbanSportsClubRef = useRef<WindowRef>(null);
@@ -333,6 +335,10 @@ export default function Home() {
             <FileBox strokeWidth={0.8} className="size-12"/>
             <span>catalog-search-prototype.figma</span>
           </button>
+          <button onClick={() => showWindow("marketing_website_presentation", setShowMarketingWebsitePresentation, marketingWebsitePresentationRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+            <FileChartPie strokeWidth={0.8} className="size-12"/>
+            <span>marketing-website-case-study.figma</span>
+          </button>
           <button onClick={() => showWindow("gis_os", setShowGISOS, GISOSRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileBox strokeWidth={0.8} className="size-12"/>
             <span>gis-os.figma</span>
@@ -373,6 +379,19 @@ export default function Home() {
         <WindowContent className="p-0">
           <iframe
             src="https://embed.figma.com/proto/DxUQrLPUFJap2u8FoYLxMe/UP%E2%81%B4%C2%B2-%C2%B7-Catalog-Search?node-id=432-1054&viewport=179%2C205%2C0.133953258395195&scaling=contain&content-scaling=fixed&embed-host=smallepic&hide_ui=1&footer=false&theme=system"
+            allowFullScreen
+            className="w-full h-full"
+            />
+        </WindowContent>
+      </Window>
+      )}
+
+      {showMarketingWebsitePresentation && (
+      <Window ref={marketingWebsitePresentationRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMarketingWebsitePresentation(false)}>
+        <WindowTitle>Case Study — Marketing Website</WindowTitle>
+        <WindowContent className="p-0">
+          <iframe
+            src="https://embed.figma.com/proto/xcEAPzkwk5kSrzEJJXSrc8/Case-Study-%C2%B7-Marketing-Website?page-id=&node-id=1-344&viewport=533%2C-1156%2C0.25&scaling=contain&content-scaling=fixed&embed-host=smallepic&hide_ui=1&footer=false&theme=system"
             allowFullScreen
             className="w-full h-full"
             />
