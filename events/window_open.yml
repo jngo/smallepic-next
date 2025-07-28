@@ -1,0 +1,11 @@
+name: window_open
+version: 1
+description: User opens a desktop window.
+required_props: [name]
+props:
+  name:
+    type: enum
+    values: [about, experience, random, contact, mermaid_viewer, podscriber, synthesiser, films_and_conversations, books_and_conversations, mckinsey_and_company, up42, documentation_hub, catalog_search_presentation, catalog_search_prototype, gis_os, candis, urban_sports_club]
+context: [user_id, session_id, page]
+notes: >
+  Triggered whenever a window becomes visible via the menu or another window.

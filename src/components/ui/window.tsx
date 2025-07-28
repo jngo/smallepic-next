@@ -3,6 +3,7 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { X, Grid3x3, List } from "lucide-react"
+import { track } from "@vercel/analytics"
 
 // Track window order and focus state for all windows
 interface StackEntry {
@@ -26,6 +27,7 @@ interface WindowContextValue {
   setActiveView: (view: string) => void
   availableViews: string[]
   focused: boolean
+  windowName: string
 }
 
 const WindowContext = React.createContext<WindowContextValue | null>(null)
@@ -40,6 +42,7 @@ const useWindowContext = () => {
 
 // Main Window component props
 interface WindowProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
+  name: string
   onClose?: () => void
   defaultView?: string
   viewSizes?: Record<string, string>
@@ -50,7 +53,7 @@ export interface WindowRef {
 }
 
 const Window = React.forwardRef<WindowRef, WindowProps>(
-  ({ className, children, style, onClose, defaultView, viewSizes, ...props }, ref) => {
+  ({ name, className, children, style, onClose, defaultView, viewSizes, ...props }, ref) => {
     const [position, setPosition] = React.useState<{ x: number; y: number } | null>(null)
     const [zIndex, setZIndex] = React.useState(10)
     const [focused, setFocused] = React.useState(false)
@@ -156,7 +159,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
         onClick={bringToFront}
         {...props}
       >
-        <WindowContext.Provider value={{ activeView, setActiveView, availableViews, focused }}>
+        <WindowContext.Provider value={{ activeView, setActiveView, availableViews, focused, windowName: name }}>
           {React.Children.map(children, (child) => {
             if (React.isValidElement(child) && child.type === WindowTitle) {
               return React.cloneElement(child, {
@@ -194,7 +197,7 @@ const WindowTitle: React.FC<WindowTitleProps> = ({
   onClose,
   dragging
 }) => {
-  const { activeView, setActiveView, availableViews, focused } = useWindowContext()
+  const { activeView, setActiveView, availableViews, focused, windowName } = useWindowContext()
 
   const getViewIcon = (view: string) => {
     switch (view) {
@@ -244,7 +247,10 @@ const WindowTitle: React.FC<WindowTitleProps> = ({
               return (
                 <button
                   key={view}
-                  onClick={() => setActiveView(view)}
+                  onClick={() => {
+                    track("window_view_set", { name: windowName, view })
+                    setActiveView(view)
+                  }}
                   className={cn(
                     "p-1 rounded-[0.25rem] transition-colors",
                     activeView === view

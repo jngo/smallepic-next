@@ -1,0 +1,14 @@
+name: window_view_set
+version: 1
+description: User sets the active view of a window.
+required_props: [name, view]
+props:
+  name:
+    type: enum
+    values: [about, experience, random, contact, mermaid_viewer, podscriber, synthesiser, films_and_conversations, books_and_conversations, mckinsey_and_company, up42, documentation_hub, catalog_search_presentation, catalog_search_prototype, gis_os, candis, urban_sports_club]
+  view:
+    type: enum
+    values: [icon, list, default]
+context: [user_id, session_id, page]
+notes: >
+  Use when a view button is explicitly selected.

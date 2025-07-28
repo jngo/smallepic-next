@@ -1,0 +1,11 @@
+name: link_open
+version: 1
+description: User opens an external link.
+required_props: [name]
+props:
+  name:
+    type: enum
+    values: [contact_email, contact_linkedin, contact_github, contact_twitter, mckinsey_and_company_site, up42_site, up42_blog_documentation_experience, candis_site, urban_sports_club_site, synthesiser_site, podscriber_site, mermaid_js_docs, mermaid_viewer_site, films_and_conversations_site, books_and_conversations_site]
+context: [user_id, session_id, page]
+notes: >
+  Captures outbound link clicks across the site.
