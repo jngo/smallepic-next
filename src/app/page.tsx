@@ -387,7 +387,7 @@ export default function Home() {
       )}
 
       {showMarketingWebsitePresentation && (
-      <Window ref={marketingWebsitePresentationRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMarketingWebsitePresentation(false)}>
+      <Window id="marketing_website_presentation" ref={marketingWebsitePresentationRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMarketingWebsitePresentation(false)}>
         <WindowTitle>Case Study — Marketing Website</WindowTitle>
         <WindowContent className="p-0">
           <iframe
