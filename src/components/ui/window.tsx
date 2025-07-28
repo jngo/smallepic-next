@@ -27,7 +27,7 @@ interface WindowContextValue {
   setActiveView: (view: string) => void
   availableViews: string[]
   focused: boolean
-  windowName: string
+  id: string
 }
 
 const WindowContext = React.createContext<WindowContextValue | null>(null)
@@ -42,7 +42,7 @@ const useWindowContext = () => {
 
 // Main Window component props
 interface WindowProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
-  name: string
+  id: string
   onClose?: () => void
   defaultView?: string
   viewSizes?: Record<string, string>
@@ -53,7 +53,7 @@ export interface WindowRef {
 }
 
 const Window = React.forwardRef<WindowRef, WindowProps>(
-  ({ name, className, children, style, onClose, defaultView, viewSizes, ...props }, ref) => {
+  ({ id, className, children, style, onClose, defaultView, viewSizes, ...props }, ref) => {
     const [position, setPosition] = React.useState<{ x: number; y: number } | null>(null)
     const [zIndex, setZIndex] = React.useState(10)
     const [focused, setFocused] = React.useState(false)
@@ -159,7 +159,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
         onClick={bringToFront}
         {...props}
       >
-        <WindowContext.Provider value={{ activeView, setActiveView, availableViews, focused, windowName: name }}>
+        <WindowContext.Provider value={{ activeView, setActiveView, availableViews, focused, id }}>
           {React.Children.map(children, (child) => {
             if (React.isValidElement(child) && child.type === WindowTitle) {
               return React.cloneElement(child, {
@@ -197,7 +197,7 @@ const WindowTitle: React.FC<WindowTitleProps> = ({
   onClose,
   dragging
 }) => {
-  const { activeView, setActiveView, availableViews, focused, windowName } = useWindowContext()
+  const { activeView, setActiveView, availableViews, focused, id } = useWindowContext()
 
   const getViewIcon = (view: string) => {
     switch (view) {
@@ -248,7 +248,7 @@ const WindowTitle: React.FC<WindowTitleProps> = ({
                 <button
                   key={view}
                   onClick={() => {
-                    track("window_change_view", { id: windowName, view })
+                    track("window_change_view", { id, view })
                     setActiveView(view)
                   }}
                   className={cn(

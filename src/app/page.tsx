@@ -57,11 +57,11 @@ export default function Home() {
 
   // Helper function to show window and bring to front
   const showWindow = (
-    name: string,
+    id: string,
     setShow: (show: boolean) => void,
     ref: React.RefObject<WindowRef | null>
   ) => {
-    track("window_open", { id: name });
+    track("window_open", { id });
     setShow(true);
     // Use setTimeout to ensure the window is rendered before bringing to front
     setTimeout(() => {
@@ -69,8 +69,8 @@ export default function Home() {
     }, 0);
   };
 
-  const closeWindow = (name: string, setShow: (show: boolean) => void) => {
-    track("window_close", { id: name });
+  const closeWindow = (id: string, setShow: (show: boolean) => void) => {
+    track("window_close", { id });
     setShow(false);
   };
 
@@ -171,7 +171,7 @@ export default function Home() {
 
 
       {showRandom && (
-        <Window name="random" ref={randomRef} defaultView="list" className="w-210 left-4 top-14" onClose={() => closeWindow("random", setShowRandom)}>
+        <Window id="random" ref={randomRef} defaultView="list" className="w-210 left-4 top-14" onClose={() => closeWindow("random", setShowRandom)}>
         <WindowTitle>Random</WindowTitle>
 
         <WindowContent view="icon">
@@ -225,7 +225,7 @@ export default function Home() {
       )}
 
       {showExperience && (
-      <Window name="experience" ref={experienceRef} defaultView="icon" className="w-210 left-16 top-30" onClose={() => closeWindow("experience", setShowExperience)}>
+      <Window id="experience" ref={experienceRef} defaultView="icon" className="w-210 left-16 top-30" onClose={() => closeWindow("experience", setShowExperience)}>
         <WindowTitle>Experience</WindowTitle>
 
         <WindowContent view="icon">
@@ -275,7 +275,7 @@ export default function Home() {
       )}
 
       {showAbout && (
-        <Window name="about" ref={aboutRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("about", setShowAbout)}>
+        <Window id="about" ref={aboutRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("about", setShowAbout)}>
         <WindowTitle>About</WindowTitle>
         <WindowContent>
           <h1 className="text-4xl font-bold mt-6 mb-6">
@@ -289,7 +289,7 @@ export default function Home() {
       )}
 
       {showContact && (
-        <Window name="contact" ref={contactRef} className="w-1/2 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("contact", setShowContact)}>
+        <Window id="contact" ref={contactRef} className="w-1/2 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("contact", setShowContact)}>
         <WindowTitle>Reach Out</WindowTitle>
         <WindowContent>
           <p>Send me an <a href="mailto:john@smallepic.com" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "contact_email", url: "mailto:john@smallepic.com" })}>email</a>, or find me on <a href="https://www.linkedin.com/in/jngo/" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "contact_linkedin", url: "https://www.linkedin.com/in/jngo/" })}>LinkedIn</a>, <a href="https://github.com/jngo" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "contact_github", url: "https://github.com/jngo" })}>GitHub</a>, or <a href="https://twitter.com/jngo" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "contact_twitter", url: "https://twitter.com/jngo" })}>Twitter</a>.</p>
@@ -298,7 +298,7 @@ export default function Home() {
       )}
 
       {showMcKinseyAndCompany && (
-      <Window name="mckinsey_and_company" ref={mckinseyAndCompanyRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("mckinsey_and_company", setShowMcKinseyAndCompany)}>
+      <Window id="mckinsey_and_company" ref={mckinseyAndCompanyRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("mckinsey_and_company", setShowMcKinseyAndCompany)}>
         <WindowTitle>McKinsey & Company</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2021–Present</p>
@@ -309,7 +309,7 @@ export default function Home() {
       )}
 
       {showUP42 && (
-      <Window name="up42" ref={up42Ref} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("up42", setShowUP42)}>
+      <Window id="up42" ref={up42Ref} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("up42", setShowUP42)}>
         <WindowTitle>UP42</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2019–2021</p>
@@ -342,7 +342,7 @@ export default function Home() {
       )}
 
       {showDocumentationHub && (
-      <Window name="documentation_hub" ref={documentationHubRef} className="w-200 aspect-16/9 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("documentation_hub", setShowDocumentationHub)}>
+      <Window id="documentation_hub" ref={documentationHubRef} className="w-200 aspect-16/9 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("documentation_hub", setShowDocumentationHub)}>
         <WindowTitle>Documentation Hub</WindowTitle>
         <WindowContent className="p-0">
           <iframe
@@ -355,7 +355,7 @@ export default function Home() {
       )}
 
       {showCatalogSearchPresentation && (
-        <Window name="catalog_search_presentation" ref={catalogSearchPresentationRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("catalog_search_presentation", setShowCatalogSearchPresentation)}>
+        <Window id="catalog_search_presentation" ref={catalogSearchPresentationRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("catalog_search_presentation", setShowCatalogSearchPresentation)}>
         <WindowTitle>Case Study — Catalog Search</WindowTitle>
         <WindowContent className="p-0">
           <iframe
@@ -368,7 +368,7 @@ export default function Home() {
       )}
 
       {showCatalogSearchPrototype && (
-      <Window name="catalog_search_prototype" ref={catalogSearchPrototypeRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("catalog_search_prototype", setShowCatalogSearchPrototype)}>
+      <Window id="catalog_search_prototype" ref={catalogSearchPrototypeRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("catalog_search_prototype", setShowCatalogSearchPrototype)}>
         <WindowTitle>Prototype — Catalog Search</WindowTitle>
         <WindowContent className="p-0">
           <iframe
@@ -381,7 +381,7 @@ export default function Home() {
       )}
 
       {showGISOS && (
-      <Window name="gis_os" ref={GISOSRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("gis_os", setShowGISOS)}>
+      <Window id="gis_os" ref={GISOSRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("gis_os", setShowGISOS)}>
         <WindowTitle>GIS OS</WindowTitle>
         <WindowContent className="p-0">
           <iframe
@@ -394,7 +394,7 @@ export default function Home() {
       )}
 
       {showCandis && (
-      <Window name="candis" ref={candisRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("candis", setShowCandis)}>
+      <Window id="candis" ref={candisRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("candis", setShowCandis)}>
         <WindowTitle>Candis</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2017–2019</p>
@@ -406,7 +406,7 @@ export default function Home() {
       )}
 
       {showUrbanSportsClub && (
-      <Window name="urban_sports_club" ref={urbanSportsClubRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("urban_sports_club", setShowUrbanSportsClub)}>
+      <Window id="urban_sports_club" ref={urbanSportsClubRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("urban_sports_club", setShowUrbanSportsClub)}>
         <WindowTitle>Urban Sports Club</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2015</p>
@@ -418,7 +418,7 @@ export default function Home() {
       )}
 
       {showSynthesiser && (
-      <Window name="synthesiser" ref={synthesiserRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("synthesiser", setShowSynthesiser)}>
+      <Window id="synthesiser" ref={synthesiserRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("synthesiser", setShowSynthesiser)}>
         <WindowTitle>Synthesiser</WindowTitle>
         <WindowContent>
           <p className="font-serif text-xl mb-2">Generate a Minto Pyramid synthesis of any content.</p>
@@ -441,7 +441,7 @@ export default function Home() {
       )}
 
       {showPodscriber && (
-      <Window name="podscriber" ref={podscriberRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("podscriber", setShowPodscriber)}>
+      <Window id="podscriber" ref={podscriberRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("podscriber", setShowPodscriber)}>
         <WindowTitle>Podscriber</WindowTitle>
         <WindowContent>
           <Image src="/podscriber.gif" alt="Podscriber" width={480} height={1040} className="w-1/2 h-auto mx-auto mb-4" />
@@ -468,7 +468,7 @@ export default function Home() {
       )}
 
       {showMermaidViewer && (
-      <Window name="mermaid_viewer" ref={mermaidViewerRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("mermaid_viewer", setShowMermaidViewer)}>
+      <Window id="mermaid_viewer" ref={mermaidViewerRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("mermaid_viewer", setShowMermaidViewer)}>
         <WindowTitle>Mermaid Viewer</WindowTitle>
         <WindowContent>
           <Image src="/mermaid-viewer.png" alt="Mermaid Viewer" width={400} height={300} className="w-full h-auto mb-4" />
@@ -493,7 +493,7 @@ export default function Home() {
       )}
 
       {showFilmsAndConversations && (
-      <Window name="films_and_conversations" ref={filmsAndConversationsRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("films_and_conversations", setShowFilmsAndConversations)}>
+      <Window id="films_and_conversations" ref={filmsAndConversationsRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("films_and_conversations", setShowFilmsAndConversations)}>
         <WindowTitle>Films & Conversations</WindowTitle>
         <WindowContent>
           <p className="font-serif text-xl mb-2">A monthly film club bringing together people, documentaries, and discussions.</p>
@@ -511,7 +511,7 @@ export default function Home() {
       )}
 
       {showBooksAndConversations && (
-      <Window name="books_and_conversations" ref={booksAndConversationsRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("books_and_conversations", setShowBooksAndConversations)}>
+      <Window id="books_and_conversations" ref={booksAndConversationsRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("books_and_conversations", setShowBooksAndConversations)}>
         <WindowTitle>Books & Conversations</WindowTitle>
         <WindowContent>
           <p className="font-serif text-lg mb-2">Roundtable discussions with good friends and great books.</p>
