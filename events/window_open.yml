@@ -1,0 +1,12 @@
+name: window_open
+version: 1
+description: User opens a desktop window.
+required_props: [id]
+props:
+  id:
+    type: string
+  origin:
+    type: string
+context: [user_id, session_id, page]
+notes: >
+  Triggered whenever a window becomes visible via the menu or another window.

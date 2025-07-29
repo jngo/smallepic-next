@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useRef } from "react";
+import { track } from "@vercel/analytics";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Window, WindowRef, WindowTitle, WindowContent } from "@/components/ui/window";
@@ -28,11 +29,11 @@ export default function Home() {
   const [showBooksAndConversations, setShowBooksAndConversations] = useState(false);
   const [showMcKinseyAndCompany, setShowMcKinseyAndCompany] = useState(false);
   const [showUP42, setShowUP42] = useState(false);
-  const [showDocumentationHub, setShowDocumentationHub] = useState(false);
+  const [showDocumentationHubPresentation, setShowDocumentationHubPresentation] = useState(false);
   const [showCatalogSearchPrototype, setShowCatalogSearchPrototype] = useState(false);
-  const [showCatalogSearchPresentation, setShowCatalogSearchPresentation] = useState(false);
-  const [showMarketingWebsitePresentation, setShowMarketingWebsitePresentation] = useState(false);
-  const [showGISOS, setShowGISOS] = useState(false);
+  const [showCatalogSearchCaseStudy, setShowCatalogSearchCaseStudy] = useState(false);
+  const [showMarketingWebsiteCaseStudy, setShowMarketingWebsiteCaseStudy] = useState(false);
+  const [showGISOSPrototype, setShowGISOSPrototype] = useState(false);
   const [showCandis, setShowCandis] = useState(false);
   const [showUrbanSportsClub, setShowUrbanSportsClub] = useState(false);
 
@@ -48,21 +49,32 @@ export default function Home() {
   const booksAndConversationsRef = useRef<WindowRef>(null);
   const mckinseyAndCompanyRef = useRef<WindowRef>(null);
   const up42Ref = useRef<WindowRef>(null);
-  const documentationHubRef = useRef<WindowRef>(null);
+  const documentationHubPresentationRef = useRef<WindowRef>(null);
   const catalogSearchPrototypeRef = useRef<WindowRef>(null);
-  const catalogSearchPresentationRef = useRef<WindowRef>(null);
-  const marketingWebsitePresentationRef = useRef<WindowRef>(null);
-  const GISOSRef = useRef<WindowRef>(null);
+  const catalogSearchCaseStudyRef = useRef<WindowRef>(null);
+  const marketingWebsiteCaseStudyRef = useRef<WindowRef>(null);
+  const GISOSPrototypeRef = useRef<WindowRef>(null);
   const candisRef = useRef<WindowRef>(null);
   const urbanSportsClubRef = useRef<WindowRef>(null);
 
   // Helper function to show window and bring to front
-  const showWindow = (setShow: (show: boolean) => void, ref: React.RefObject<WindowRef | null>) => {
+  const showWindow = (
+    id: string,
+    origin: string,
+    setShow: (show: boolean) => void,
+    ref: React.RefObject<WindowRef | null>
+  ) => {
+    track("window_open", { id, origin });
     setShow(true);
     // Use setTimeout to ensure the window is rendered before bringing to front
     setTimeout(() => {
       ref.current?.bringToFront();
     }, 0);
+  };
+
+  const closeWindow = (id: string, setShow: (show: boolean) => void) => {
+    track("window_close", { id });
+    setShow(false);
   };
 
   return (
@@ -71,28 +83,28 @@ export default function Home() {
         <MenubarMenu>
           <MenubarTrigger className="font-bold">John Ngo</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow(setShowAbout, aboutRef)}>About</MenubarItem>
+            <MenubarItem onClick={() => showWindow("about", "menubar", setShowAbout, aboutRef)}>About</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
         <MenubarMenu>
           <MenubarTrigger>Experience</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow(setShowExperience, experienceRef)}>View All</MenubarItem>
+            <MenubarItem onClick={() => showWindow("experience", "menubar", setShowExperience, experienceRef)}>View All</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)}>
+            <MenubarItem onClick={() => showWindow("mckinsey_and_company", "menubar", setShowMcKinseyAndCompany, mckinseyAndCompanyRef)}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>McKinsey & Company</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow(setShowUP42, up42Ref)}>
+            <MenubarItem onClick={() => showWindow("up42", "menubar", setShowUP42, up42Ref)}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>UP42</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow(setShowCandis, candisRef)}>
+            <MenubarItem onClick={() => showWindow("candis", "menubar", setShowCandis, candisRef)}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>Candis</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)}>
+            <MenubarItem onClick={() => showWindow("urban_sports_club", "menubar", setShowUrbanSportsClub, urbanSportsClubRef)}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>Urban Sports Club</span>
             </MenubarItem>
@@ -102,25 +114,25 @@ export default function Home() {
         <MenubarMenu>
           <MenubarTrigger>Random</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow(setShowRandom, randomRef)}>View All</MenubarItem>
+            <MenubarItem onClick={() => showWindow("random", "menubar", setShowRandom, randomRef)}>View All</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem onClick={() => showWindow(setShowSynthesiser, synthesiserRef)}>
+            <MenubarItem onClick={() => showWindow("synthesiser", "menubar", setShowSynthesiser, synthesiserRef)}>
               <Network className="mr-2 h-4 w-4" />
               <span>Synthesiser</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow(setShowPodscriber, podscriberRef)}>
+            <MenubarItem onClick={() => showWindow("podscriber", "menubar", setShowPodscriber, podscriberRef)}>
               <Podcast className="mr-2 h-4 w-4" />
               <span>Podscriber</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)}>
+            <MenubarItem onClick={() => showWindow("mermaid_viewer", "menubar", setShowMermaidViewer, mermaidViewerRef)}>
               <ScanText className="mr-2 h-4 w-4" />
               <span>Mermaid Viewer</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)}>
+            <MenubarItem onClick={() => showWindow("films_and_conversations", "menubar", setShowFilmsAndConversations, filmsAndConversationsRef)}>
               <Clapperboard className="mr-2 h-4 w-4" />
               <span>Films & Conversations</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)}>
+            <MenubarItem onClick={() => showWindow("books_and_conversations", "menubar", setShowBooksAndConversations, booksAndConversationsRef)}>
               <LibraryBig className="mr-2 h-4 w-4" />
               <span>Books & Conversations</span>
             </MenubarItem>
@@ -131,25 +143,25 @@ export default function Home() {
           <MenubarTrigger>Contact</MenubarTrigger>
           <MenubarContent>
             <MenubarItem asChild>
-              <a href="mailto:john@smallepic.com">
+              <a href="mailto:john@smallepic.com" onClick={() => track("link_open", { id: "email", url: "mailto:john@smallepic.com" })}>
                 <Mail className="mr-2 h-4 w-4" />
                 Email
               </a>
             </MenubarItem>
             <MenubarItem asChild>
-              <a href="https://www.linkedin.com/in/jngo/">
+              <a href="https://www.linkedin.com/in/jngo/" onClick={() => track("link_open", { id: "linkedin", url: "https://www.linkedin.com/in/jngo/" })}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide mr-2 h-4 w-4"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
                 LinkedIn
               </a>
             </MenubarItem>
             <MenubarItem asChild>
-              <a href="https://github.com/jngo">
+              <a href="https://github.com/jngo" onClick={() => track("link_open", { id: "github", url: "https://github.com/jngo" })}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide mr-2 h-4 w-4"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
                 GitHub
               </a>
             </MenubarItem>
             <MenubarItem asChild>
-              <a href="https://twitter.com/jngo">
+              <a href="https://twitter.com/jngo" onClick={() => track("link_open", { id: "twitter", url: "https://twitter.com/jngo" })}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide mr-2 h-4 w-4"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
                 Twitter
               </a>
@@ -162,27 +174,27 @@ export default function Home() {
 
 
       {showRandom && (
-        <Window ref={randomRef} defaultView="list" className="w-210 left-4 top-14" onClose={() => setShowRandom(false)}>
+        <Window id="random" ref={randomRef} defaultView="list" className="w-210 left-4 top-14" onClose={() => closeWindow("random", setShowRandom)}>
         <WindowTitle>Random</WindowTitle>
 
         <WindowContent view="icon">
-          <button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("synthesiser", "icon", setShowSynthesiser, synthesiserRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <Network strokeWidth={0.8} className="size-12"/>
             <span>synthesiser.html</span>
           </button>
-          <button onClick={() => showWindow(setShowPodscriber, podscriberRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("podscriber", "icon", setShowPodscriber, podscriberRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <Podcast strokeWidth={0.8} className="size-12"/>
             <span>podscriber.html</span>
           </button>
-          <button onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("mermaid_viewer", "icon", setShowMermaidViewer, mermaidViewerRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <ScanText strokeWidth={0.8} className="size-12"/>
             <span>mermaid-viewer.html</span>
           </button>
-          <button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("films_and_conversations", "icon", setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <Clapperboard strokeWidth={0.8} className="size-12"/>
             <span>films-and-conversations.html</span>
           </button>
-          <button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("books_and_conversations", "icon", setShowBooksAndConversations, booksAndConversationsRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <LibraryBig strokeWidth={0.8} className="size-12"/>
             <span>books-and-conversations.html</span>
           </button>
@@ -191,23 +203,23 @@ export default function Home() {
         <WindowContent view="list" className="@container">
           <ul>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 pb-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowSynthesiser, synthesiserRef)} className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("synthesiser", "list", setShowSynthesiser, synthesiserRef)} className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</button></span>
               <span className="grow">Generate a Minto Pyramid synthesis of any content.</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowPodscriber, podscriberRef)} className="text-muted-foreground font-bold hover:bg-muted">Podscriber</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("podscriber", "list", setShowPodscriber, podscriberRef)} className="text-muted-foreground font-bold hover:bg-muted">Podscriber</button></span>
               <span className="grow">Transcribe podcast episodes and send them to your read-it-later queue.</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowMermaidViewer, mermaidViewerRef)} className="text-muted-foreground font-bold hover:bg-muted">Mermaid Viewer</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("mermaid_viewer", "list", setShowMermaidViewer, mermaidViewerRef)} className="text-muted-foreground font-bold hover:bg-muted">Mermaid Viewer</button></span>
               <span className="grow">A lightweight, mobile-friendly Mermaid diagram viewer.</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Films & Conversations</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("films_and_conversations", "list", setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Films & Conversations</button></span>
               <span className="flex-grow">A film club bringing together people, documentaries, and discussions.</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t pt-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowBooksAndConversations, booksAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Books & Conversations</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("books_and_conversations", "list", setShowBooksAndConversations, booksAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Books & Conversations</button></span>
               <span className="grow">Roundtable discussions with good friends and great books.</span>
             </li>
           </ul>
@@ -216,23 +228,23 @@ export default function Home() {
       )}
 
       {showExperience && (
-      <Window ref={experienceRef} defaultView="icon" className="w-210 left-16 top-30" onClose={() => setShowExperience(false)}>
+      <Window id="experience" ref={experienceRef} defaultView="icon" className="w-210 left-16 top-30" onClose={() => closeWindow("experience", setShowExperience)}>
         <WindowTitle>Experience</WindowTitle>
 
         <WindowContent view="icon">
-          <button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("mckinsey_and_company", "icon", setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
             <FileText strokeWidth={0.8} className="size-12"/>
             <span>mckinsey-and-company.html</span>
           </button>
-          <button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("up42", "icon", setShowUP42, up42Ref)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
             <Folder strokeWidth={0.8} className="size-12"/>
             <span>up42</span>
           </button>
-          <button onClick={() => showWindow(setShowCandis, candisRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("candis", "icon", setShowCandis, candisRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
             <FileText strokeWidth={0.8} className="size-12"/>
             <span>candis.html</span>
           </button>
-          <button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("urban_sports_club", "icon", setShowUrbanSportsClub, urbanSportsClubRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
             <FileText strokeWidth={0.8} className="size-12"/>
             <span>urban-sports-club.html</span>
           </button>
@@ -241,22 +253,22 @@ export default function Home() {
         <WindowContent view="list" className="@container">
           <ul>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 pb-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("mckinsey_and_company", "list", setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</button></span>
               <span className="flex-grow">Leading design across digital transformation initiatives.</span>
               <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2021–Present</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowUP42, up42Ref)} className="text-muted-foreground font-bold hover:bg-muted">UP42</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("up42", "list", setShowUP42, up42Ref)} className="text-muted-foreground font-bold hover:bg-muted">UP42</button></span>
               <span className="flex-grow">Established design practice and launched several keystone projects.</span>
               <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2019–2021</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowCandis, candisRef)} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("candis", "list", setShowCandis, candisRef)} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
               <span className="grow">Design team of one, hands-on from research to frontend.</span>
               <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2017–2019</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t pt-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow(setShowUrbanSportsClub, urbanSportsClubRef)} className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("urban_sports_club", "list", setShowUrbanSportsClub, urbanSportsClubRef)} className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</button></span>
               <span className="grow">Laid the technical and product foundations for European expansion.</span>
               <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2015</span>
             </li>
@@ -266,7 +278,7 @@ export default function Home() {
       )}
 
       {showAbout && (
-        <Window ref={aboutRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowAbout(false)}>
+        <Window id="about" ref={aboutRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("about", setShowAbout)}>
         <WindowTitle>About</WindowTitle>
         <WindowContent>
           <h1 className="text-4xl font-bold mt-6 mb-6">
@@ -280,65 +292,65 @@ export default function Home() {
       )}
 
       {showContact && (
-        <Window ref={contactRef} className="w-1/2 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowContact(false)}>
+        <Window id="contact" ref={contactRef} className="w-1/2 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("contact", setShowContact)}>
         <WindowTitle>Reach Out</WindowTitle>
         <WindowContent>
-          <p>Send me an <a href="mailto:john@smallepic.com" className="text-muted-foreground font-bold hover:bg-muted">email</a>, or find me on <a href="https://www.linkedin.com/in/jngo/" className="text-muted-foreground font-bold hover:bg-muted">LinkedIn</a>, <a href="https://github.com/jngo" className="text-muted-foreground font-bold hover:bg-muted">GitHub</a>, or <a href="https://twitter.com/jngo" className="text-muted-foreground font-bold hover:bg-muted  ">Twitter</a>.</p>
+          <p>Send me an <a href="mailto:john@smallepic.com" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "email", url: "mailto:john@smallepic.com" })}>email</a>, or find me on <a href="https://www.linkedin.com/in/jngo/" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "linkedin", url: "https://www.linkedin.com/in/jngo/" })}>LinkedIn</a>, <a href="https://github.com/jngo" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "github", url: "https://github.com/jngo" })}>GitHub</a>, or <a href="https://twitter.com/jngo" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "twitter", url: "https://twitter.com/jngo" })}>Twitter</a>.</p>
         </WindowContent>
       </Window>
       )}
 
       {showMcKinseyAndCompany && (
-      <Window ref={mckinseyAndCompanyRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMcKinseyAndCompany(false)}>
+      <Window id="mckinsey_and_company" ref={mckinseyAndCompanyRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("mckinsey_and_company", setShowMcKinseyAndCompany)}>
         <WindowTitle>McKinsey & Company</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2021–Present</p>
-          <p className="font-serif text-xl mb-4">I’m currently leading design across digital transformation initiatives at <a href="https://www.mckinsey.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</a>.</p>
+          <p className="font-serif text-xl mb-4">I’m currently leading design across digital transformation initiatives at <a href="https://www.mckinsey.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "mckinsey_and_company_site", url: "https://www.mckinsey.com/" })}>McKinsey & Company</a>.</p>
           <p>Leading a design team of three for a flagship product experience serving the daily visual graphics needs for management consultants across the Firm. I balance strategic leadership with hands-on design execution, bridging user experience and technical implementation across multiple initiatives.</p>
         </WindowContent>
       </Window>
       )}
 
       {showUP42 && (
-      <Window ref={up42Ref} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowUP42(false)}>
+      <Window id="up42" ref={up42Ref} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("up42", setShowUP42)}>
         <WindowTitle>UP42</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2019–2021</p>
-          <p className="font-serif text-xl mb-4">I established design practice and launched several keystone projects at <a href="https://www.up42.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted">UP42</a>.</p>
+          <p className="font-serif text-xl mb-4">I established design practice and launched several keystone projects at <a href="https://www.up42.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "up42_site", url: "https://www.up42.com/" })}>UP42</a>.</p>
           <p className="mb-4">As the first design hire within the Airbus Defence and Space subsidiary, I established design practice within the organisation.</p>
           <p className="mb-4">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques—to ensure decisions were made with the best data and insights at hand.</p>
           <p className="mb-4">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
-          <button onClick={() => showWindow(setShowDocumentationHub, documentationHubRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("documentation_hub_presentation", "icon", setShowDocumentationHubPresentation, documentationHubPresentationRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileVideo strokeWidth={0.8} className="size-12"/>
             <span>documentation-hub.mp4</span>
           </button>
-          <a href="https://up42.com/blog/rethinking-our-documentation-experience" target="_blank" rel="noopener noreferrer" className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <a href="https://up42.com/blog/rethinking-our-documentation-experience" target="_blank" rel="noopener noreferrer" className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center" onClick={() => track("link_open", { id: "documentation_hub_article", url: "https://up42.com/blog/rethinking-our-documentation-experience" })}>
             <FileSymlink strokeWidth={0.8} className="size-12"/>
             <span>documentation-experience.url</span>
           </a>
-          <button onClick={() => showWindow(setShowCatalogSearchPresentation, catalogSearchPresentationRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("catalog_search_case_study", "icon", setShowCatalogSearchCaseStudy, catalogSearchCaseStudyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileChartPie strokeWidth={0.8} className="size-12"/>
             <span>catalog-search-case-study.figma</span>
           </button>
-          <button onClick={() => showWindow(setShowCatalogSearchPrototype, catalogSearchPrototypeRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("catalog_search_prototype", "icon", setShowCatalogSearchPrototype, catalogSearchPrototypeRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileBox strokeWidth={0.8} className="size-12"/>
             <span>catalog-search-prototype.figma</span>
           </button>
-          <button onClick={() => showWindow(setShowMarketingWebsitePresentation, marketingWebsitePresentationRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("marketing_website_case_study", "icon", setShowMarketingWebsiteCaseStudy, marketingWebsiteCaseStudyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileChartPie strokeWidth={0.8} className="size-12"/>
             <span>marketing-website-case-study.figma</span>
           </button>
-          <button onClick={() => showWindow(setShowGISOS, GISOSRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("gis_os_prototype", "icon", setShowGISOSPrototype, GISOSPrototypeRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileBox strokeWidth={0.8} className="size-12"/>
-            <span>gis-os.figma</span>
+            <span>gis-os-prototype.figma</span>
           </button>
         </WindowContent>
       </Window>
       )}
 
-      {showDocumentationHub && (
-      <Window ref={documentationHubRef} className="w-200 aspect-16/9 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowDocumentationHub(false)}>
-        <WindowTitle>Documentation Hub</WindowTitle>
+      {showDocumentationHubPresentation && (
+      <Window id="documentation_hub_presentation" ref={documentationHubPresentationRef} className="w-200 aspect-16/9 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("documentation_hub_presentation", setShowDocumentationHubPresentation)}>
+        <WindowTitle>Presentation — Documentation Hub</WindowTitle>
         <WindowContent className="p-0">
           <iframe
             src="https://www.youtube.com/embed/XpdvVltqWtc"
@@ -349,8 +361,8 @@ export default function Home() {
       </Window>
       )}
 
-      {showCatalogSearchPresentation && (
-        <Window ref={catalogSearchPresentationRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowCatalogSearchPresentation(false)}>
+      {showCatalogSearchCaseStudy && (
+        <Window id="catalog_search_case_study" ref={catalogSearchCaseStudyRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("catalog_search_case_study", setShowCatalogSearchCaseStudy)}>
         <WindowTitle>Case Study — Catalog Search</WindowTitle>
         <WindowContent className="p-0">
           <iframe
@@ -363,7 +375,7 @@ export default function Home() {
       )}
 
       {showCatalogSearchPrototype && (
-      <Window ref={catalogSearchPrototypeRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowCatalogSearchPrototype(false)}>
+      <Window id="catalog_search_prototype" ref={catalogSearchPrototypeRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("catalog_search_prototype", setShowCatalogSearchPrototype)}>
         <WindowTitle>Prototype — Catalog Search</WindowTitle>
         <WindowContent className="p-0">
           <iframe
@@ -375,8 +387,8 @@ export default function Home() {
       </Window>
       )}
 
-      {showMarketingWebsitePresentation && (
-      <Window ref={marketingWebsitePresentationRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMarketingWebsitePresentation(false)}>
+      {showMarketingWebsiteCaseStudy && (
+      <Window id="marketing_website_case_study" ref={marketingWebsiteCaseStudyRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMarketingWebsiteCaseStudy(false)}>
         <WindowTitle>Case Study — Marketing Website</WindowTitle>
         <WindowContent className="p-0">
           <iframe
@@ -388,9 +400,9 @@ export default function Home() {
       </Window>
       )}
 
-      {showGISOS && (
-      <Window ref={GISOSRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowGISOS(false)}>
-        <WindowTitle>GIS OS</WindowTitle>
+      {showGISOSPrototype && (
+      <Window id="gis_os_prototype" ref={GISOSPrototypeRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("gis_os_prototype", setShowGISOSPrototype)}>
+        <WindowTitle>Prototype — GIS OS</WindowTitle>
         <WindowContent className="p-0">
           <iframe
             src="https://embed.figma.com/proto/I4CSylVpVDpCe15J0NYQ74/UP%E2%81%B4%C2%B2-%C2%B7-Product-Vision?node-id=269-290&viewport=77%2C474%2C0.0725146234035492&scaling=contain&content-scaling=fixed&embed-host=smallepic&hide_ui=1&footer=false&theme=system"
@@ -402,11 +414,11 @@ export default function Home() {
       )}
 
       {showCandis && (
-      <Window ref={candisRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowCandis(false)}>
+      <Window id="candis" ref={candisRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("candis", setShowCandis)}>
         <WindowTitle>Candis</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2017–2019</p>
-          <p className="font-serif text-xl mb-2">I was a design team of one, hands-on from research to frontend at <a href="https://www.candis.io/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted">Candis</a>.</p>
+          <p className="font-serif text-xl mb-2">I was a design team of one, hands-on from research to frontend at <a href="https://www.candis.io/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "candis_site", url: "https://www.candis.io/" })}>Candis</a>.</p>
           <p className="mb-2">As a single person design team, I was responsible for user experience across the portfolio of products at Candis. Practically speaking, I conducted user research, produced design concepts and prototypes, documented epics and user stories, and contributed UI enhancements to the React codebase.</p>
           <p>I also led the initiative to scale design to meet the needs of a growing engineering team through the development of a design system that served as the style guide and component library for current and future Candis products.</p>
         </WindowContent>
@@ -414,11 +426,11 @@ export default function Home() {
       )}
 
       {showUrbanSportsClub && (
-      <Window ref={urbanSportsClubRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowUrbanSportsClub(false)}>
+      <Window id="urban_sports_club" ref={urbanSportsClubRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("urban_sports_club", setShowUrbanSportsClub)}>
         <WindowTitle>Urban Sports Club</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2015</p>
-          <p className="font-serif text-xl mb-2">I helped lay the technical and product foundations for European expansion at <a href="https://urbansportsclub.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</a>.</p>
+          <p className="font-serif text-xl mb-2">I helped lay the technical and product foundations for European expansion at <a href="https://urbansportsclub.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "urban_sports_club_site", url: "https://urbansportsclub.com/" })}>Urban Sports Club</a>.</p>
           <p className="mb-2">I played a key technical leadership and product design role, responsible for the digital transformation of key technical infrastructure and the venue check-in experience. My achievements were instrumental to the ambitious expansion of the flat-rate sports membership from Berlin into over 88 cities and 8,000 sporting venues.</p>
           <p>My key achievement was leading the delivery team, where I designed the REST API specification and mobile app experiences. Within three months, we replaced the existing manual membership card and log sheet processes with an API and mobile apps enabling members to check-in with their iOS and Android devices.</p>
         </WindowContent>
@@ -426,7 +438,7 @@ export default function Home() {
       )}
 
       {showSynthesiser && (
-      <Window ref={synthesiserRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowSynthesiser(false)}>
+      <Window id="synthesiser" ref={synthesiserRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("synthesiser", setShowSynthesiser)}>
         <WindowTitle>Synthesiser</WindowTitle>
         <WindowContent>
           <p className="font-serif text-xl mb-2">Generate a Minto Pyramid synthesis of any content.</p>
@@ -440,7 +452,7 @@ export default function Home() {
             <Badge variant="secondary">Vercel</Badge>
           </div>
           <Button asChild className="w-full">
-            <a href="https://synthesiser.smallepic.com/" target="_blank" rel="noopener">
+            <a href="https://synthesiser.smallepic.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { id: "synthesiser", url: "https://synthesiser.smallepic.com/" })}>
               Check Out Synthesiser
             </a>
           </Button>
@@ -449,7 +461,7 @@ export default function Home() {
       )}
 
       {showPodscriber && (
-      <Window ref={podscriberRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowPodscriber(false)}>
+      <Window id="podscriber" ref={podscriberRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("podscriber", setShowPodscriber)}>
         <WindowTitle>Podscriber</WindowTitle>
         <WindowContent>
           <Image src="/podscriber.gif" alt="Podscriber" width={480} height={1040} className="w-1/2 h-auto mx-auto mb-4" />
@@ -467,7 +479,7 @@ export default function Home() {
           <p className="mb-4">After trying a few different apps, I decided to build a simple podcast transcriber to streamline my workflow from listening to synthesizing notes.</p>
           <p className="mb-4">Instead of pausing and transcribing by hand, I just drop in an Apple Podcasts URL, and it generates a transcript for me. It’s integrated with Readwise Reader, so I can highlight key insights and have everything synced to my Obsidian notes.</p>
           <Button asChild className="w-full">
-            <a href="https://podscriber.smallepic.com/" target="_blank" rel="noopener">
+            <a href="https://podscriber.smallepic.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { id: "podscriber", url: "https://podscriber.smallepic.com/" })}>
               Check Out Podscriber
             </a>
           </Button>
@@ -476,7 +488,7 @@ export default function Home() {
       )}
 
       {showMermaidViewer && (
-      <Window ref={mermaidViewerRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMermaidViewer(false)}>
+      <Window id="mermaid_viewer" ref={mermaidViewerRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("mermaid_viewer", setShowMermaidViewer)}>
         <WindowTitle>Mermaid Viewer</WindowTitle>
         <WindowContent>
           <Image src="/mermaid-viewer.png" alt="Mermaid Viewer" width={400} height={300} className="w-full h-auto mb-4" />
@@ -490,9 +502,9 @@ export default function Home() {
             <Badge variant="secondary">Vercel</Badge>
           </div>
           <p className="mb-4"><strong>Mermaid Viewer</strong> was born out of the need for a simple, mobile-friendly viewer for the mountains of Mermaid diagrams coming out of my ChatGPT sessions.</p>
-          <p className="mb-4">As a tool for creating diagrams and visualisations using plain text, <a href="https://mermaid.js.org/" className="underline">Mermaid</a> is ideally suited for transforming the outputs of large language models (LLMs) into structured formats.</p>
+          <p className="mb-4">As a tool for creating diagrams and visualisations using plain text, <a href="https://mermaid.js.org/" className="underline" onClick={() => track("link_open", { id: "mermaidjs", url: "https://mermaid.js.org/" })}>Mermaid</a> is ideally suited for transforming the outputs of large language models (LLMs) into structured formats.</p>
           <Button asChild className="w-full">
-            <a href="https://mermaid.smallepic.com/" target="_blank" rel="noopener">
+            <a href="https://mermaid.smallepic.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { id: "mermaid_viewer", url: "https://mermaid.smallepic.com/" })}>
               Check Out Mermaid Viewer
             </a>
           </Button>
@@ -501,7 +513,7 @@ export default function Home() {
       )}
 
       {showFilmsAndConversations && (
-      <Window ref={filmsAndConversationsRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowFilmsAndConversations(false)}>
+      <Window id="films_and_conversations" ref={filmsAndConversationsRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("films_and_conversations", setShowFilmsAndConversations)}>
         <WindowTitle>Films & Conversations</WindowTitle>
         <WindowContent>
           <p className="font-serif text-xl mb-2">A monthly film club bringing together people, documentaries, and discussions.</p>
@@ -510,7 +522,7 @@ export default function Home() {
             <Badge variant="secondary">Github Pages</Badge>
           </div>
           <Button asChild className="w-full">
-            <a href="http://filmsandconversations.com/" target="_blank" rel="noopener">
+            <a href="http://filmsandconversations.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { id: "films_and_conversations", url: "http://filmsandconversations.com/" })}>
               Check Out Films & Conversations
             </a>
           </Button>
@@ -519,7 +531,7 @@ export default function Home() {
       )}
 
       {showBooksAndConversations && (
-      <Window ref={booksAndConversationsRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowBooksAndConversations(false)}>
+      <Window id="books_and_conversations" ref={booksAndConversationsRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("books_and_conversations", setShowBooksAndConversations)}>
         <WindowTitle>Books & Conversations</WindowTitle>
         <WindowContent>
           <p className="font-serif text-lg mb-2">Roundtable discussions with good friends and great books.</p>
@@ -528,7 +540,7 @@ export default function Home() {
             <Badge variant="secondary">Github Pages</Badge>
           </div>
           <Button asChild className="w-full">
-            <a href="http://booksandconversations.com/" target="_blank" rel="noopener">
+            <a href="http://booksandconversations.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { id: "books_and_conversations", url: "http://booksandconversations.com/" })}>
               Check Out Books & Conversations
             </a>
           </Button>

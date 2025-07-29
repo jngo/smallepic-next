@@ -1,0 +1,10 @@
+name: window_close
+version: 1
+description: User closes a desktop window.
+required_props: [id]
+props:
+  id:
+    type: string
+context: [user_id, session_id, page]
+notes: >
+  Fired when the user clicks the window close button.
