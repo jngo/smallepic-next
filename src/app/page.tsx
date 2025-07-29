@@ -64,7 +64,7 @@ export default function Home() {
     setShow: (show: boolean) => void,
     ref: React.RefObject<WindowRef | null>
   ) => {
-    track("window_open", { id });
+    track("window_open", { id, origin });
     setShow(true);
     // Use setTimeout to ensure the window is rendered before bringing to front
     setTimeout(() => {
