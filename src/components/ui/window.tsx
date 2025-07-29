@@ -141,6 +141,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
         ;(e.target as HTMLElement).releasePointerCapture(e.pointerId)
         idRef.current = null
         setDragging(false)
+        track("window_drag", { id })
       }
     }
 
