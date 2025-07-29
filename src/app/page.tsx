@@ -29,11 +29,11 @@ export default function Home() {
   const [showBooksAndConversations, setShowBooksAndConversations] = useState(false);
   const [showMcKinseyAndCompany, setShowMcKinseyAndCompany] = useState(false);
   const [showUP42, setShowUP42] = useState(false);
-  const [showDocumentationHub, setShowDocumentationHub] = useState(false);
+  const [showDocumentationHubPresentation, setShowDocumentationHubPresentation] = useState(false);
   const [showCatalogSearchPrototype, setShowCatalogSearchPrototype] = useState(false);
-  const [showCatalogSearchPresentation, setShowCatalogSearchPresentation] = useState(false);
-  const [showMarketingWebsitePresentation, setShowMarketingWebsitePresentation] = useState(false);
-  const [showGISOS, setShowGISOS] = useState(false);
+  const [showCatalogSearchCaseStudy, setShowCatalogSearchCaseStudy] = useState(false);
+  const [showMarketingWebsiteCaseStudy, setShowMarketingWebsiteCaseStudy] = useState(false);
+  const [showGISOSPrototype, setShowGISOSPrototype] = useState(false);
   const [showCandis, setShowCandis] = useState(false);
   const [showUrbanSportsClub, setShowUrbanSportsClub] = useState(false);
 
@@ -49,11 +49,11 @@ export default function Home() {
   const booksAndConversationsRef = useRef<WindowRef>(null);
   const mckinseyAndCompanyRef = useRef<WindowRef>(null);
   const up42Ref = useRef<WindowRef>(null);
-  const documentationHubRef = useRef<WindowRef>(null);
+  const documentationHubPresentationRef = useRef<WindowRef>(null);
   const catalogSearchPrototypeRef = useRef<WindowRef>(null);
-  const catalogSearchPresentationRef = useRef<WindowRef>(null);
-  const marketingWebsitePresentationRef = useRef<WindowRef>(null);
-  const GISOSRef = useRef<WindowRef>(null);
+  const catalogSearchCaseStudyRef = useRef<WindowRef>(null);
+  const marketingWebsiteCaseStudyRef = useRef<WindowRef>(null);
+  const GISOSPrototypeRef = useRef<WindowRef>(null);
   const candisRef = useRef<WindowRef>(null);
   const urbanSportsClubRef = useRef<WindowRef>(null);
 
@@ -319,15 +319,15 @@ export default function Home() {
           <p className="mb-4">As the first design hire within the Airbus Defence and Space subsidiary, I established design practice within the organisation.</p>
           <p className="mb-4">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques—to ensure decisions were made with the best data and insights at hand.</p>
           <p className="mb-4">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
-          <button onClick={() => showWindow("documentation_hub", setShowDocumentationHub, documentationHubRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("documentation_hub_presentation", setShowDocumentationHubPresentation, documentationHubPresentationRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileVideo strokeWidth={0.8} className="size-12"/>
             <span>documentation-hub.mp4</span>
           </button>
-          <a href="https://up42.com/blog/rethinking-our-documentation-experience" target="_blank" rel="noopener noreferrer" className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center" onClick={() => track("link_open", { id: "up42_blog_documentation_experience", url: "https://up42.com/blog/rethinking-our-documentation-experience" })}>
+          <a href="https://up42.com/blog/rethinking-our-documentation-experience" target="_blank" rel="noopener noreferrer" className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center" onClick={() => track("link_open", { id: "documentation_hub_article", url: "https://up42.com/blog/rethinking-our-documentation-experience" })}>
             <FileSymlink strokeWidth={0.8} className="size-12"/>
             <span>documentation-experience.url</span>
           </a>
-          <button onClick={() => showWindow("catalog_search_presentation", setShowCatalogSearchPresentation, catalogSearchPresentationRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("catalog_search_case_study", setShowCatalogSearchCaseStudy, catalogSearchCaseStudyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileChartPie strokeWidth={0.8} className="size-12"/>
             <span>catalog-search-case-study.figma</span>
           </button>
@@ -335,21 +335,21 @@ export default function Home() {
             <FileBox strokeWidth={0.8} className="size-12"/>
             <span>catalog-search-prototype.figma</span>
           </button>
-          <button onClick={() => showWindow("marketing_website_presentation", setShowMarketingWebsitePresentation, marketingWebsitePresentationRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("marketing_website_case_study", setShowMarketingWebsiteCaseStudy, marketingWebsiteCaseStudyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileChartPie strokeWidth={0.8} className="size-12"/>
             <span>marketing-website-case-study.figma</span>
           </button>
-          <button onClick={() => showWindow("gis_os", setShowGISOS, GISOSRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("gis_os_prototype", setShowGISOSPrototype, GISOSPrototypeRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileBox strokeWidth={0.8} className="size-12"/>
-            <span>gis-os.figma</span>
+            <span>gis-os-prototype.figma</span>
           </button>
         </WindowContent>
       </Window>
       )}
 
-      {showDocumentationHub && (
-      <Window id="documentation_hub" ref={documentationHubRef} className="w-200 aspect-16/9 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("documentation_hub", setShowDocumentationHub)}>
-        <WindowTitle>Documentation Hub</WindowTitle>
+      {showDocumentationHubPresentation && (
+      <Window id="documentation_hub_presentation" ref={documentationHubPresentationRef} className="w-200 aspect-16/9 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("documentation_hub_presentation", setShowDocumentationHubPresentation)}>
+        <WindowTitle>Presentation — Documentation Hub</WindowTitle>
         <WindowContent className="p-0">
           <iframe
             src="https://www.youtube.com/embed/XpdvVltqWtc"
@@ -360,8 +360,8 @@ export default function Home() {
       </Window>
       )}
 
-      {showCatalogSearchPresentation && (
-        <Window id="catalog_search_presentation" ref={catalogSearchPresentationRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("catalog_search_presentation", setShowCatalogSearchPresentation)}>
+      {showCatalogSearchCaseStudy && (
+        <Window id="catalog_search_case_study" ref={catalogSearchCaseStudyRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("catalog_search_case_study", setShowCatalogSearchCaseStudy)}>
         <WindowTitle>Case Study — Catalog Search</WindowTitle>
         <WindowContent className="p-0">
           <iframe
@@ -386,8 +386,8 @@ export default function Home() {
       </Window>
       )}
 
-      {showMarketingWebsitePresentation && (
-      <Window id="marketing_website_presentation" ref={marketingWebsitePresentationRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMarketingWebsitePresentation(false)}>
+      {showMarketingWebsiteCaseStudy && (
+      <Window id="marketing_website_case_study" ref={marketingWebsiteCaseStudyRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => setShowMarketingWebsiteCaseStudy(false)}>
         <WindowTitle>Case Study — Marketing Website</WindowTitle>
         <WindowContent className="p-0">
           <iframe
@@ -399,9 +399,9 @@ export default function Home() {
       </Window>
       )}
 
-      {showGISOS && (
-      <Window id="gis_os" ref={GISOSRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("gis_os", setShowGISOS)}>
-        <WindowTitle>GIS OS</WindowTitle>
+      {showGISOSPrototype && (
+      <Window id="gis_os_prototype" ref={GISOSPrototypeRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("gis_os_prototype", setShowGISOSPrototype)}>
+        <WindowTitle>Prototype — GIS OS</WindowTitle>
         <WindowContent className="p-0">
           <iframe
             src="https://embed.figma.com/proto/I4CSylVpVDpCe15J0NYQ74/UP%E2%81%B4%C2%B2-%C2%B7-Product-Vision?node-id=269-290&viewport=77%2C474%2C0.0725146234035492&scaling=contain&content-scaling=fixed&embed-host=smallepic&hide_ui=1&footer=false&theme=system"
