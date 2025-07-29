@@ -60,6 +60,7 @@ export default function Home() {
   // Helper function to show window and bring to front
   const showWindow = (
     id: string,
+    origin: string,
     setShow: (show: boolean) => void,
     ref: React.RefObject<WindowRef | null>
   ) => {
@@ -82,28 +83,28 @@ export default function Home() {
         <MenubarMenu>
           <MenubarTrigger className="font-bold">John Ngo</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow("about", setShowAbout, aboutRef)}>About</MenubarItem>
+            <MenubarItem onClick={() => showWindow("about", "menubar", setShowAbout, aboutRef)}>About</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
         <MenubarMenu>
           <MenubarTrigger>Experience</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow("experience", setShowExperience, experienceRef)}>View All</MenubarItem>
+            <MenubarItem onClick={() => showWindow("experience", "menubar", setShowExperience, experienceRef)}>View All</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem onClick={() => showWindow("mckinsey_and_company", setShowMcKinseyAndCompany, mckinseyAndCompanyRef)}>
+            <MenubarItem onClick={() => showWindow("mckinsey_and_company", "menubar", setShowMcKinseyAndCompany, mckinseyAndCompanyRef)}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>McKinsey & Company</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("up42", setShowUP42, up42Ref)}>
+            <MenubarItem onClick={() => showWindow("up42", "menubar", setShowUP42, up42Ref)}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>UP42</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("candis", setShowCandis, candisRef)}>
+            <MenubarItem onClick={() => showWindow("candis", "menubar", setShowCandis, candisRef)}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>Candis</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("urban_sports_club", setShowUrbanSportsClub, urbanSportsClubRef)}>
+            <MenubarItem onClick={() => showWindow("urban_sports_club", "menubar", setShowUrbanSportsClub, urbanSportsClubRef)}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>Urban Sports Club</span>
             </MenubarItem>
@@ -113,25 +114,25 @@ export default function Home() {
         <MenubarMenu>
           <MenubarTrigger>Random</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow("random", setShowRandom, randomRef)}>View All</MenubarItem>
+            <MenubarItem onClick={() => showWindow("random", "menubar", setShowRandom, randomRef)}>View All</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem onClick={() => showWindow("synthesiser", setShowSynthesiser, synthesiserRef)}>
+            <MenubarItem onClick={() => showWindow("synthesiser", "menubar", setShowSynthesiser, synthesiserRef)}>
               <Network className="mr-2 h-4 w-4" />
               <span>Synthesiser</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("podscriber", setShowPodscriber, podscriberRef)}>
+            <MenubarItem onClick={() => showWindow("podscriber", "menubar", setShowPodscriber, podscriberRef)}>
               <Podcast className="mr-2 h-4 w-4" />
               <span>Podscriber</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("mermaid_viewer", setShowMermaidViewer, mermaidViewerRef)}>
+            <MenubarItem onClick={() => showWindow("mermaid_viewer", "menubar", setShowMermaidViewer, mermaidViewerRef)}>
               <ScanText className="mr-2 h-4 w-4" />
               <span>Mermaid Viewer</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("films_and_conversations", setShowFilmsAndConversations, filmsAndConversationsRef)}>
+            <MenubarItem onClick={() => showWindow("films_and_conversations", "menubar", setShowFilmsAndConversations, filmsAndConversationsRef)}>
               <Clapperboard className="mr-2 h-4 w-4" />
               <span>Films & Conversations</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("books_and_conversations", setShowBooksAndConversations, booksAndConversationsRef)}>
+            <MenubarItem onClick={() => showWindow("books_and_conversations", "menubar", setShowBooksAndConversations, booksAndConversationsRef)}>
               <LibraryBig className="mr-2 h-4 w-4" />
               <span>Books & Conversations</span>
             </MenubarItem>
@@ -177,23 +178,23 @@ export default function Home() {
         <WindowTitle>Random</WindowTitle>
 
         <WindowContent view="icon">
-          <button onClick={() => showWindow("synthesiser", setShowSynthesiser, synthesiserRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("synthesiser", "icon", setShowSynthesiser, synthesiserRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <Network strokeWidth={0.8} className="size-12"/>
             <span>synthesiser.html</span>
           </button>
-          <button onClick={() => showWindow("podscriber", setShowPodscriber, podscriberRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("podscriber", "icon", setShowPodscriber, podscriberRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <Podcast strokeWidth={0.8} className="size-12"/>
             <span>podscriber.html</span>
           </button>
-          <button onClick={() => showWindow("mermaid_viewer", setShowMermaidViewer, mermaidViewerRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("mermaid_viewer", "icon", setShowMermaidViewer, mermaidViewerRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <ScanText strokeWidth={0.8} className="size-12"/>
             <span>mermaid-viewer.html</span>
           </button>
-          <button onClick={() => showWindow("films_and_conversations", setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("films_and_conversations", "icon", setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <Clapperboard strokeWidth={0.8} className="size-12"/>
             <span>films-and-conversations.html</span>
           </button>
-          <button onClick={() => showWindow("books_and_conversations", setShowBooksAndConversations, booksAndConversationsRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("books_and_conversations", "icon", setShowBooksAndConversations, booksAndConversationsRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <LibraryBig strokeWidth={0.8} className="size-12"/>
             <span>books-and-conversations.html</span>
           </button>
@@ -202,23 +203,23 @@ export default function Home() {
         <WindowContent view="list" className="@container">
           <ul>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 pb-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("synthesiser", setShowSynthesiser, synthesiserRef)} className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("synthesiser", "list", setShowSynthesiser, synthesiserRef)} className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</button></span>
               <span className="grow">Generate a Minto Pyramid synthesis of any content.</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("podscriber", setShowPodscriber, podscriberRef)} className="text-muted-foreground font-bold hover:bg-muted">Podscriber</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("podscriber", "list", setShowPodscriber, podscriberRef)} className="text-muted-foreground font-bold hover:bg-muted">Podscriber</button></span>
               <span className="grow">Transcribe podcast episodes and send them to your read-it-later queue.</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("mermaid_viewer", setShowMermaidViewer, mermaidViewerRef)} className="text-muted-foreground font-bold hover:bg-muted">Mermaid Viewer</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("mermaid_viewer", "list", setShowMermaidViewer, mermaidViewerRef)} className="text-muted-foreground font-bold hover:bg-muted">Mermaid Viewer</button></span>
               <span className="grow">A lightweight, mobile-friendly Mermaid diagram viewer.</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("films_and_conversations", setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Films & Conversations</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("films_and_conversations", "list", setShowFilmsAndConversations, filmsAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Films & Conversations</button></span>
               <span className="flex-grow">A film club bringing together people, documentaries, and discussions.</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t pt-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("books_and_conversations", setShowBooksAndConversations, booksAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Books & Conversations</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("books_and_conversations", "list", setShowBooksAndConversations, booksAndConversationsRef)} className="text-muted-foreground font-bold hover:bg-muted">Books & Conversations</button></span>
               <span className="grow">Roundtable discussions with good friends and great books.</span>
             </li>
           </ul>
@@ -231,19 +232,19 @@ export default function Home() {
         <WindowTitle>Experience</WindowTitle>
 
         <WindowContent view="icon">
-          <button onClick={() => showWindow("mckinsey_and_company", setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("mckinsey_and_company", "icon", setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
             <FileText strokeWidth={0.8} className="size-12"/>
             <span>mckinsey-and-company.html</span>
           </button>
-          <button onClick={() => showWindow("up42", setShowUP42, up42Ref)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("up42", "icon", setShowUP42, up42Ref)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
             <Folder strokeWidth={0.8} className="size-12"/>
             <span>up42</span>
           </button>
-          <button onClick={() => showWindow("candis", setShowCandis, candisRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("candis", "icon", setShowCandis, candisRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
             <FileText strokeWidth={0.8} className="size-12"/>
             <span>candis.html</span>
           </button>
-          <button onClick={() => showWindow("urban_sports_club", setShowUrbanSportsClub, urbanSportsClubRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("urban_sports_club", "icon", setShowUrbanSportsClub, urbanSportsClubRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-24 inline-flex flex-col items-center">
             <FileText strokeWidth={0.8} className="size-12"/>
             <span>urban-sports-club.html</span>
           </button>
@@ -252,22 +253,22 @@ export default function Home() {
         <WindowContent view="list" className="@container">
           <ul>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 pb-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("mckinsey_and_company", setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("mckinsey_and_company", "list", setShowMcKinseyAndCompany, mckinseyAndCompanyRef)} className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</button></span>
               <span className="flex-grow">Leading design across digital transformation initiatives.</span>
               <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2021–Present</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("up42", setShowUP42, up42Ref)} className="text-muted-foreground font-bold hover:bg-muted">UP42</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("up42", "list", setShowUP42, up42Ref)} className="text-muted-foreground font-bold hover:bg-muted">UP42</button></span>
               <span className="flex-grow">Established design practice and launched several keystone projects.</span>
               <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2019–2021</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("candis", setShowCandis, candisRef)} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("candis", "list", setShowCandis, candisRef)} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
               <span className="grow">Design team of one, hands-on from research to frontend.</span>
               <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2017–2019</span>
             </li>
             <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t pt-1">
-              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("urban_sports_club", setShowUrbanSportsClub, urbanSportsClubRef)} className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</button></span>
+              <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={() => showWindow("urban_sports_club", "list", setShowUrbanSportsClub, urbanSportsClubRef)} className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</button></span>
               <span className="grow">Laid the technical and product foundations for European expansion.</span>
               <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2015</span>
             </li>
@@ -319,7 +320,7 @@ export default function Home() {
           <p className="mb-4">As the first design hire within the Airbus Defence and Space subsidiary, I established design practice within the organisation.</p>
           <p className="mb-4">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques—to ensure decisions were made with the best data and insights at hand.</p>
           <p className="mb-4">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
-          <button onClick={() => showWindow("documentation_hub_presentation", setShowDocumentationHubPresentation, documentationHubPresentationRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("documentation_hub_presentation", "icon", setShowDocumentationHubPresentation, documentationHubPresentationRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileVideo strokeWidth={0.8} className="size-12"/>
             <span>documentation-hub.mp4</span>
           </button>
@@ -327,19 +328,19 @@ export default function Home() {
             <FileSymlink strokeWidth={0.8} className="size-12"/>
             <span>documentation-experience.url</span>
           </a>
-          <button onClick={() => showWindow("catalog_search_case_study", setShowCatalogSearchCaseStudy, catalogSearchCaseStudyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("catalog_search_case_study", "icon", setShowCatalogSearchCaseStudy, catalogSearchCaseStudyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileChartPie strokeWidth={0.8} className="size-12"/>
             <span>catalog-search-case-study.figma</span>
           </button>
-          <button onClick={() => showWindow("catalog_search_prototype", setShowCatalogSearchPrototype, catalogSearchPrototypeRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("catalog_search_prototype", "icon", setShowCatalogSearchPrototype, catalogSearchPrototypeRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileBox strokeWidth={0.8} className="size-12"/>
             <span>catalog-search-prototype.figma</span>
           </button>
-          <button onClick={() => showWindow("marketing_website_case_study", setShowMarketingWebsiteCaseStudy, marketingWebsiteCaseStudyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("marketing_website_case_study", "icon", setShowMarketingWebsiteCaseStudy, marketingWebsiteCaseStudyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileChartPie strokeWidth={0.8} className="size-12"/>
             <span>marketing-website-case-study.figma</span>
           </button>
-          <button onClick={() => showWindow("gis_os_prototype", setShowGISOSPrototype, GISOSPrototypeRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <button onClick={() => showWindow("gis_os_prototype", "icon", setShowGISOSPrototype, GISOSPrototypeRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileBox strokeWidth={0.8} className="size-12"/>
             <span>gis-os-prototype.figma</span>
           </button>
@@ -501,9 +502,9 @@ export default function Home() {
             <Badge variant="secondary">Vercel</Badge>
           </div>
           <p className="mb-4"><strong>Mermaid Viewer</strong> was born out of the need for a simple, mobile-friendly viewer for the mountains of Mermaid diagrams coming out of my ChatGPT sessions.</p>
-          <p className="mb-4">As a tool for creating diagrams and visualisations using plain text, <a href="https://mermaid.js.org/" className="underline" onClick={() => track("link_open", { id: "mermaid_js_docs", url: "https://mermaid.js.org/" })}>Mermaid</a> is ideally suited for transforming the outputs of large language models (LLMs) into structured formats.</p>
+          <p className="mb-4">As a tool for creating diagrams and visualisations using plain text, <a href="https://mermaid.js.org/" className="underline" onClick={() => track("link_open", { id: "mermaidjs", url: "https://mermaid.js.org/" })}>Mermaid</a> is ideally suited for transforming the outputs of large language models (LLMs) into structured formats.</p>
           <Button asChild className="w-full">
-            <a href="https://mermaid.smallepic.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { id: "mermaid_viewer_site", url: "https://mermaid.smallepic.com/" })}>
+            <a href="https://mermaid.smallepic.com/" target="_blank" rel="noopener" onClick={() => track("link_open", { id: "mermaid_viewer", url: "https://mermaid.smallepic.com/" })}>
               Check Out Mermaid Viewer
             </a>
           </Button>
