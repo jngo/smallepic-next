@@ -281,10 +281,11 @@ export default function Home() {
         <Window id="about" ref={aboutRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("about", setShowAbout)}>
         <WindowTitle>About</WindowTitle>
         <WindowContent>
-          <h1 className="text-4xl font-bold mt-6 mb-6">
+          <Image src="/john-ngo.jpg" alt="John Ngo" width={1024} height={1024} className="w-full aspect-4/3 mx-auto mb-4" />
+          <h1 className="text-3xl font-bold mt-4 mb-4">
             Hi, I’m John.
           </h1>
-          <p className="text-xl leading-relaxed">
+          <p className="text-l leading-relaxed">
             Designer by practice, engineer by training, researcher at heart. I tackle complex product challenges by combining technical depth with user-centered design, turning ambiguity into actionable insights and shipped solutions.
           </p>
         </WindowContent>
