@@ -306,7 +306,9 @@ export default function Home() {
         <WindowContent>
           <p className="text-sm text-muted-foreground">2021–Present</p>
           <p className="font-serif text-xl mb-4">I’m currently leading design across digital transformation initiatives at <a href="https://www.mckinsey.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "mckinsey_and_company_site", url: "https://www.mckinsey.com/" })}>McKinsey & Company</a>.</p>
-          <p>Leading a design team of three for a flagship product experience serving the daily visual graphics needs for management consultants across the Firm. I balance strategic leadership with hands-on design execution, bridging user experience and technical implementation across multiple initiatives.</p>
+          <p className="mb-4">Leading a design team building Visual Graphics & Media services that serve tens of thousands of management consultants worldwide.</p>
+          <p className="mb-4">My work focuses on untangling complex, fragmented service experiences and creating systems that help balance limited resources with growing demand. I take projects from user research and opportunity mapping through high-fidelity prototypes to implementation.</p>
+          <p>I combine strategic thinking with hands-on execution, mentoring designers while collaborating closely with engineering, product, and operations teams.</p>
         </WindowContent>
       </Window>
       )}
@@ -318,7 +320,7 @@ export default function Home() {
           <p className="text-sm text-muted-foreground">2019–2021</p>
           <p className="font-serif text-xl mb-4">I established design practice and launched several keystone projects at <a href="https://www.up42.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "up42_site", url: "https://www.up42.com/" })}>UP42</a>.</p>
           <p className="mb-4">As the first design hire within the Airbus Defence and Space subsidiary, I established design practice within the organisation.</p>
-          <p className="mb-4">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques—to ensure decisions were made with the best data and insights at hand.</p>
+          <p className="mb-4">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques to ensure decisions were made with the best data and insights at hand.</p>
           <p className="mb-4">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
           <button onClick={() => showWindow("documentation_hub_presentation", "icon", setShowDocumentationHubPresentation, documentationHubPresentationRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileVideo strokeWidth={0.8} className="size-12"/>
