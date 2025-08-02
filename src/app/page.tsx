@@ -19,6 +19,7 @@ import Image from "next/image";
 
 export default function Home() {
   const [showAbout, setShowAbout] = useState(true);
+  const [showJohnNgo, setShowJohnNgo] = useState(false);
   const [showExperience, setShowExperience] = useState(true);
   const [showExploration, setShowExploration] = useState(true);
   const [showContact, setShowContact] = useState(false);
@@ -39,6 +40,7 @@ export default function Home() {
 
   // Refs for each window
   const aboutRef = useRef<WindowRef>(null);
+  const johnNgoRef = useRef<WindowRef>(null);
   const experienceRef = useRef<WindowRef>(null);
   const explorationRef = useRef<WindowRef>(null);
   const contactRef = useRef<WindowRef>(null);
@@ -281,13 +283,21 @@ export default function Home() {
         <Window id="about" ref={aboutRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("about", setShowAbout)}>
         <WindowTitle>About</WindowTitle>
         <WindowContent>
-          <Image src="/john-ngo.jpg" alt="John Ngo" width={1024} height={1024} className="w-full aspect-4/3 mx-auto mb-4" />
           <h1 className="text-3xl font-bold mt-4 mb-4">
-            Hi, I’m John.
+            Hi, I’m <button className="text-muted-foreground bg-secondary hover:bg-accent" onClick={() => setShowJohnNgo(true)}>John</button>.
           </h1>
           <p className="text-l leading-relaxed">
             Designer by practice, engineer by training, researcher at heart. I tackle complex product challenges by combining technical depth with user-centered design, turning ambiguity into actionable insights and shipped solutions.
           </p>
+        </WindowContent>
+      </Window>
+      )}
+
+      {showJohnNgo && (
+      <Window id="john_ngo" ref={johnNgoRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("john_ngo", setShowJohnNgo)}>
+        <WindowTitle>John Ngo</WindowTitle>
+        <WindowContent className="p-0">
+          <Image src="/john-ngo.jpg" alt="John Ngo" width={1024} height={1024} className="w-full aspect-4/3" />
         </WindowContent>
       </Window>
       )}
@@ -306,7 +316,7 @@ export default function Home() {
         <WindowTitle>McKinsey & Company</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2021–Present</p>
-          <p className="font-serif text-xl mb-4">I’m currently leading design across digital transformation initiatives at <a href="https://www.mckinsey.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "mckinsey_and_company_site", url: "https://www.mckinsey.com/" })}>McKinsey & Company</a>.</p>
+          <p className="font-serif text-xl mb-4">I’m currently leading design across digital transformation initiatives at <a href="https://www.mckinsey.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold bg-secondary hover:bg-accent" onClick={() => track("link_open", { id: "mckinsey_and_company_site", url: "https://www.mckinsey.com/" })}>McKinsey & Company</a>.</p>
           <p className="mb-4">Leading a design team building Visual Graphics & Media services that serve tens of thousands of management consultants worldwide.</p>
           <p className="mb-4">My work focuses on untangling complex, fragmented service experiences and creating systems that help balance limited resources with growing demand. I take projects from user research and opportunity mapping through high-fidelity prototypes to implementation.</p>
           <p>I combine strategic thinking with hands-on execution, mentoring designers while collaborating closely with engineering, product, and operations teams.</p>
@@ -319,7 +329,7 @@ export default function Home() {
         <WindowTitle>UP42</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2019–2021</p>
-          <p className="font-serif text-xl mb-4">I established design practice and launched several keystone projects at <a href="https://www.up42.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "up42_site", url: "https://www.up42.com/" })}>UP42</a>.</p>
+          <p className="font-serif text-xl mb-4">I established design practice and launched several keystone projects at <a href="https://www.up42.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold bg-secondary hover:bg-accent" onClick={() => track("link_open", { id: "up42_site", url: "https://www.up42.com/" })}>UP42</a>.</p>
           <p className="mb-4">As the first design hire within the Airbus Defence and Space subsidiary, I established design practice within the organisation.</p>
           <p className="mb-4">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques to ensure decisions were made with the best data and insights at hand.</p>
           <p className="mb-4">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
@@ -421,7 +431,7 @@ export default function Home() {
         <WindowTitle>Candis</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2017–2019</p>
-          <p className="font-serif text-xl mb-2">I was a design team of one, hands-on from research to frontend at <a href="https://www.candis.io/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "candis_site", url: "https://www.candis.io/" })}>Candis</a>.</p>
+          <p className="font-serif text-xl mb-2">I was a design team of one, hands-on from research to frontend at <a href="https://www.candis.io/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold bg-secondary hover:bg-accent" onClick={() => track("link_open", { id: "candis_site", url: "https://www.candis.io/" })}>Candis</a>.</p>
           <p className="mb-2">As a single person design team, I was responsible for user experience across the portfolio of products at Candis. Practically speaking, I conducted user research, produced design concepts and prototypes, documented epics and user stories, and contributed UI enhancements to the React codebase.</p>
           <p>I also led the initiative to scale design to meet the needs of a growing engineering team through the development of a design system that served as the style guide and component library for current and future Candis products.</p>
         </WindowContent>
@@ -433,7 +443,7 @@ export default function Home() {
         <WindowTitle>Urban Sports Club</WindowTitle>
         <WindowContent>
           <p className="text-sm text-muted-foreground">2015</p>
-          <p className="font-serif text-xl mb-2">I helped lay the technical and product foundations for European expansion at <a href="https://urbansportsclub.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold hover:bg-muted" onClick={() => track("link_open", { id: "urban_sports_club_site", url: "https://urbansportsclub.com/" })}>Urban Sports Club</a>.</p>
+          <p className="font-serif text-xl mb-2">I helped lay the technical and product foundations for European expansion at <a href="https://urbansportsclub.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold bg-secondary hover:bg-accent" onClick={() => track("link_open", { id: "urban_sports_club_site", url: "https://urbansportsclub.com/" })}>Urban Sports Club</a>.</p>
           <p className="mb-2">I played a key technical leadership and product design role, responsible for the digital transformation of key technical infrastructure and the venue check-in experience. My achievements were instrumental to the ambitious expansion of the flat-rate sports membership from Berlin into over 88 cities and 8,000 sporting venues.</p>
           <p>My key achievement was leading the delivery team, where I designed the REST API specification and mobile app experiences. Within three months, we replaced the existing manual membership card and log sheet processes with an API and mobile apps enabling members to check-in with their iOS and Android devices.</p>
         </WindowContent>
