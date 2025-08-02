@@ -20,7 +20,7 @@ import Image from "next/image";
 export default function Home() {
   const [showAbout, setShowAbout] = useState(true);
   const [showExperience, setShowExperience] = useState(true);
-  const [showRandom, setShowRandom] = useState(true);
+  const [showExploration, setShowExploration] = useState(true);
   const [showContact, setShowContact] = useState(false);
   const [showMermaidViewer, setShowMermaidViewer] = useState(false);
   const [showPodscriber, setShowPodscriber] = useState(false);
@@ -40,7 +40,7 @@ export default function Home() {
   // Refs for each window
   const aboutRef = useRef<WindowRef>(null);
   const experienceRef = useRef<WindowRef>(null);
-  const randomRef = useRef<WindowRef>(null);
+  const explorationRef = useRef<WindowRef>(null);
   const contactRef = useRef<WindowRef>(null);
   const mermaidViewerRef = useRef<WindowRef>(null);
   const podscriberRef = useRef<WindowRef>(null);
@@ -112,9 +112,9 @@ export default function Home() {
         </MenubarMenu>
 
         <MenubarMenu>
-          <MenubarTrigger>Random</MenubarTrigger>
+          <MenubarTrigger>Exploration</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow("random", "menubar", setShowRandom, randomRef)}>View All</MenubarItem>
+            <MenubarItem onClick={() => showWindow("exploration", "menubar", setShowExploration, explorationRef)}>View All</MenubarItem>
             <MenubarSeparator />
             <MenubarItem onClick={() => showWindow("synthesiser", "menubar", setShowSynthesiser, synthesiserRef)}>
               <Network className="mr-2 h-4 w-4" />
@@ -173,9 +173,9 @@ export default function Home() {
       </Menubar>
 
 
-      {showRandom && (
-        <Window id="random" ref={randomRef} defaultView="list" className="w-210 left-4 top-14" onClose={() => closeWindow("random", setShowRandom)}>
-        <WindowTitle>Random</WindowTitle>
+      {showExploration && (
+        <Window id="exploration" ref={explorationRef} defaultView="list" className="w-210 left-4 top-14" onClose={() => closeWindow("exploration", setShowExploration)}>
+        <WindowTitle>Exploration</WindowTitle>
 
         <WindowContent view="icon">
           <button onClick={() => showWindow("synthesiser", "icon", setShowSynthesiser, synthesiserRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
