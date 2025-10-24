@@ -30,7 +30,6 @@ export default function Home() {
   const [showBooksAndConversations, setShowBooksAndConversations] = useState(false);
   const [showMcKinseyAndCompany, setShowMcKinseyAndCompany] = useState(false);
   const [showUP42, setShowUP42] = useState(false);
-  const [showDocumentationHubPresentation, setShowDocumentationHubPresentation] = useState(false);
   const [showDocumentationHubCaseStudy, setShowDocumentationHubCaseStudy] = useState(false);
   const [showCatalogSearchPrototype, setShowCatalogSearchPrototype] = useState(false);
   const [showCatalogSearchCaseStudy, setShowCatalogSearchCaseStudy] = useState(false);
@@ -52,7 +51,6 @@ export default function Home() {
   const booksAndConversationsRef = useRef<WindowRef>(null);
   const mckinseyAndCompanyRef = useRef<WindowRef>(null);
   const up42Ref = useRef<WindowRef>(null);
-  const documentationHubPresentationRef = useRef<WindowRef>(null);
   const documentationHubCaseStudyRef = useRef<WindowRef>(null);
   const catalogSearchPrototypeRef = useRef<WindowRef>(null);
   const catalogSearchCaseStudyRef = useRef<WindowRef>(null);
@@ -335,18 +333,10 @@ export default function Home() {
           <p className="mb-4">As the first design hire within the Airbus Defence and Space subsidiary, I established design practice within the organisation.</p>
           <p className="mb-4">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques to ensure decisions were made with the best data and insights at hand.</p>
           <p className="mb-4">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
-          <button onClick={() => showWindow("documentation_hub_presentation", "icon", setShowDocumentationHubPresentation, documentationHubPresentationRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
-            <FileVideo strokeWidth={0.8} className="size-12"/>
-            <span>documentation-hub.mp4</span>
-          </button>
           <button onClick={() => showWindow("documentation_hub_case_study", "icon", setShowDocumentationHubCaseStudy, documentationHubCaseStudyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileText strokeWidth={0.8} className="size-12"/>
             <span>documentation-hub-case-study.html</span>
           </button>
-          <a href="https://up42.com/blog/rethinking-our-documentation-experience" target="_blank" rel="noopener noreferrer" className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center" onClick={() => track("link_open", { id: "documentation_hub_article", url: "https://up42.com/blog/rethinking-our-documentation-experience" })}>
-            <FileSymlink strokeWidth={0.8} className="size-12"/>
-            <span>documentation-experience.url</span>
-          </a>
           <button onClick={() => showWindow("catalog_search_case_study", "icon", setShowCatalogSearchCaseStudy, catalogSearchCaseStudyRef)} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
             <FileChartPie strokeWidth={0.8} className="size-12"/>
             <span>catalog-search-case-study.figma</span>
@@ -367,19 +357,6 @@ export default function Home() {
       </Window>
       )}
 
-      {showDocumentationHubPresentation && (
-      <Window id="documentation_hub_presentation" ref={documentationHubPresentationRef} className="w-200 aspect-16/9 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("documentation_hub_presentation", setShowDocumentationHubPresentation)}>
-        <WindowTitle>Presentation — Documentation Hub</WindowTitle>
-        <WindowContent className="p-0">
-          <iframe
-            src="https://www.youtube.com/embed/XpdvVltqWtc"
-            allowFullScreen
-            className="w-full h-full">
-          </iframe>
-        </WindowContent>
-      </Window>
-      )}
-
       {showDocumentationHubCaseStudy && (
       <Window id="documentation_hub_case_study" ref={documentationHubCaseStudyRef} className="w-200 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("documentation_hub_case_study", setShowDocumentationHubCaseStudy)}>
         <WindowTitle>Case Study — Documentation Hub</WindowTitle>
@@ -387,6 +364,10 @@ export default function Home() {
           <p className="text-sm text-muted-foreground">Case Study</p>
           <h1 className="font-serif text-xl mb-4">I led a cross-disciplinary team in rethinking the documentation experience, building a foundation that bridged the gap between product and documentation.</h1>
           <p className="mb-4"><em>Led the design thinking approach behind the reimagining of UP42’s documentation experience, enabling a small cross-disciplinary team to understand customer problems, explore solutions, and deliver a foundation for shortening the distance between the user interface and documentation.</em></p>
+          <figure className="aspect-16/9 mb-4">
+            <iframe src="https://www.youtube.com/embed/XpdvVltqWtc" allowFullScreen className="w-full h-full"></iframe>
+            <figcaption className="text-muted-foreground text-center mt-2">A presentation a gave when we launched the Documentation Hub. The case study below has been adapted for reading.</figcaption>
+          </figure>
           <figure className="mb-4">
             <img src="/old-new-documentation-hub.png" alt="The old and new documentation hub." />
             <figcaption className="text-muted-foreground text-center mt-2">The old and new documentation hub.</figcaption>
