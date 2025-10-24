@@ -13,7 +13,7 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { BriefcaseBusiness, Clapperboard, FileBox, FileChartPie, FileSymlink, FileText, FileVideo, Folder, LibraryBig, Mail, Network, Podcast, ScanText } from "lucide-react";
+import { BriefcaseBusiness, Clapperboard, FileBox, FileChartPie, FileText, Folder, LibraryBig, Mail, Network, Podcast, ScanText } from "lucide-react";
 import Clock from "@/components/ui/clock";
 import Image from "next/image";
 
@@ -369,7 +369,7 @@ export default function Home() {
             <figcaption className="text-muted-foreground text-center mt-2">A presentation a gave when we launched the Documentation Hub. The case study below has been adapted for reading.</figcaption>
           </figure>
           <figure className="mb-4">
-            <img src="/old-new-documentation-hub.png" alt="The old and new documentation hub." />
+            <Image src="/old-new-documentation-hub.png" alt="The old and new documentation hub." width={800} height={600} className="w-full h-auto" />
             <figcaption className="text-muted-foreground text-center mt-2">The old and new documentation hub.</figcaption>
           </figure>
           <p className="mb-4">For a platform bringing geospatial data and analytics to developers, a great developer experience—and by extension, documentation—was essential to fulfilling that promise.</p>
@@ -379,7 +379,7 @@ export default function Home() {
           <h3 className="font-serif text-base mb-4">Design Process</h3>
           <p className="mb-4">Kicking things off, I adopted the <a href="https://designthinking.ideo.com/">design thinking</a> framework, a hands-on, user-centric approach to solving complex problems popularised by David Kelley and Tim Brown of IDEO.</p>
           <figure className="mb-4">
-            <img src="/design-thinking-framework.png" alt="Framed our approach around IDEO's design thinking framework, guiding the team from research to implementation." />
+            <Image src="/design-thinking-framework.png" alt="Framed our approach around IDEO's design thinking framework, guiding the team from research to implementation." width={800} height={600} className="w-full h-auto" />
             <figcaption className="text-muted-foreground text-center mt-2">Framed our approach around IDEO’s design thinking framework, guiding the team from research to implementation.</figcaption>
           </figure>
           <p className="mb-4">To build a shared understanding of developers and their pain points, I gathered insights through:</p>
@@ -421,7 +421,7 @@ export default function Home() {
           <p className="mb-4">With a clearer picture of the opportunities, my first step was to redesign the information architecture: how content was organised and discovered.</p>
           <p className="mb-4">I began with a content audit across all touchpoints: the existing documentation, SDK microsite, YouTube tutorials, and marketing pages. This inventory became the backbone of our content strategy.</p>
           <figure className="mb-4">
-            <img src="/content-inventory.png" alt="The content inventory that would become the backbone of our content strategy." />
+            <Image src="/content-inventory.png" alt="The content inventory that would become the backbone of our content strategy." width={800} height={600} className="w-full h-auto" />
             <figcaption className="text-muted-foreground text-center mt-2">The content inventory that would become the backbone of our content strategy.</figcaption>
           </figure>
           <p className="mb-4">From there, I designed a new sitemap around four pillars:</p>
@@ -432,7 +432,7 @@ export default function Home() {
             <li><strong>Accounts &amp; Credits:</strong> Administrative content including account management, pricing, and compliance.</li>
           </ul>
           <figure className="mb-4">
-            <img src="/new-sitemap.png" alt="The new sitemap clarified purpose and navigation, organising content under four intuitive pillars." />
+            <Image src="/new-sitemap.png" alt="The new sitemap clarified purpose and navigation, organising content under four intuitive pillars." width={800} height={600} className="w-full h-auto" />
             <figcaption className="text-muted-foreground text-center mt-2">The new sitemap clarified purpose and navigation, organising content under four intuitive pillars.</figcaption>
           </figure>
           <h3 className="font-serif text-base mb-4">Content Types</h3>
@@ -450,7 +450,7 @@ export default function Home() {
             <li><strong>Home:</strong> The orienting layer that helped developers identify where to start.</li>
           </ul>
           <figure className="mb-4">
-            <img src="/sitemap-visualization.png" alt="Visualising the sitemap helped validate navigation flows and ensure findability across user journeys." />
+            <Image src="/sitemap-visualization.png" alt="Visualising the sitemap helped validate navigation flows and ensure findability across user journeys." width={800} height={600} className="w-full h-auto" />
             <figcaption className="text-muted-foreground text-center mt-2">Visualising the sitemap helped validate navigation flows and ensure findability across user journeys.</figcaption>
           </figure>
           <h3 className="font-serif text-base mb-4">Atomic Design</h3>
@@ -460,17 +460,17 @@ export default function Home() {
           <p className="mb-4">I picked out colour, icon, and typography tokens from the design system, that had evolved from our product and marketing website, to form the primitives for building components.</p>
           <p className="mb-4">I selected colour, icon, and typography tokens from the design system, evolved from our product and marketing website, to form the primitives for building components.</p>
           <figure className="mb-4">
-            <img src="/product-palette-iconography.png" alt="Reusing our product palette and iconography extended visual continuity across product, marketing, and documentation." />
+            <Image src="/product-palette-iconography.png" alt="Reusing our product palette and iconography extended visual continuity across product, marketing, and documentation." width={800} height={600} className="w-full h-auto" />
             <figcaption className="text-muted-foreground text-center mt-2">Reusing our product palette and iconography extended visual continuity across product, marketing, and documentation.</figcaption>
           </figure>
           <figure className="mb-4">
-            <img src="/type-styles.png" alt="Selecting a concise set of type styles ensured clarity, hierarchy, and consistency across all documentation layouts." />
+            <Image src="/type-styles.png" alt="Selecting a concise set of type styles ensured clarity, hierarchy, and consistency across all documentation layouts." width={800} height={600} className="w-full h-auto" />
             <figcaption className="text-muted-foreground text-center mt-2">Selecting a concise set of type styles ensured clarity, hierarchy, and consistency across all documentation layouts.</figcaption>
           </figure>
           <h4 className="font-sans font-bold text-base">Molecules</h4>
           <p className="mb-4">I combined these atoms into reusable components to define the tone and rhythm of content. Headings, captions, and links combined to form headers and lists. Icons, covers, and images were added to construct cards.</p>
           <figure className="mb-4">
-            <img src="/atomic-components.png" alt="Combining atomic elements into reusable components laid the groundwork for scalable, systematic page layouts." />
+            <Image src="/atomic-components.png" alt="Combining atomic elements into reusable components laid the groundwork for scalable, systematic page layouts." width={800} height={600} className="w-full h-auto" />
             <figcaption className="text-muted-foreground text-center mt-2">Combining atomic elements into reusable components laid the groundwork for scalable, systematic page layouts.</figcaption>
           </figure>
           <h4 className="font-sans font-bold text-base">Organisms</h4>
@@ -503,7 +503,7 @@ export default function Home() {
           <h4 className="font-sans font-bold text-base">Screenshots</h4>
           <p className="mb-4">Adam refreshed over 170 screenshots to match the latest UI. We also established visual guidelines to keep screenshots useful without requiring frequent updates.</p>
           <figure className="mb-4">
-            <img src="/updated-screenshots.png" alt="Updated screenshots aligned visual cues with the product." />
+            <Image src="/updated-screenshots.png" alt="Updated screenshots aligned visual cues with the product." width={800} height={600} className="w-full h-auto" />
             <figcaption className="text-muted-foreground text-center mt-2">Updated screenshots aligned visual cues with the product.</figcaption>
           </figure>
           <h2 className="font-serif text-lg mb-4">The Groundwork for a Better Developer Experience</h2>
