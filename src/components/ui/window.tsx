@@ -214,7 +214,7 @@ const WindowTitle: React.FC<WindowTitleProps> = ({
   return (
     <div
       className={cn(
-        "relative flex select-none items-center justify-between h-8 px-2 py-1.5 text-sm touch-none",
+        "relative flex flex-shrink-0 select-none items-center justify-between h-8 px-2 py-1.5 text-sm touch-none",
         dragging ? "cursor-grabbing" : "cursor-grab",
         focused ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
       )}
