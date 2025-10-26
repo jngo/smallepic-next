@@ -1,5 +1,6 @@
 "use client"
 
+import { memo } from "react";
 import { Network, Podcast, ScanText, Clapperboard, LibraryBig } from "lucide-react";
 import { Window, WindowTitle, WindowContent } from "@/components/ui/window";
 import { WindowRef } from "@/components/ui/window";
@@ -14,7 +15,7 @@ interface ExplorationWindowProps {
   onShowBooksAndConversations: () => void;
 }
 
-export default function ExplorationWindow({
+function ExplorationWindow({
   onClose,
   windowRef,
   onShowSynthesiser,
@@ -77,3 +78,5 @@ export default function ExplorationWindow({
     </Window>
   );
 }
+
+export default memo(ExplorationWindow);

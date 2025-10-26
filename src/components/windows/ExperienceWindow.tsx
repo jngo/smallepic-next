@@ -1,5 +1,6 @@
 "use client"
 
+import { memo } from "react";
 import { FileText, Folder } from "lucide-react";
 import { Window, WindowTitle, WindowContent } from "@/components/ui/window";
 import { WindowRef } from "@/components/ui/window";
@@ -13,7 +14,7 @@ interface ExperienceWindowProps {
   onShowUrbanSportsClub: () => void;
 }
 
-export default function ExperienceWindow({
+function ExperienceWindow({
   onClose,
   windowRef,
   onShowMcKinsey,
@@ -71,3 +72,5 @@ export default function ExperienceWindow({
     </Window>
   );
 }
+
+export default memo(ExperienceWindow);

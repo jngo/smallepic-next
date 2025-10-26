@@ -1,5 +1,6 @@
 "use client"
 
+import { memo } from "react";
 import Image from "next/image";
 import { Window, WindowTitle, WindowContent } from "@/components/ui/window";
 import { WindowRef } from "@/components/ui/window";
@@ -9,7 +10,7 @@ interface DocumentationHubCaseStudyWindowProps {
   windowRef: React.RefObject<WindowRef | null>;
 }
 
-export default function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHubCaseStudyWindowProps) {
+function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHubCaseStudyWindowProps) {
   return (
     <Window id="documentation_hub_case_study" ref={windowRef} className="w-200 left-1/2 top-1/2 -translate-1/2 @container" onClose={onClose}>
       <WindowTitle>Case Study — Documentation Hub</WindowTitle>
@@ -219,3 +220,5 @@ export default function DocumentationHubCaseStudyWindow({ onClose, windowRef }: 
     </Window>
   );
 }
+
+export default memo(DocumentationHubCaseStudyWindow);

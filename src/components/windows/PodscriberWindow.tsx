@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image";
+import { memo } from "react";
 import { track } from "@vercel/analytics";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,12 +12,20 @@ interface PodscriberWindowProps {
   windowRef: React.RefObject<WindowRef | null>;
 }
 
-export default function PodscriberWindow({ onClose, windowRef }: PodscriberWindowProps) {
+function PodscriberWindow({ onClose, windowRef }: PodscriberWindowProps) {
   return (
     <Window id="podscriber" ref={windowRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
       <WindowTitle>Podscriber</WindowTitle>
       <WindowContent>
-        <Image src="/podscriber.gif" alt="Podscriber" width={480} height={1040} className="w-1/2 h-auto mx-auto mb-4" />
+        <video 
+          autoPlay
+          loop 
+          muted 
+          playsInline
+          className="w-1/2 h-auto mx-auto mb-4"
+        >
+          <source src="/podscriber.mp4" type="video/mp4" />
+        </video>
         <p className="font-serif text-xl mb-2">Transcribe podcast episodes and send them to your read-it-later queue.</p>
         <div className="flex flex-wrap gap-2 mb-4">
           <Badge variant="secondary">v0</Badge>
@@ -40,3 +48,5 @@ export default function PodscriberWindow({ onClose, windowRef }: PodscriberWindo
     </Window>
   );
 }
+
+export default memo(PodscriberWindow);

@@ -1,5 +1,6 @@
 "use client"
 
+import { memo } from "react";
 import { track } from "@vercel/analytics";
 import { FileText, FileChartPie, FileBox } from "lucide-react";
 import { Window, WindowTitle, WindowContent } from "@/components/ui/window";
@@ -15,7 +16,7 @@ interface UP42WindowProps {
   onShowGISOSPrototype: () => void;
 }
 
-export default function UP42Window({
+function UP42Window({
   onClose,
   windowRef,
   onShowDocumentationHub,
@@ -57,3 +58,5 @@ export default function UP42Window({
     </Window>
   );
 }
+
+export default memo(UP42Window);
