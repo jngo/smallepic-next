@@ -132,7 +132,13 @@ export default function DocumentationHubCaseStudyWindow({ onClose, windowRef }: 
         <h4 className="font-sans font-bold text-base">Organisms</h4>
         <p className="mb-4">These molecules then combined into flexible page sections used across galleries, departments, and the homepage.</p>
         <figure className="my-12">
-          <video autoPlay loop muted playsInline>
+          <video 
+            loop 
+            muted 
+            playsInline
+            onMouseEnter={(e) => e.currentTarget.play()}
+            onMouseLeave={(e) => e.currentTarget.pause()}
+          >
             <source src="/atomic-design-organisms.mp4" type="video/mp4" />
           </video>
           <figcaption className="text-muted-foreground text-center mt-2">Patterns defined as organisms made it possible to compose diverse page types without bespoke design work.</figcaption>
@@ -171,21 +177,39 @@ export default function DocumentationHubCaseStudyWindow({ onClose, windowRef }: 
         <h3 className="font-serif text-base text-center my-12"><code>Ctrl+P</code> (Quick Open)</h3>
         <p className="mb-4">Inspired by code editors like VS Code and Sublime Text, I introduced a <code>ctrl+p</code> shortcut that surfaced documentation search directly in the product, enabling quick access to any topic.</p>
         <figure className="mb-4">
-          <video autoPlay loop muted playsInline>
+          <video 
+            loop 
+            muted 
+            playsInline
+            onMouseEnter={(e) => e.currentTarget.play()}
+            onMouseLeave={(e) => e.currentTarget.pause()}
+          >
             <source src="/quick-open.mp4" type="video/mp4" />
           </video>
           <figcaption className="text-muted-foreground text-center mt-2">Embedded search brought documentation closer to the workflow.</figcaption>
         </figure>
         <h3 className="font-serif text-base text-center my-12">Embedded Documentation</h3>
         <figure className="my-12">
-          <video autoPlay loop muted playsInline>
+          <video 
+            loop 
+            muted 
+            playsInline
+            onMouseEnter={(e) => e.currentTarget.play()}
+            onMouseLeave={(e) => e.currentTarget.pause()}
+          >
             <source src="/popovers.mp4" type="video/mp4" />
           </video>
           <figcaption className="text-muted-foreground text-center mt-2">Contextual popovers illustrated how immediate guidance could reduce support dependency and task interruptions.</figcaption>
         </figure>
         <p className="mb-4">A year earlier, I had introduced contextual popovers linking to documentation. While helpful, they still forced you into a new tab.</p>
         <figure className="my-12">
-          <video autoPlay loop muted playsInline>
+          <video 
+            loop 
+            muted 
+            playsInline
+            onMouseEnter={(e) => e.currentTarget.play()}
+            onMouseLeave={(e) => e.currentTarget.pause()}
+          >
             <source src="/embedded-documentation.mp4" type="video/mp4" />
           </video>
           <figcaption className="text-muted-foreground text-center mt-2">Embedded documentation showed how side-by-side context eliminated tab switching and reinforced learning in-flow.</figcaption>
