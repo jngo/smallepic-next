@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback, lazy, Suspense } from "react";
 import { track } from "@vercel/analytics";
 import { WindowRef } from "@/components/ui/window";
 import {
@@ -14,85 +14,86 @@ import {
 import { BriefcaseBusiness, Clapperboard, LibraryBig, Mail, Network, Podcast, ScanText } from "lucide-react";
 import Clock from "@/components/ui/clock";
 
-// Import window components
-import AboutWindow from "@/components/windows/AboutWindow";
-import JohnNgoWindow from "@/components/windows/JohnNgoWindow";
-import ExperienceWindow from "@/components/windows/ExperienceWindow";
-import ExplorationWindow from "@/components/windows/ExplorationWindow";
-import McKinseyWindow from "@/components/windows/McKinseyWindow";
-import UP42Window from "@/components/windows/UP42Window";
-import CandisWindow from "@/components/windows/CandisWindow";
-import UrbanSportsClubWindow from "@/components/windows/UrbanSportsClubWindow";
-import SynthesiserWindow from "@/components/windows/SynthesiserWindow";
-import PodscriberWindow from "@/components/windows/PodscriberWindow";
-import MermaidViewerWindow from "@/components/windows/MermaidViewerWindow";
-import FilmsAndConversationsWindow from "@/components/windows/FilmsAndConversationsWindow";
-import BooksAndConversationsWindow from "@/components/windows/BooksAndConversationsWindow";
-import DocumentationHubCaseStudyWindow from "@/components/windows/DocumentationHubCaseStudyWindow";
-import CatalogSearchCaseStudyWindow from "@/components/windows/CatalogSearchCaseStudyWindow";
-import CatalogSearchPrototypeWindow from "@/components/windows/CatalogSearchPrototypeWindow";
-import MarketingWebsiteCaseStudyWindow from "@/components/windows/MarketingWebsiteCaseStudyWindow";
-import GISOSPrototypeWindow from "@/components/windows/GISOSPrototypeWindow";
+// Lazy load window components for code splitting
+const AboutWindow = lazy(() => import("@/components/windows/AboutWindow"));
+const JohnNgoWindow = lazy(() => import("@/components/windows/JohnNgoWindow"));
+const ExperienceWindow = lazy(() => import("@/components/windows/ExperienceWindow"));
+const ExplorationWindow = lazy(() => import("@/components/windows/ExplorationWindow"));
+const McKinseyWindow = lazy(() => import("@/components/windows/McKinseyWindow"));
+const UP42Window = lazy(() => import("@/components/windows/UP42Window"));
+const CandisWindow = lazy(() => import("@/components/windows/CandisWindow"));
+const UrbanSportsClubWindow = lazy(() => import("@/components/windows/UrbanSportsClubWindow"));
+const SynthesiserWindow = lazy(() => import("@/components/windows/SynthesiserWindow"));
+const PodscriberWindow = lazy(() => import("@/components/windows/PodscriberWindow"));
+const MermaidViewerWindow = lazy(() => import("@/components/windows/MermaidViewerWindow"));
+const FilmsAndConversationsWindow = lazy(() => import("@/components/windows/FilmsAndConversationsWindow"));
+const BooksAndConversationsWindow = lazy(() => import("@/components/windows/BooksAndConversationsWindow"));
+const DocumentationHubCaseStudyWindow = lazy(() => import("@/components/windows/DocumentationHubCaseStudyWindow"));
+const CatalogSearchCaseStudyWindow = lazy(() => import("@/components/windows/CatalogSearchCaseStudyWindow"));
+const CatalogSearchPrototypeWindow = lazy(() => import("@/components/windows/CatalogSearchPrototypeWindow"));
+const MarketingWebsiteCaseStudyWindow = lazy(() => import("@/components/windows/MarketingWebsiteCaseStudyWindow"));
+const GISOSPrototypeWindow = lazy(() => import("@/components/windows/GISOSPrototypeWindow"));
 
 export default function Home() {
-  const [showAbout, setShowAbout] = useState(true);
-  const [showJohnNgo, setShowJohnNgo] = useState(false);
-  const [showExperience, setShowExperience] = useState(true);
-  const [showExploration, setShowExploration] = useState(true);
-  const [showMermaidViewer, setShowMermaidViewer] = useState(false);
-  const [showPodscriber, setShowPodscriber] = useState(false);
-  const [showSynthesiser, setShowSynthesiser] = useState(false);
-  const [showFilmsAndConversations, setShowFilmsAndConversations] = useState(false);
-  const [showBooksAndConversations, setShowBooksAndConversations] = useState(false);
-  const [showMcKinseyAndCompany, setShowMcKinseyAndCompany] = useState(false);
-  const [showUP42, setShowUP42] = useState(false);
-  const [showDocumentationHubCaseStudy, setShowDocumentationHubCaseStudy] = useState(false);
-  const [showCatalogSearchPrototype, setShowCatalogSearchPrototype] = useState(false);
-  const [showCatalogSearchCaseStudy, setShowCatalogSearchCaseStudy] = useState(false);
-  const [showMarketingWebsiteCaseStudy, setShowMarketingWebsiteCaseStudy] = useState(false);
-  const [showGISOSPrototype, setShowGISOSPrototype] = useState(false);
-  const [showCandis, setShowCandis] = useState(false);
-  const [showUrbanSportsClub, setShowUrbanSportsClub] = useState(false);
+  // Consolidated window visibility state
+  const [windows, setWindows] = useState({
+    about: true,
+    johnNgo: false,
+    experience: true,
+    exploration: true,
+    mermaidViewer: false,
+    podscriber: false,
+    synthesiser: false,
+    filmsAndConversations: false,
+    booksAndConversations: false,
+    mckinseyAndCompany: false,
+    up42: false,
+    documentationHubCaseStudy: false,
+    catalogSearchPrototype: false,
+    catalogSearchCaseStudy: false,
+    marketingWebsiteCaseStudy: false,
+    gisosPrototype: false,
+    candis: false,
+    urbanSportsClub: false,
+  });
 
-  // Refs for each window
-  const aboutRef = useRef<WindowRef>(null);
-  const johnNgoRef = useRef<WindowRef>(null);
-  const experienceRef = useRef<WindowRef>(null);
-  const explorationRef = useRef<WindowRef>(null);
-  const mermaidViewerRef = useRef<WindowRef>(null);
-  const podscriberRef = useRef<WindowRef>(null);
-  const synthesiserRef = useRef<WindowRef>(null);
-  const filmsAndConversationsRef = useRef<WindowRef>(null);
-  const booksAndConversationsRef = useRef<WindowRef>(null);
-  const mckinseyAndCompanyRef = useRef<WindowRef>(null);
-  const up42Ref = useRef<WindowRef>(null);
-  const documentationHubCaseStudyRef = useRef<WindowRef>(null);
-  const catalogSearchPrototypeRef = useRef<WindowRef>(null);
-  const catalogSearchCaseStudyRef = useRef<WindowRef>(null);
-  const marketingWebsiteCaseStudyRef = useRef<WindowRef>(null);
-  const GISOSPrototypeRef = useRef<WindowRef>(null);
-  const candisRef = useRef<WindowRef>(null);
-  const urbanSportsClubRef = useRef<WindowRef>(null);
+  // Consolidated refs for window instances
+  const windowRefs = useRef<Record<string, React.RefObject<WindowRef | null>>>({
+    about: useRef<WindowRef | null>(null),
+    johnNgo: useRef<WindowRef | null>(null),
+    experience: useRef<WindowRef | null>(null),
+    exploration: useRef<WindowRef | null>(null),
+    mermaidViewer: useRef<WindowRef | null>(null),
+    podscriber: useRef<WindowRef | null>(null),
+    synthesiser: useRef<WindowRef | null>(null),
+    filmsAndConversations: useRef<WindowRef | null>(null),
+    booksAndConversations: useRef<WindowRef | null>(null),
+    mckinseyAndCompany: useRef<WindowRef | null>(null),
+    up42: useRef<WindowRef | null>(null),
+    documentationHubCaseStudy: useRef<WindowRef | null>(null),
+    catalogSearchPrototype: useRef<WindowRef | null>(null),
+    catalogSearchCaseStudy: useRef<WindowRef | null>(null),
+    marketingWebsiteCaseStudy: useRef<WindowRef | null>(null),
+    gisosPrototype: useRef<WindowRef | null>(null),
+    candis: useRef<WindowRef | null>(null),
+    urbanSportsClub: useRef<WindowRef | null>(null),
+  }).current;
 
-  // Helper function to show window and bring to front
-  const showWindow = (
-    id: string,
-    origin: string,
-    setShow: (show: boolean) => void,
-    ref: React.RefObject<WindowRef | null>
-  ) => {
-    track("window_open", { id, origin });
-    setShow(true);
+  // Memoized helper function to show window and bring to front
+  const showWindow = useCallback((windowId: string, origin: string) => {
+    track("window_open", { id: windowId, origin });
+    setWindows(prev => ({ ...prev, [windowId]: true }));
     // Use setTimeout to ensure the window is rendered before bringing to front
     setTimeout(() => {
-      ref.current?.bringToFront();
+      windowRefs[windowId]?.current?.bringToFront();
     }, 0);
-  };
+  }, [windowRefs]);
 
-  const closeWindow = (id: string, setShow: (show: boolean) => void) => {
-    track("window_close", { id });
-    setShow(false);
-  };
+  // Memoized helper function to close window
+  const closeWindow = useCallback((windowId: string) => {
+    track("window_close", { id: windowId });
+    setWindows(prev => ({ ...prev, [windowId]: false }));
+  }, []);
 
   return (
     <div className="w-svw h-svh relative overflow-clip">
@@ -100,28 +101,28 @@ export default function Home() {
         <MenubarMenu>
           <MenubarTrigger className="font-bold">John Ngo</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow("about", "menubar", setShowAbout, aboutRef)}>About</MenubarItem>
+            <MenubarItem onClick={() => showWindow("about", "menubar")}>About</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
         <MenubarMenu>
           <MenubarTrigger>Experience</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow("experience", "menubar", setShowExperience, experienceRef)}>View All</MenubarItem>
+            <MenubarItem onClick={() => showWindow("experience", "menubar")}>View All</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem onClick={() => showWindow("mckinsey_and_company", "menubar", setShowMcKinseyAndCompany, mckinseyAndCompanyRef)}>
+            <MenubarItem onClick={() => showWindow("mckinseyAndCompany", "menubar")}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>McKinsey & Company</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("up42", "menubar", setShowUP42, up42Ref)}>
+            <MenubarItem onClick={() => showWindow("up42", "menubar")}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>UP42</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("candis", "menubar", setShowCandis, candisRef)}>
+            <MenubarItem onClick={() => showWindow("candis", "menubar")}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>Candis</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("urban_sports_club", "menubar", setShowUrbanSportsClub, urbanSportsClubRef)}>
+            <MenubarItem onClick={() => showWindow("urbanSportsClub", "menubar")}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>Urban Sports Club</span>
             </MenubarItem>
@@ -131,25 +132,25 @@ export default function Home() {
         <MenubarMenu>
           <MenubarTrigger>Exploration</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow("exploration", "menubar", setShowExploration, explorationRef)}>View All</MenubarItem>
+            <MenubarItem onClick={() => showWindow("exploration", "menubar")}>View All</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem onClick={() => showWindow("synthesiser", "menubar", setShowSynthesiser, synthesiserRef)}>
+            <MenubarItem onClick={() => showWindow("synthesiser", "menubar")}>
               <Network className="mr-2 h-4 w-4" />
               <span>Synthesiser</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("podscriber", "menubar", setShowPodscriber, podscriberRef)}>
+            <MenubarItem onClick={() => showWindow("podscriber", "menubar")}>
               <Podcast className="mr-2 h-4 w-4" />
               <span>Podscriber</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("mermaid_viewer", "menubar", setShowMermaidViewer, mermaidViewerRef)}>
+            <MenubarItem onClick={() => showWindow("mermaidViewer", "menubar")}>
               <ScanText className="mr-2 h-4 w-4" />
               <span>Mermaid Viewer</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("films_and_conversations", "menubar", setShowFilmsAndConversations, filmsAndConversationsRef)}>
+            <MenubarItem onClick={() => showWindow("filmsAndConversations", "menubar")}>
               <Clapperboard className="mr-2 h-4 w-4" />
               <span>Films & Conversations</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("books_and_conversations", "menubar", setShowBooksAndConversations, booksAndConversationsRef)}>
+            <MenubarItem onClick={() => showWindow("booksAndConversations", "menubar")}>
               <LibraryBig className="mr-2 h-4 w-4" />
               <span>Books & Conversations</span>
             </MenubarItem>
@@ -189,146 +190,182 @@ export default function Home() {
         <Clock className="ml-auto pr-2" />
       </Menubar>
 
-      {/* Windows */}
-      {showExploration && (
-        <ExplorationWindow
-          onClose={() => closeWindow("exploration", setShowExploration)}
-          windowRef={explorationRef}
-          onShowSynthesiser={() => showWindow("synthesiser", "icon", setShowSynthesiser, synthesiserRef)}
-          onShowPodscriber={() => showWindow("podscriber", "icon", setShowPodscriber, podscriberRef)}
-          onShowMermaidViewer={() => showWindow("mermaid_viewer", "icon", setShowMermaidViewer, mermaidViewerRef)}
-          onShowFilmsAndConversations={() => showWindow("films_and_conversations", "icon", setShowFilmsAndConversations, filmsAndConversationsRef)}
-          onShowBooksAndConversations={() => showWindow("books_and_conversations", "icon", setShowBooksAndConversations, booksAndConversationsRef)}
-        />
+      {/* Windows with Suspense boundaries for lazy loading */}
+      {windows.exploration && (
+        <Suspense fallback={<div />}>
+          <ExplorationWindow
+            onClose={() => closeWindow("exploration")}
+            windowRef={windowRefs.exploration}
+            onShowSynthesiser={() => showWindow("synthesiser", "icon")}
+            onShowPodscriber={() => showWindow("podscriber", "icon")}
+            onShowMermaidViewer={() => showWindow("mermaidViewer", "icon")}
+            onShowFilmsAndConversations={() => showWindow("filmsAndConversations", "icon")}
+            onShowBooksAndConversations={() => showWindow("booksAndConversations", "icon")}
+          />
+        </Suspense>
       )}
 
-      {showExperience && (
-        <ExperienceWindow
-          onClose={() => closeWindow("experience", setShowExperience)}
-          windowRef={experienceRef}
-          onShowMcKinsey={() => showWindow("mckinsey_and_company", "icon", setShowMcKinseyAndCompany, mckinseyAndCompanyRef)}
-          onShowUP42={() => showWindow("up42", "icon", setShowUP42, up42Ref)}
-          onShowCandis={() => showWindow("candis", "icon", setShowCandis, candisRef)}
-          onShowUrbanSportsClub={() => showWindow("urban_sports_club", "icon", setShowUrbanSportsClub, urbanSportsClubRef)}
-        />
+      {windows.experience && (
+        <Suspense fallback={<div />}>
+          <ExperienceWindow
+            onClose={() => closeWindow("experience")}
+            windowRef={windowRefs.experience}
+            onShowMcKinsey={() => showWindow("mckinseyAndCompany", "icon")}
+            onShowUP42={() => showWindow("up42", "icon")}
+            onShowCandis={() => showWindow("candis", "icon")}
+            onShowUrbanSportsClub={() => showWindow("urbanSportsClub", "icon")}
+          />
+        </Suspense>
       )}
 
-      {showAbout && (
-        <AboutWindow
-          onClose={() => closeWindow("about", setShowAbout)}
-          onShowJohnNgo={() => setShowJohnNgo(true)}
-          windowRef={aboutRef}
-        />
+      {windows.about && (
+        <Suspense fallback={<div />}>
+          <AboutWindow
+            onClose={() => closeWindow("about")}
+            onShowJohnNgo={() => setWindows(prev => ({ ...prev, johnNgo: true }))}
+            windowRef={windowRefs.about}
+          />
+        </Suspense>
       )}
 
-      {showJohnNgo && (
-        <JohnNgoWindow
-          onClose={() => closeWindow("john_ngo", setShowJohnNgo)}
-          windowRef={johnNgoRef}
-        />
+      {windows.johnNgo && (
+        <Suspense fallback={<div />}>
+          <JohnNgoWindow
+            onClose={() => closeWindow("johnNgo")}
+            windowRef={windowRefs.johnNgo}
+          />
+        </Suspense>
       )}
 
-      {showMcKinseyAndCompany && (
-        <McKinseyWindow
-          onClose={() => closeWindow("mckinsey_and_company", setShowMcKinseyAndCompany)}
-          windowRef={mckinseyAndCompanyRef}
-        />
+      {windows.mckinseyAndCompany && (
+        <Suspense fallback={<div />}>
+          <McKinseyWindow
+            onClose={() => closeWindow("mckinseyAndCompany")}
+            windowRef={windowRefs.mckinseyAndCompany}
+          />
+        </Suspense>
       )}
 
-      {showUP42 && (
-        <UP42Window
-          onClose={() => closeWindow("up42", setShowUP42)}
-          windowRef={up42Ref}
-          onShowDocumentationHub={() => showWindow("documentation_hub_case_study", "icon", setShowDocumentationHubCaseStudy, documentationHubCaseStudyRef)}
-          onShowCatalogSearchCaseStudy={() => showWindow("catalog_search_case_study", "icon", setShowCatalogSearchCaseStudy, catalogSearchCaseStudyRef)}
-          onShowCatalogSearchPrototype={() => showWindow("catalog_search_prototype", "icon", setShowCatalogSearchPrototype, catalogSearchPrototypeRef)}
-          onShowMarketingWebsiteCaseStudy={() => showWindow("marketing_website_case_study", "icon", setShowMarketingWebsiteCaseStudy, marketingWebsiteCaseStudyRef)}
-          onShowGISOSPrototype={() => showWindow("gis_os_prototype", "icon", setShowGISOSPrototype, GISOSPrototypeRef)}
-        />
+      {windows.up42 && (
+        <Suspense fallback={<div />}>
+          <UP42Window
+            onClose={() => closeWindow("up42")}
+            windowRef={windowRefs.up42}
+            onShowDocumentationHub={() => showWindow("documentationHubCaseStudy", "icon")}
+            onShowCatalogSearchCaseStudy={() => showWindow("catalogSearchCaseStudy", "icon")}
+            onShowCatalogSearchPrototype={() => showWindow("catalogSearchPrototype", "icon")}
+            onShowMarketingWebsiteCaseStudy={() => showWindow("marketingWebsiteCaseStudy", "icon")}
+            onShowGISOSPrototype={() => showWindow("gisosPrototype", "icon")}
+          />
+        </Suspense>
       )}
 
-      {showDocumentationHubCaseStudy && (
-        <DocumentationHubCaseStudyWindow
-          onClose={() => closeWindow("documentation_hub_case_study", setShowDocumentationHubCaseStudy)}
-          windowRef={documentationHubCaseStudyRef}
-        />
+      {windows.documentationHubCaseStudy && (
+        <Suspense fallback={<div />}>
+          <DocumentationHubCaseStudyWindow
+            onClose={() => closeWindow("documentationHubCaseStudy")}
+            windowRef={windowRefs.documentationHubCaseStudy}
+          />
+        </Suspense>
       )}
 
-      {showCatalogSearchCaseStudy && (
-        <CatalogSearchCaseStudyWindow
-          onClose={() => closeWindow("catalog_search_case_study", setShowCatalogSearchCaseStudy)}
-          windowRef={catalogSearchCaseStudyRef}
-        />
+      {windows.catalogSearchCaseStudy && (
+        <Suspense fallback={<div />}>
+          <CatalogSearchCaseStudyWindow
+            onClose={() => closeWindow("catalogSearchCaseStudy")}
+            windowRef={windowRefs.catalogSearchCaseStudy}
+          />
+        </Suspense>
       )}
 
-      {showCatalogSearchPrototype && (
-        <CatalogSearchPrototypeWindow
-          onClose={() => closeWindow("catalog_search_prototype", setShowCatalogSearchPrototype)}
-          windowRef={catalogSearchPrototypeRef}
-        />
+      {windows.catalogSearchPrototype && (
+        <Suspense fallback={<div />}>
+          <CatalogSearchPrototypeWindow
+            onClose={() => closeWindow("catalogSearchPrototype")}
+            windowRef={windowRefs.catalogSearchPrototype}
+          />
+        </Suspense>
       )}
 
-      {showMarketingWebsiteCaseStudy && (
-        <MarketingWebsiteCaseStudyWindow
-          onClose={() => closeWindow("marketing_website_case_study", setShowMarketingWebsiteCaseStudy)}
-          windowRef={marketingWebsiteCaseStudyRef}
-        />
+      {windows.marketingWebsiteCaseStudy && (
+        <Suspense fallback={<div />}>
+          <MarketingWebsiteCaseStudyWindow
+            onClose={() => closeWindow("marketingWebsiteCaseStudy")}
+            windowRef={windowRefs.marketingWebsiteCaseStudy}
+          />
+        </Suspense>
       )}
 
-      {showGISOSPrototype && (
-        <GISOSPrototypeWindow
-          onClose={() => closeWindow("gis_os_prototype", setShowGISOSPrototype)}
-          windowRef={GISOSPrototypeRef}
-        />
+      {windows.gisosPrototype && (
+        <Suspense fallback={<div />}>
+          <GISOSPrototypeWindow
+            onClose={() => closeWindow("gisosPrototype")}
+            windowRef={windowRefs.gisosPrototype}
+          />
+        </Suspense>
       )}
 
-      {showCandis && (
-        <CandisWindow
-          onClose={() => closeWindow("candis", setShowCandis)}
-          windowRef={candisRef}
-        />
+      {windows.candis && (
+        <Suspense fallback={<div />}>
+          <CandisWindow
+            onClose={() => closeWindow("candis")}
+            windowRef={windowRefs.candis}
+          />
+        </Suspense>
       )}
 
-      {showUrbanSportsClub && (
-        <UrbanSportsClubWindow
-          onClose={() => closeWindow("urban_sports_club", setShowUrbanSportsClub)}
-          windowRef={urbanSportsClubRef}
-        />
+      {windows.urbanSportsClub && (
+        <Suspense fallback={<div />}>
+          <UrbanSportsClubWindow
+            onClose={() => closeWindow("urbanSportsClub")}
+            windowRef={windowRefs.urbanSportsClub}
+          />
+        </Suspense>
       )}
 
-      {showSynthesiser && (
-        <SynthesiserWindow
-          onClose={() => closeWindow("synthesiser", setShowSynthesiser)}
-          windowRef={synthesiserRef}
-        />
+      {windows.synthesiser && (
+        <Suspense fallback={<div />}>
+          <SynthesiserWindow
+            onClose={() => closeWindow("synthesiser")}
+            windowRef={windowRefs.synthesiser}
+          />
+        </Suspense>
       )}
 
-      {showPodscriber && (
-        <PodscriberWindow
-          onClose={() => closeWindow("podscriber", setShowPodscriber)}
-          windowRef={podscriberRef}
-        />
+      {windows.podscriber && (
+        <Suspense fallback={<div />}>
+          <PodscriberWindow
+            onClose={() => closeWindow("podscriber")}
+            windowRef={windowRefs.podscriber}
+          />
+        </Suspense>
       )}
 
-      {showMermaidViewer && (
-        <MermaidViewerWindow
-          onClose={() => closeWindow("mermaid_viewer", setShowMermaidViewer)}
-          windowRef={mermaidViewerRef}
-        />
+      {windows.mermaidViewer && (
+        <Suspense fallback={<div />}>
+          <MermaidViewerWindow
+            onClose={() => closeWindow("mermaidViewer")}
+            windowRef={windowRefs.mermaidViewer}
+          />
+        </Suspense>
       )}
 
-      {showFilmsAndConversations && (
-        <FilmsAndConversationsWindow
-          onClose={() => closeWindow("films_and_conversations", setShowFilmsAndConversations)}
-          windowRef={filmsAndConversationsRef}
-        />
+      {windows.filmsAndConversations && (
+        <Suspense fallback={<div />}>
+          <FilmsAndConversationsWindow
+            onClose={() => closeWindow("filmsAndConversations")}
+            windowRef={windowRefs.filmsAndConversations}
+          />
+        </Suspense>
       )}
 
-      {showBooksAndConversations && (
-        <BooksAndConversationsWindow
-          onClose={() => closeWindow("books_and_conversations", setShowBooksAndConversations)}
-          windowRef={booksAndConversationsRef}
-        />
+      {windows.booksAndConversations && (
+        <Suspense fallback={<div />}>
+          <BooksAndConversationsWindow
+            onClose={() => closeWindow("booksAndConversations")}
+            windowRef={windowRefs.booksAndConversations}
+          />
+        </Suspense>
       )}
     </div>
   );
