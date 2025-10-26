@@ -645,7 +645,9 @@ export default function Home() {
       <Window id="podscriber" ref={podscriberRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={() => closeWindow("podscriber", setShowPodscriber)}>
         <WindowTitle>Podscriber</WindowTitle>
         <WindowContent>
-          <Image src="/podscriber.gif" alt="Podscriber" width={480} height={1040} className="w-1/2 h-auto mx-auto mb-4" />
+          <video autoPlay loop muted playsInline className="w-1/2 h-auto mx-auto mb-4">
+            <source src="/podscriber.mp4" type="video/mp4" />
+          </video>
           <p className="font-serif text-xl mb-2">Transcribe podcast episodes and send them to your read-it-later queue.</p>
           <div className="flex flex-wrap gap-2 mb-4">
             <Badge variant="secondary">v0</Badge>
