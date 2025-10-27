@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/menubar";
 import { BriefcaseBusiness, Clapperboard, LibraryBig, Mail, Network, Podcast, ScanText } from "lucide-react";
 import Clock from "@/components/ui/clock";
-import { WindowSkeleton } from "@/components/ui/window-skeleton";
 
 // Lazy load window components for code splitting
 const AboutWindow = lazy(() => import("@/components/windows/AboutWindow"));
@@ -193,7 +192,7 @@ export default function Home() {
 
       {/* Windows with Suspense boundaries for lazy loading */}
       {windows.exploration && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <ExplorationWindow
             onClose={() => closeWindow("exploration")}
             windowRef={windowRefs.exploration}
@@ -207,7 +206,7 @@ export default function Home() {
       )}
 
       {windows.experience && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <ExperienceWindow
             onClose={() => closeWindow("experience")}
             windowRef={windowRefs.experience}
@@ -220,7 +219,7 @@ export default function Home() {
       )}
 
       {windows.about && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <AboutWindow
             onClose={() => closeWindow("about")}
             onShowJohnNgo={() => setWindows(prev => ({ ...prev, johnNgo: true }))}
@@ -230,7 +229,7 @@ export default function Home() {
       )}
 
       {windows.johnNgo && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <JohnNgoWindow
             onClose={() => closeWindow("johnNgo")}
             windowRef={windowRefs.johnNgo}
@@ -239,7 +238,7 @@ export default function Home() {
       )}
 
       {windows.mckinseyAndCompany && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <McKinseyWindow
             onClose={() => closeWindow("mckinseyAndCompany")}
             windowRef={windowRefs.mckinseyAndCompany}
@@ -248,7 +247,7 @@ export default function Home() {
       )}
 
       {windows.up42 && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <UP42Window
             onClose={() => closeWindow("up42")}
             windowRef={windowRefs.up42}
@@ -262,7 +261,7 @@ export default function Home() {
       )}
 
       {windows.documentationHubCaseStudy && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <DocumentationHubCaseStudyWindow
             onClose={() => closeWindow("documentationHubCaseStudy")}
             windowRef={windowRefs.documentationHubCaseStudy}
@@ -271,7 +270,7 @@ export default function Home() {
       )}
 
       {windows.catalogSearchCaseStudy && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <CatalogSearchCaseStudyWindow
             onClose={() => closeWindow("catalogSearchCaseStudy")}
             windowRef={windowRefs.catalogSearchCaseStudy}
@@ -280,7 +279,7 @@ export default function Home() {
       )}
 
       {windows.catalogSearchPrototype && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <CatalogSearchPrototypeWindow
             onClose={() => closeWindow("catalogSearchPrototype")}
             windowRef={windowRefs.catalogSearchPrototype}
@@ -289,7 +288,7 @@ export default function Home() {
       )}
 
       {windows.marketingWebsiteCaseStudy && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <MarketingWebsiteCaseStudyWindow
             onClose={() => closeWindow("marketingWebsiteCaseStudy")}
             windowRef={windowRefs.marketingWebsiteCaseStudy}
@@ -298,7 +297,7 @@ export default function Home() {
       )}
 
       {windows.gisosPrototype && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <GISOSPrototypeWindow
             onClose={() => closeWindow("gisosPrototype")}
             windowRef={windowRefs.gisosPrototype}
@@ -307,7 +306,7 @@ export default function Home() {
       )}
 
       {windows.candis && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <CandisWindow
             onClose={() => closeWindow("candis")}
             windowRef={windowRefs.candis}
@@ -316,7 +315,7 @@ export default function Home() {
       )}
 
       {windows.urbanSportsClub && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <UrbanSportsClubWindow
             onClose={() => closeWindow("urbanSportsClub")}
             windowRef={windowRefs.urbanSportsClub}
@@ -325,7 +324,7 @@ export default function Home() {
       )}
 
       {windows.synthesiser && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <SynthesiserWindow
             onClose={() => closeWindow("synthesiser")}
             windowRef={windowRefs.synthesiser}
@@ -334,7 +333,7 @@ export default function Home() {
       )}
 
       {windows.podscriber && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <PodscriberWindow
             onClose={() => closeWindow("podscriber")}
             windowRef={windowRefs.podscriber}
@@ -343,7 +342,7 @@ export default function Home() {
       )}
 
       {windows.mermaidViewer && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <MermaidViewerWindow
             onClose={() => closeWindow("mermaidViewer")}
             windowRef={windowRefs.mermaidViewer}
@@ -352,7 +351,7 @@ export default function Home() {
       )}
 
       {windows.filmsAndConversations && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <FilmsAndConversationsWindow
             onClose={() => closeWindow("filmsAndConversations")}
             windowRef={windowRefs.filmsAndConversations}
@@ -361,7 +360,7 @@ export default function Home() {
       )}
 
       {windows.booksAndConversations && (
-        <Suspense fallback={<WindowSkeleton />}>
+        <Suspense>
           <BooksAndConversationsWindow
             onClose={() => closeWindow("booksAndConversations")}
             windowRef={windowRefs.booksAndConversations}
