@@ -95,7 +95,10 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
   useEffect(() => {
     const onWindowFocus = (event: Event) => {
       const { detail } = event as CustomEvent<WindowFocusEventDetail>;
-      if (!detail?.id) return;
+      if (!detail?.id) {
+        setCanonicalWindow(null);
+        return;
+      }
       const focusedWindow = getWindowKeyByComponentId(detail.id);
       if (!focusedWindow) return;
       setCanonicalWindow(focusedWindow);
@@ -124,10 +127,10 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
       });
       return next;
     });
-    setCanonicalWindow(windowId);
     // Use setTimeout to ensure the window is rendered before bringing to front
     setTimeout(() => {
       windowRefs[windowId]?.current?.bringToFront();
+      setCanonicalWindow(windowId);
     }, 0);
   }, [windowRefs]);
 
@@ -141,20 +144,6 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
         next[key] = false;
       });
       return next;
-    });
-
-    setCanonicalWindow((currentWindow) => {
-      if (!currentWindow) return currentWindow;
-      if (!keysToClose.includes(currentWindow)) return currentWindow;
-
-      const chain = getWindowChain(currentWindow);
-      for (let i = chain.length - 1; i >= 0; i -= 1) {
-        const candidate = chain[i];
-        if (!keysToClose.includes(candidate)) {
-          return candidate;
-        }
-      }
-      return null;
     });
   }, []);
 
