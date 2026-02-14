@@ -2,13 +2,14 @@
 
 import { useState, useRef, useCallback, useEffect, lazy, Suspense } from "react";
 import { track } from "@vercel/analytics";
-import { WindowRef } from "@/components/ui/window";
+import { WINDOW_FOCUS_EVENT, WindowRef } from "@/components/ui/window";
+import type { WindowFocusEventDetail } from "@/components/ui/window";
 import {
-  buildWindowsStateFromChain,
-  DEFAULT_WINDOWS_STATE,
+  buildWindowsStateForRoute,
   getCanonicalPathForWindow,
   getWindowAndDescendantWindowKeys,
   getWindowChain,
+  getWindowKeyByComponentId,
   resolveWindowPathSegments,
 } from "@/lib/windowRoutes";
 import type { WindowKey, WindowsState } from "@/lib/windowRoutes";
@@ -51,22 +52,14 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
   const initialRouteMatch = initialPathSegments?.length
     ? resolveWindowPathSegments(initialPathSegments)
     : null;
+  const initialRouteWindow = initialRouteMatch?.key ?? null;
 
   const [windows, setWindows] = useState<WindowsState>(() =>
-    initialRouteMatch
-      ? buildWindowsStateFromChain(initialRouteMatch.chain)
-      : { ...DEFAULT_WINDOWS_STATE }
+    buildWindowsStateForRoute(initialRouteWindow)
   );
   const [canonicalWindow, setCanonicalWindow] = useState<WindowKey | null>(
-    initialRouteMatch?.key ?? null
+    initialRouteWindow
   );
-
-  useEffect(() => {
-    const canonicalPath = canonicalWindow ? getCanonicalPathForWindow(canonicalWindow) : "/";
-    if (window.location.pathname !== canonicalPath) {
-      window.history.replaceState(window.history.state, "", canonicalPath);
-    }
-  }, [canonicalWindow]);
 
   const windowRefs = useRef<Record<WindowKey, React.RefObject<WindowRef | null>>>({
     about: useRef<WindowRef | null>(null),
@@ -88,6 +81,38 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
     candis: useRef<WindowRef | null>(null),
     urbanSportsClub: useRef<WindowRef | null>(null),
   }).current;
+
+  useEffect(() => {
+    if (!initialRouteWindow) return;
+    const timerId = window.setTimeout(() => {
+      windowRefs[initialRouteWindow]?.current?.bringToFront();
+    }, 0);
+    return () => {
+      window.clearTimeout(timerId);
+    };
+  }, [initialRouteWindow, windowRefs]);
+
+  useEffect(() => {
+    const onWindowFocus = (event: Event) => {
+      const { detail } = event as CustomEvent<WindowFocusEventDetail>;
+      if (!detail?.id) return;
+      const focusedWindow = getWindowKeyByComponentId(detail.id);
+      if (!focusedWindow) return;
+      setCanonicalWindow(focusedWindow);
+    };
+
+    window.addEventListener(WINDOW_FOCUS_EVENT, onWindowFocus as EventListener);
+    return () => {
+      window.removeEventListener(WINDOW_FOCUS_EVENT, onWindowFocus as EventListener);
+    };
+  }, []);
+
+  useEffect(() => {
+    const canonicalPath = canonicalWindow ? getCanonicalPathForWindow(canonicalWindow) : "/";
+    if (window.location.pathname !== canonicalPath) {
+      window.history.replaceState(window.history.state, "", canonicalPath);
+    }
+  }, [canonicalWindow]);
 
   const showWindow = useCallback((windowId: WindowKey, origin: string) => {
     track("window_open", { id: windowId, origin });

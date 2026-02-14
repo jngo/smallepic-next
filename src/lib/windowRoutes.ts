@@ -48,6 +48,27 @@ const WINDOW_ROUTE_NODES: Record<WindowKey, WindowRouteNode> = {
   urbanSportsClub: { segment: "urban-sports-club", parent: "experience" },
 }
 
+const WINDOW_COMPONENT_ID_BY_KEY: Record<WindowKey, string> = {
+  about: "about",
+  johnNgo: "john_ngo",
+  experience: "experience",
+  exploration: "exploration",
+  mermaidViewer: "mermaid_viewer",
+  podscriber: "podscriber",
+  synthesiser: "synthesiser",
+  filmsAndConversations: "films_and_conversations",
+  booksAndConversations: "books_and_conversations",
+  mckinseyAndCompany: "mckinsey_and_company",
+  up42: "up42",
+  documentationHubCaseStudy: "documentation_hub_case_study",
+  catalogSearchPrototype: "catalog_search_prototype",
+  catalogSearchCaseStudy: "catalog_search_case_study",
+  marketingWebsiteCaseStudy: "marketing_website_case_study",
+  gisosPrototype: "gis_os_prototype",
+  candis: "candis",
+  urbanSportsClub: "urban_sports_club",
+}
+
 const windowChainCache = new Map<WindowKey, WindowKey[]>()
 
 export const getWindowChain = (key: WindowKey): WindowKey[] => {
@@ -101,6 +122,12 @@ export const getWindowAndDescendantWindowKeys = (key: WindowKey): WindowKey[] =>
 export const getAllWindowPathSegments = (): string[][] =>
   WINDOW_KEYS.map((windowKey) => getWindowPathSegments(windowKey))
 
+export const ALWAYS_OPEN_WINDOW_KEYS: readonly WindowKey[] = [
+  "about",
+  "experience",
+  "exploration",
+]
+
 export const DEFAULT_WINDOWS_STATE: WindowsState = {
   about: true,
   johnNgo: false,
@@ -122,13 +149,42 @@ export const DEFAULT_WINDOWS_STATE: WindowsState = {
   urbanSportsClub: false,
 }
 
+const buildEmptyWindowsState = (): WindowsState =>
+  WINDOW_KEYS.reduce(
+    (state, key) => {
+      state[key] = false
+      return state
+    },
+    {} as WindowsState,
+  )
+
 export const buildWindowsStateFromChain = (chain: WindowKey[]): WindowsState => {
-  const state: WindowsState = { ...DEFAULT_WINDOWS_STATE }
-  for (const key of WINDOW_KEYS) {
-    state[key] = false
-  }
+  const state = buildEmptyWindowsState()
   chain.forEach((key) => {
     state[key] = true
   })
   return state
 }
+
+export const buildWindowsStateForRoute = (key: WindowKey | null): WindowsState => {
+  if (!key) {
+    return { ...DEFAULT_WINDOWS_STATE }
+  }
+
+  const state = buildEmptyWindowsState()
+  const keysToOpen = new Set<WindowKey>([
+    ...ALWAYS_OPEN_WINDOW_KEYS,
+    ...getWindowChain(key),
+  ])
+  WINDOW_KEYS.forEach((windowKey) => {
+    state[windowKey] = keysToOpen.has(windowKey)
+  })
+  return state
+}
+
+const componentIdToWindowKey = new Map<string, WindowKey>(
+  WINDOW_KEYS.map((key) => [WINDOW_COMPONENT_ID_BY_KEY[key], key]),
+)
+
+export const getWindowKeyByComponentId = (componentId: string): WindowKey | null =>
+  componentIdToWindowKey.get(componentId.trim()) ?? null
