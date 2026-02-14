@@ -5,6 +5,12 @@ import { cn } from "@/lib/utils"
 import { X, Grid3x3, List } from "lucide-react"
 import { track } from "@vercel/analytics"
 
+export const WINDOW_FOCUS_EVENT = "desktop-window-focus"
+
+export interface WindowFocusEventDetail {
+  id: string
+}
+
 // Track window order and focus state for all windows
 interface StackEntry {
   setZIndex: React.Dispatch<React.SetStateAction<number>>
@@ -101,8 +107,13 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
         const [entry] = windowStack.splice(idx, 1)
         windowStack.push(entry)
         updateZIndices()
+        window.dispatchEvent(
+          new CustomEvent<WindowFocusEventDetail>(WINDOW_FOCUS_EVENT, {
+            detail: { id },
+          }),
+        )
       }
-    }, [])
+    }, [id])
 
     React.useImperativeHandle(ref, () => ({
       bringToFront
