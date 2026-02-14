@@ -54,6 +54,10 @@ const windowIdToPath = new Map<WindowId, string>(
   WINDOW_ROUTE_ENTRIES.map(({ windowId, segments }) => [windowId, `/${segments.join("/")}`]),
 );
 
+const windowIdToSegments = new Map<WindowId, string[]>(
+  WINDOW_ROUTE_ENTRIES.map(({ windowId, segments }) => [windowId, segments]),
+);
+
 export const getPathForWindow = (windowId: WindowId): string | null => {
   return windowIdToPath.get(windowId) ?? null;
 };
@@ -73,4 +77,42 @@ export const getOpenWindowIdsForSegments = (segments: string[]): WindowId[] | nu
   }
 
   return openWindowIds;
+};
+
+export const getDescendantWindowIds = (windowId: WindowId): WindowId[] => {
+  const parentSegments = windowIdToSegments.get(windowId);
+
+  if (!parentSegments) {
+    return [];
+  }
+
+  return WINDOW_ROUTE_ENTRIES
+    .filter(({ windowId: candidateWindowId, segments }) => {
+      if (candidateWindowId === windowId || segments.length <= parentSegments.length) {
+        return false;
+      }
+
+      return parentSegments.every((segment, index) => segments[index] === segment);
+    })
+    .map(({ windowId: candidateWindowId }) => candidateWindowId);
+};
+
+export const getPathForOpenWindows = (windows: Partial<Record<WindowId, boolean>>): string => {
+  let bestPath = "/";
+  let bestDepth = 0;
+
+  for (const { segments } of WINDOW_ROUTE_ENTRIES) {
+    const chain = getOpenWindowIdsForSegments(segments);
+    if (!chain) continue;
+
+    const isOpenChain = chain.every((windowId) => windows[windowId]);
+    if (!isOpenChain) continue;
+
+    if (segments.length > bestDepth) {
+      bestDepth = segments.length;
+      bestPath = `/${segments.join("/")}`;
+    }
+  }
+
+  return bestPath;
 };

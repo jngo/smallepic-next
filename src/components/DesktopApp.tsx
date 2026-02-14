@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/menubar";
 import { BriefcaseBusiness, Clapperboard, LibraryBig, Mail, Network, Podcast, ScanText } from "lucide-react";
 import Clock from "@/components/ui/clock";
-import { getPathForWindow, WindowId } from "@/lib/window-routes";
+import { getDescendantWindowIds, getPathForOpenWindows, getPathForWindow, WindowId } from "@/lib/window-routes";
 
 // Lazy load window components for code splitting
 const AboutWindow = lazy(() => import("@/components/windows/AboutWindow"));
@@ -111,8 +111,18 @@ export default function DesktopApp({ initialOpenWindows = [] }: DesktopAppProps)
   // Memoized helper function to close window
   const closeWindow = useCallback((windowId: WindowId) => {
     track("window_close", { id: windowId });
-    setWindows(prev => ({ ...prev, [windowId]: false }));
-  }, []);
+    setWindows(prev => {
+      const nextWindows = { ...prev, [windowId]: false };
+
+      getDescendantWindowIds(windowId).forEach((descendantWindowId) => {
+        nextWindows[descendantWindowId] = false;
+      });
+
+      router.push(getPathForOpenWindows(nextWindows));
+
+      return nextWindows;
+    });
+  }, [router]);
 
   useEffect(() => {
     const activeWindowId = initialOpenWindows[initialOpenWindows.length - 1];
