@@ -9,6 +9,7 @@ import { WindowRef } from "@/components/ui/window";
 interface UP42WindowProps {
   onClose: () => void;
   windowRef: React.RefObject<WindowRef | null>;
+  onFocus?: () => void;
   onShowDocumentationHub: () => void;
   onShowCatalogSearchCaseStudy: () => void;
   onShowCatalogSearchPrototype: () => void;
@@ -19,6 +20,7 @@ interface UP42WindowProps {
 function UP42Window({
   onClose,
   windowRef,
+  onFocus,
   onShowDocumentationHub,
   onShowCatalogSearchCaseStudy,
   onShowCatalogSearchPrototype,
@@ -26,7 +28,7 @@ function UP42Window({
   onShowGISOSPrototype
 }: UP42WindowProps) {
   return (
-    <Window id="up42" ref={windowRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
+    <Window id="up42" ref={windowRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={onClose} onFocus={onFocus}>
       <WindowTitle>UP42</WindowTitle>
       <WindowContent>
         <p className="text-sm text-muted-foreground">2019–2021</p>

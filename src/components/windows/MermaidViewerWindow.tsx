@@ -10,11 +10,12 @@ import { WindowRef } from "@/components/ui/window";
 interface MermaidViewerWindowProps {
   onClose: () => void;
   windowRef: React.RefObject<WindowRef | null>;
+  onFocus?: () => void;
 }
 
-export default function MermaidViewerWindow({ onClose, windowRef }: MermaidViewerWindowProps) {
+export default function MermaidViewerWindow({ onClose, windowRef, onFocus }: MermaidViewerWindowProps) {
   return (
-    <Window id="mermaid_viewer" ref={windowRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
+    <Window id="mermaid_viewer" ref={windowRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={onClose} onFocus={onFocus}>
       <WindowTitle>Mermaid Viewer</WindowTitle>
       <WindowContent>
         <Image src="/mermaid-viewer.png" alt="Mermaid Viewer" width={400} height={300} className="w-full h-auto mb-4" />

@@ -8,6 +8,7 @@ import { WindowRef } from "@/components/ui/window";
 interface ExperienceWindowProps {
   onClose: () => void;
   windowRef: React.RefObject<WindowRef | null>;
+  onFocus?: () => void;
   onShowMcKinsey: () => void;
   onShowUP42: () => void;
   onShowCandis: () => void;
@@ -17,13 +18,14 @@ interface ExperienceWindowProps {
 function ExperienceWindow({
   onClose,
   windowRef,
+  onFocus,
   onShowMcKinsey,
   onShowUP42,
   onShowCandis,
   onShowUrbanSportsClub
 }: ExperienceWindowProps) {
   return (
-    <Window id="experience" ref={windowRef} defaultView="icon" className="w-210 left-16 top-30" onClose={onClose}>
+    <Window id="experience" ref={windowRef} defaultView="icon" className="w-210 left-16 top-30" onClose={onClose} onFocus={onFocus}>
       <WindowTitle>Experience</WindowTitle>
 
       <WindowContent view="icon">

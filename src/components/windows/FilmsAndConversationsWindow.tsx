@@ -9,11 +9,12 @@ import { WindowRef } from "@/components/ui/window";
 interface FilmsAndConversationsWindowProps {
   onClose: () => void;
   windowRef: React.RefObject<WindowRef | null>;
+  onFocus?: () => void;
 }
 
-export default function FilmsAndConversationsWindow({ onClose, windowRef }: FilmsAndConversationsWindowProps) {
+export default function FilmsAndConversationsWindow({ onClose, windowRef, onFocus }: FilmsAndConversationsWindowProps) {
   return (
-    <Window id="films_and_conversations" ref={windowRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
+    <Window id="films_and_conversations" ref={windowRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={onClose} onFocus={onFocus}>
       <WindowTitle>Films & Conversations</WindowTitle>
       <WindowContent>
         <p className="font-serif text-xl mb-2">A monthly film club bringing together people, documentaries, and discussions.</p>

@@ -8,6 +8,7 @@ import { WindowRef } from "@/components/ui/window";
 interface ExplorationWindowProps {
   onClose: () => void;
   windowRef: React.RefObject<WindowRef | null>;
+  onFocus?: () => void;
   onShowSynthesiser: () => void;
   onShowPodscriber: () => void;
   onShowMermaidViewer: () => void;
@@ -18,6 +19,7 @@ interface ExplorationWindowProps {
 function ExplorationWindow({
   onClose,
   windowRef,
+  onFocus,
   onShowSynthesiser,
   onShowPodscriber,
   onShowMermaidViewer,
@@ -25,7 +27,7 @@ function ExplorationWindow({
   onShowBooksAndConversations
 }: ExplorationWindowProps) {
   return (
-    <Window id="exploration" ref={windowRef} defaultView="list" className="w-210 left-4 top-14" onClose={onClose}>
+    <Window id="exploration" ref={windowRef} defaultView="list" className="w-210 left-4 top-14" onClose={onClose} onFocus={onFocus}>
       <WindowTitle>Exploration</WindowTitle>
 
       <WindowContent view="icon">

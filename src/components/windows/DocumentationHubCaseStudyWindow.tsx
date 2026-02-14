@@ -8,11 +8,13 @@ import { WindowRef } from "@/components/ui/window";
 interface DocumentationHubCaseStudyWindowProps {
   onClose: () => void;
   windowRef: React.RefObject<WindowRef | null>;
+  onFocus?: () => void;
 }
 
-function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHubCaseStudyWindowProps) {
+function DocumentationHubCaseStudyWindow({
+  onFocus, onClose, windowRef }: DocumentationHubCaseStudyWindowProps) {
   return (
-    <Window id="documentation_hub_case_study" ref={windowRef} className="w-200 left-1/2 top-1/2 -translate-1/2 @container" onClose={onClose}>
+    <Window id="documentation_hub_case_study" ref={windowRef} className="w-200 left-1/2 top-1/2 -translate-1/2 @container" onClose={onClose} onFocus={onFocus}>
       <WindowTitle>Case Study — Documentation Hub</WindowTitle>
       <WindowContent className="p-8 @3xl:p-12">
         <p className="text-sm text-center text-muted-foreground">Case Study</p>

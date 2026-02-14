@@ -6,11 +6,12 @@ import { WindowRef } from "@/components/ui/window";
 interface GISOSPrototypeWindowProps {
   onClose: () => void;
   windowRef: React.RefObject<WindowRef | null>;
+  onFocus?: () => void;
 }
 
-export default function GISOSPrototypeWindow({ onClose, windowRef }: GISOSPrototypeWindowProps) {
+export default function GISOSPrototypeWindow({ onClose, windowRef, onFocus }: GISOSPrototypeWindowProps) {
   return (
-    <Window id="gis_os_prototype" ref={windowRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
+    <Window id="gis_os_prototype" ref={windowRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={onClose} onFocus={onFocus}>
       <WindowTitle>Prototype — GIS OS</WindowTitle>
       <WindowContent className="p-0">
         <iframe

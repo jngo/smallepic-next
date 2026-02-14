@@ -7,11 +7,12 @@ import { WindowRef } from "@/components/ui/window";
 interface McKinseyWindowProps {
   onClose: () => void;
   windowRef: React.RefObject<WindowRef | null>;
+  onFocus?: () => void;
 }
 
-export default function McKinseyWindow({ onClose, windowRef }: McKinseyWindowProps) {
+export default function McKinseyWindow({ onClose, windowRef, onFocus }: McKinseyWindowProps) {
   return (
-    <Window id="mckinsey_and_company" ref={windowRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
+    <Window id="mckinsey_and_company" ref={windowRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={onClose} onFocus={onFocus}>
       <WindowTitle>McKinsey & Company</WindowTitle>
       <WindowContent>
         <p className="text-sm text-muted-foreground">2021–Present</p>

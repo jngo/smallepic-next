@@ -7,11 +7,12 @@ import { WindowRef } from "@/components/ui/window";
 interface CandisWindowProps {
   onClose: () => void;
   windowRef: React.RefObject<WindowRef | null>;
+  onFocus?: () => void;
 }
 
-export default function CandisWindow({ onClose, windowRef }: CandisWindowProps) {
+export default function CandisWindow({ onClose, windowRef, onFocus }: CandisWindowProps) {
   return (
-    <Window id="candis" ref={windowRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
+    <Window id="candis" ref={windowRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={onClose} onFocus={onFocus}>
       <WindowTitle>Candis</WindowTitle>
       <WindowContent>
         <p className="text-sm text-muted-foreground">2017–2019</p>

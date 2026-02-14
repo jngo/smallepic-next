@@ -9,11 +9,12 @@ import { WindowRef } from "@/components/ui/window";
 interface BooksAndConversationsWindowProps {
   onClose: () => void;
   windowRef: React.RefObject<WindowRef | null>;
+  onFocus?: () => void;
 }
 
-export default function BooksAndConversationsWindow({ onClose, windowRef }: BooksAndConversationsWindowProps) {
+export default function BooksAndConversationsWindow({ onClose, windowRef, onFocus }: BooksAndConversationsWindowProps) {
   return (
-    <Window id="books_and_conversations" ref={windowRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
+    <Window id="books_and_conversations" ref={windowRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={onClose} onFocus={onFocus}>
       <WindowTitle>Books & Conversations</WindowTitle>
       <WindowContent>
         <p className="font-serif text-lg mb-2">Roundtable discussions with good friends and great books.</p>

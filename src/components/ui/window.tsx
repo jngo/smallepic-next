@@ -9,15 +9,20 @@ import { track } from "@vercel/analytics"
 interface StackEntry {
   setZIndex: React.Dispatch<React.SetStateAction<number>>
   setFocused: React.Dispatch<React.SetStateAction<boolean>>
+  onFocus?: () => void
 }
 
 const windowStack: StackEntry[] = []
 
 // Update z-indices and focus flags for every window based on stack order
 const updateZIndices = () => {
-  windowStack.forEach(({ setZIndex, setFocused }, index) => {
+  windowStack.forEach(({ setZIndex, setFocused, onFocus }, index) => {
     setZIndex(10 + index)
-    setFocused(index === windowStack.length - 1)
+    const isFocused = index === windowStack.length - 1
+    setFocused(isFocused)
+    if (isFocused) {
+      onFocus?.()
+    }
   })
 }
 
@@ -44,6 +49,7 @@ const useWindowContext = () => {
 interface WindowProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   id: string
   onClose?: () => void
+  onFocus?: () => void
   defaultView?: string
   viewSizes?: Record<string, string>
 }
@@ -53,7 +59,7 @@ export interface WindowRef {
 }
 
 const Window = React.forwardRef<WindowRef, WindowProps>(
-  ({ id, className, children, style, onClose, defaultView, viewSizes, ...props }, ref) => {
+  ({ id, className, children, style, onClose, onFocus, defaultView, viewSizes, ...props }, ref) => {
     const [position, setPosition] = React.useState<{ x: number; y: number } | null>(null)
     const [zIndex, setZIndex] = React.useState(10)
     const [focused, setFocused] = React.useState(false)
@@ -82,7 +88,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
 
     // Register this window in the stack on mount
     React.useEffect(() => {
-      const entry: StackEntry = { setZIndex, setFocused }
+      const entry: StackEntry = { setZIndex, setFocused, onFocus }
       windowStack.push(entry)
       updateZIndices()
       return () => {
@@ -92,7 +98,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
           updateZIndices()
         }
       }
-    }, [])
+    }, [onFocus])
 
     // Expose bringToFront method to parent components
     const bringToFront = React.useCallback(() => {

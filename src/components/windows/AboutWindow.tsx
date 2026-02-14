@@ -7,11 +7,12 @@ interface AboutWindowProps {
   onClose: () => void;
   onShowJohnNgo: () => void;
   windowRef: React.RefObject<WindowRef | null>;
+  onFocus?: () => void;
 }
 
-export default function AboutWindow({ onClose, onShowJohnNgo, windowRef }: AboutWindowProps) {
+export default function AboutWindow({ onClose, onShowJohnNgo, windowRef, onFocus }: AboutWindowProps) {
   return (
-    <Window id="about" ref={windowRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
+    <Window id="about" ref={windowRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={onClose} onFocus={onFocus}>
       <WindowTitle>About</WindowTitle>
       <WindowContent>
         <h1 className="text-3xl font-bold mt-4 mb-4">

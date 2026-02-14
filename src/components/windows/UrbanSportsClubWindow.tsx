@@ -7,11 +7,12 @@ import { WindowRef } from "@/components/ui/window";
 interface UrbanSportsClubWindowProps {
   onClose: () => void;
   windowRef: React.RefObject<WindowRef | null>;
+  onFocus?: () => void;
 }
 
-export default function UrbanSportsClubWindow({ onClose, windowRef }: UrbanSportsClubWindowProps) {
+export default function UrbanSportsClubWindow({ onClose, windowRef, onFocus }: UrbanSportsClubWindowProps) {
   return (
-    <Window id="urban_sports_club" ref={windowRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
+    <Window id="urban_sports_club" ref={windowRef} className="w-125 left-1/2 top-1/2 -translate-1/2" onClose={onClose} onFocus={onFocus}>
       <WindowTitle>Urban Sports Club</WindowTitle>
       <WindowContent>
         <p className="text-sm text-muted-foreground">2015</p>

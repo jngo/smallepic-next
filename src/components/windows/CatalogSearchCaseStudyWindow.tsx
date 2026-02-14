@@ -6,11 +6,12 @@ import { WindowRef } from "@/components/ui/window";
 interface CatalogSearchCaseStudyWindowProps {
   onClose: () => void;
   windowRef: React.RefObject<WindowRef | null>;
+  onFocus?: () => void;
 }
 
-export default function CatalogSearchCaseStudyWindow({ onClose, windowRef }: CatalogSearchCaseStudyWindowProps) {
+export default function CatalogSearchCaseStudyWindow({ onClose, windowRef, onFocus }: CatalogSearchCaseStudyWindowProps) {
   return (
-    <Window id="catalog_search_case_study" ref={windowRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
+    <Window id="catalog_search_case_study" ref={windowRef} className="w-200 aspect-7/5 left-1/2 top-1/2 -translate-1/2" onClose={onClose} onFocus={onFocus}>
       <WindowTitle>Case Study — Catalog Search</WindowTitle>
       <WindowContent className="p-0">
         <iframe
