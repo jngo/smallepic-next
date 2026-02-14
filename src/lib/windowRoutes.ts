@@ -122,12 +122,6 @@ export const getWindowAndDescendantWindowKeys = (key: WindowKey): WindowKey[] =>
 export const getAllWindowPathSegments = (): string[][] =>
   WINDOW_KEYS.map((windowKey) => getWindowPathSegments(windowKey))
 
-export const ALWAYS_OPEN_WINDOW_KEYS: readonly WindowKey[] = [
-  "about",
-  "experience",
-  "exploration",
-]
-
 export const DEFAULT_WINDOWS_STATE: WindowsState = {
   about: true,
   johnNgo: false,
@@ -172,13 +166,7 @@ export const buildWindowsStateForRoute = (key: WindowKey | null): WindowsState =
   }
 
   const state = buildEmptyWindowsState()
-  const keysToOpen = new Set<WindowKey>([
-    ...ALWAYS_OPEN_WINDOW_KEYS,
-    ...getWindowChain(key),
-  ])
-  WINDOW_KEYS.forEach((windowKey) => {
-    state[windowKey] = keysToOpen.has(windowKey)
-  })
+  state[key] = true
   return state
 }
 
