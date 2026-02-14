@@ -8,11 +8,12 @@ import { track } from "@vercel/analytics"
 export const WINDOW_FOCUS_EVENT = "desktop-window-focus"
 
 export interface WindowFocusEventDetail {
-  id: string
+  id: string | null
 }
 
 // Track window order and focus state for all windows
 interface StackEntry {
+  id: string
   setZIndex: React.Dispatch<React.SetStateAction<number>>
   setFocused: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -25,6 +26,15 @@ const updateZIndices = () => {
     setZIndex(10 + index)
     setFocused(index === windowStack.length - 1)
   })
+}
+
+const dispatchFocusedWindow = () => {
+  const focusedWindow = windowStack[windowStack.length - 1]
+  window.dispatchEvent(
+    new CustomEvent<WindowFocusEventDetail>(WINDOW_FOCUS_EVENT, {
+      detail: { id: focusedWindow?.id ?? null },
+    }),
+  )
 }
 
 // Context for managing view state within a window
@@ -88,7 +98,7 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
 
     // Register this window in the stack on mount
     React.useEffect(() => {
-      const entry: StackEntry = { setZIndex, setFocused }
+      const entry: StackEntry = { id, setZIndex, setFocused }
       windowStack.push(entry)
       updateZIndices()
       return () => {
@@ -96,24 +106,21 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
         if (idx !== -1) {
           windowStack.splice(idx, 1)
           updateZIndices()
+          dispatchFocusedWindow()
         }
       }
-    }, [])
+    }, [id])
 
     // Expose bringToFront method to parent components
     const bringToFront = React.useCallback(() => {
       const idx = windowStack.findIndex((w) => w.setZIndex === setZIndex)
-      if (idx !== -1) {
-        const [entry] = windowStack.splice(idx, 1)
-        windowStack.push(entry)
-        updateZIndices()
-        window.dispatchEvent(
-          new CustomEvent<WindowFocusEventDetail>(WINDOW_FOCUS_EVENT, {
-            detail: { id },
-          }),
-        )
-      }
-    }, [id])
+      if (idx === -1 || idx === windowStack.length - 1) return
+
+      const [entry] = windowStack.splice(idx, 1)
+      windowStack.push(entry)
+      updateZIndices()
+      dispatchFocusedWindow()
+    }, [setZIndex])
 
     React.useImperativeHandle(ref, () => ({
       bringToFront
