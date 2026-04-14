@@ -21,7 +21,7 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import { BriefcaseBusiness, Clapperboard, LibraryBig, Mail, Network, Podcast, ScanText } from "lucide-react";
+import { BriefcaseBusiness, CalendarSync, Clapperboard, LibraryBig, Mail, Mic, Network, Podcast, ScanText } from "lucide-react";
 import Clock from "@/components/ui/clock";
 
 // Lazy load window components for code splitting
@@ -38,6 +38,8 @@ const PodscriberWindow = lazy(() => import("@/components/windows/PodscriberWindo
 const MermaidViewerWindow = lazy(() => import("@/components/windows/MermaidViewerWindow"));
 const FilmsAndConversationsWindow = lazy(() => import("@/components/windows/FilmsAndConversationsWindow"));
 const BooksAndConversationsWindow = lazy(() => import("@/components/windows/BooksAndConversationsWindow"));
+const GranolaSyncWindow = lazy(() => import("@/components/windows/GranolaSyncWindow"));
+const MeetingTranscriberWindow = lazy(() => import("@/components/windows/MeetingTranscriberWindow"));
 const DocumentationHubCaseStudyWindow = lazy(() => import("@/components/windows/DocumentationHubCaseStudyWindow"));
 const CatalogSearchCaseStudyWindow = lazy(() => import("@/components/windows/CatalogSearchCaseStudyWindow"));
 const CatalogSearchPrototypeWindow = lazy(() => import("@/components/windows/CatalogSearchPrototypeWindow"));
@@ -71,6 +73,8 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
     synthesiser: useRef<WindowRef | null>(null),
     filmsAndConversations: useRef<WindowRef | null>(null),
     booksAndConversations: useRef<WindowRef | null>(null),
+    granolaSync: useRef<WindowRef | null>(null),
+    meetingTranscriber: useRef<WindowRef | null>(null),
     mckinseyAndCompany: useRef<WindowRef | null>(null),
     up42: useRef<WindowRef | null>(null),
     documentationHubCaseStudy: useRef<WindowRef | null>(null),
@@ -186,6 +190,14 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
           <MenubarContent>
             <MenubarItem onClick={() => showWindow("exploration", "menubar")}>View All</MenubarItem>
             <MenubarSeparator />
+            <MenubarItem onClick={() => showWindow("meetingTranscriber", "menubar")}>
+              <Mic className="mr-2 h-4 w-4" />
+              <span>Meeting Transcriber</span>
+            </MenubarItem>
+            <MenubarItem onClick={() => showWindow("granolaSync", "menubar")}>
+              <CalendarSync className="mr-2 h-4 w-4" />
+              <span>Granola Sync</span>
+            </MenubarItem>
             <MenubarItem onClick={() => showWindow("synthesiser", "menubar")}>
               <Network className="mr-2 h-4 w-4" />
               <span>Synthesiser</span>
@@ -253,6 +265,8 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
             onShowMermaidViewer={() => showWindow("mermaidViewer", "icon")}
             onShowFilmsAndConversations={() => showWindow("filmsAndConversations", "icon")}
             onShowBooksAndConversations={() => showWindow("booksAndConversations", "icon")}
+            onShowGranolaSync={() => showWindow("granolaSync", "icon")}
+            onShowMeetingTranscriber={() => showWindow("meetingTranscriber", "icon")}
           />
         </Suspense>
       )}
@@ -416,6 +430,24 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
           <BooksAndConversationsWindow
             onClose={() => closeWindow("booksAndConversations")}
             windowRef={windowRefs.booksAndConversations}
+          />
+        </Suspense>
+      )}
+
+      {windows.granolaSync && (
+        <Suspense>
+          <GranolaSyncWindow
+            onClose={() => closeWindow("granolaSync")}
+            windowRef={windowRefs.granolaSync}
+          />
+        </Suspense>
+      )}
+
+      {windows.meetingTranscriber && (
+        <Suspense>
+          <MeetingTranscriberWindow
+            onClose={() => closeWindow("meetingTranscriber")}
+            windowRef={windowRefs.meetingTranscriber}
           />
         </Suspense>
       )}

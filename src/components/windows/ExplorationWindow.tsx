@@ -1,7 +1,7 @@
 "use client"
 
 import { memo } from "react";
-import { Network, Podcast, ScanText, Clapperboard, LibraryBig } from "lucide-react";
+import { Network, Podcast, ScanText, Clapperboard, LibraryBig, CalendarSync, Mic } from "lucide-react";
 import { Window, WindowTitle, WindowContent } from "@/components/ui/window";
 import { WindowRef } from "@/components/ui/window";
 
@@ -13,6 +13,8 @@ interface ExplorationWindowProps {
   onShowMermaidViewer: () => void;
   onShowFilmsAndConversations: () => void;
   onShowBooksAndConversations: () => void;
+  onShowGranolaSync: () => void;
+  onShowMeetingTranscriber: () => void;
 }
 
 function ExplorationWindow({
@@ -22,13 +24,23 @@ function ExplorationWindow({
   onShowPodscriber,
   onShowMermaidViewer,
   onShowFilmsAndConversations,
-  onShowBooksAndConversations
+  onShowBooksAndConversations,
+  onShowGranolaSync,
+  onShowMeetingTranscriber
 }: ExplorationWindowProps) {
   return (
     <Window id="exploration" ref={windowRef} defaultView="list" className="w-210 left-4 top-14" onClose={onClose}>
       <WindowTitle>Exploration</WindowTitle>
 
       <WindowContent view="icon">
+        <button onClick={onShowMeetingTranscriber} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <Mic strokeWidth={0.8} className="size-12"/>
+          <span>meeting-transcriber.html</span>
+        </button>
+        <button onClick={onShowGranolaSync} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
+          <CalendarSync strokeWidth={0.8} className="size-12"/>
+          <span>granola-sync.html</span>
+        </button>
         <button onClick={onShowSynthesiser} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
           <Network strokeWidth={0.8} className="size-12"/>
           <span>synthesiser.html</span>
@@ -54,6 +66,14 @@ function ExplorationWindow({
       <WindowContent view="list" className="@container">
         <ul>
           <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 pb-1">
+            <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={onShowMeetingTranscriber} className="text-muted-foreground font-bold hover:bg-muted">Meeting Transcriber</button></span>
+            <span className="grow">Record and transcribe meetings directly from the terminal.</span>
+          </li>
+          <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
+            <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={onShowGranolaSync} className="text-muted-foreground font-bold hover:bg-muted">Granola Sync</button></span>
+            <span className="grow">Export Granola meeting transcripts as Markdown to a local directory.</span>
+          </li>
+          <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
             <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={onShowSynthesiser} className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</button></span>
             <span className="grow">Generate a Minto Pyramid synthesis of any content.</span>
           </li>

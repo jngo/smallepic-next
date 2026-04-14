@@ -19,24 +19,24 @@ function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHu
         <h1 className="font-serif text-2xl text-center mb-12">I led a cross-disciplinary team in rethinking the documentation experience, building a foundation that bridged the gap between product and documentation.</h1>
         <p className="text-center mb-4"><em>Led the design thinking approach behind the reimagining of UP42&apos;s documentation experience, enabling a small cross-disciplinary team to understand customer problems, explore solutions, and deliver a foundation for shortening the distance between the user interface and documentation.</em></p>
         <hr className="w-8 border-0.5 color-border mx-auto my-12" />
-        <figure className="my-12">
+        <figure className="-mx-8 @3xl:-mx-12 my-12">
           <Image src="/old-new-documentation-hub.png" alt="The old and new documentation hub." width={800} height={600} className="w-full h-auto" />
-          <figcaption className="text-muted-foreground text-center mt-2">The old and new documentation hub.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">The old and new documentation hub.</figcaption>
         </figure>
         <p className="mb-4">For a platform bringing geospatial data and analytics to developers, a great developer experience—and by extension, documentation—was essential to fulfilling that promise.</p>
         <p className="mb-4">Two years after launch, our documentation had grown to over 100 pages spread across multiple sites: the API, SDK, and other technical references all lived separately. Developers were beginning to feel the strain of a fragmented experience that slowed them down and obscured the platform&apos;s broader capabilities.</p>
         <p className="mb-4">While the marketing website had undergone a redesign and the product had evolved significantly, the documentation had stagnated and no longer felt representative of a developer-focused product.</p>
-        <figure className="aspect-16/9 my-12">
+        <figure className="aspect-16/9 -mx-8 @3xl:-mx-12 my-12">
           <iframe src="https://www.youtube.com/embed/XpdvVltqWtc" allowFullScreen className="w-full h-full"></iframe>
-          <figcaption className="text-muted-foreground text-center mt-2">This case study has been adapted from the presentation I gave when we launched the Documentation Hub.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">This case study has been adapted from the presentation I gave when we launched the Documentation Hub.</figcaption>
         </figure>
         <hr className="w-8 border-0.5 color-border mx-auto my-12" />
         <h2 className="font-serif text-lg text-center my-12">Understanding the Problems</h2>
         <h3 className="font-serif text-base text-center my-12">Design Process</h3>
         <p className="mb-4">Kicking things off, I adopted the <a href="https://designthinking.ideo.com/">design thinking</a> framework, a hands-on, user-centric approach to solving complex problems popularised by David Kelley and Tim Brown of IDEO.</p>
-        <figure className="my-12">
+        <figure className="-mx-8 @3xl:-mx-12 my-12">
           <Image src="/design-thinking-framework.png" alt="Framed our approach around IDEO's design thinking framework, guiding the team from research to implementation." width={800} height={600} className="w-full h-auto" />
-          <figcaption className="text-muted-foreground text-center mt-2">Framed our approach around IDEO&apos;s design thinking framework, guiding the team from research to implementation.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">Framed our approach around IDEO&apos;s design thinking framework, guiding the team from research to implementation.</figcaption>
         </figure>
         <p className="mb-4">To build a shared understanding of developers and their pain points, I gathered insights through:</p>
         <ul className="list-disc list-outside marker:text-input mb-4">
@@ -77,9 +77,9 @@ function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHu
         <h3 className="font-serif text-base text-center my-12">Information Architecture</h3>
         <p className="mb-4">With a clearer picture of the opportunities, my first step was to redesign the information architecture: how content was organised and discovered.</p>
         <p className="mb-4">I began with a content audit across all touchpoints: the existing documentation, SDK microsite, YouTube tutorials, and marketing pages. This inventory became the backbone of our content strategy.</p>
-        <figure className="my-12">
+        <figure className="-mx-8 @3xl:-mx-12 my-12">
           <Image src="/content-inventory.png" alt="The content inventory that would become the backbone of our content strategy." width={800} height={600} className="w-full h-auto" />
-          <figcaption className="text-muted-foreground text-center mt-2">The content inventory that would become the backbone of our content strategy.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">The content inventory that would become the backbone of our content strategy.</figcaption>
         </figure>
         <p className="mb-4">From there, I designed a new sitemap around four pillars:</p>
         <ul className="list-disc list-outsite marker:text-input mb-4">
@@ -88,9 +88,9 @@ function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHu
           <li><strong>Developers:</strong> API reference, Python SDK, and integration guides.</li>
           <li><strong>Accounts &amp; Credits:</strong> Administrative content including account management, pricing, and compliance.</li>
         </ul>
-        <figure className="my-12">
+        <figure className="-mx-8 @3xl:-mx-12 my-12">
           <Image src="/new-sitemap.png" alt="The new sitemap clarified purpose and navigation, organising content under four intuitive pillars." width={800} height={600} className="w-full h-auto" />
-          <figcaption className="text-muted-foreground text-center mt-2">The new sitemap clarified purpose and navigation, organising content under four intuitive pillars.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">The new sitemap clarified purpose and navigation, organising content under four intuitive pillars.</figcaption>
         </figure>
         <h3 className="font-serif text-base text-center my-12">Content Types</h3>
         <p className="mb-4">To better serve developers, I adopted three content types from Daniele Procida&apos;s <a href="https://documentation.divio.com/">Documentation System</a>:</p>
@@ -106,9 +106,9 @@ function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHu
           <li><strong>Departments:</strong> Groups of related galleries to help developers narrow their search.</li>
           <li><strong>Home:</strong> The orienting layer that helped developers identify where to start.</li>
         </ul>
-        <figure className="my-12">
+        <figure className="-mx-8 @3xl:-mx-12 my-12">
           <Image src="/sitemap-visualization.png" alt="Visualising the sitemap helped validate navigation flows and ensure findability across user journeys." width={800} height={600} className="w-full h-auto" />
-          <figcaption className="text-muted-foreground text-center mt-2">Visualising the sitemap helped validate navigation flows and ensure findability across user journeys.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">Visualising the sitemap helped validate navigation flows and ensure findability across user journeys.</figcaption>
         </figure>
         <h3 className="font-serif text-base text-center my-12">Atomic Design</h3>
         <p className="mb-4">With the structure in place, our visual designer, Adam, explored visual directions.</p>
@@ -116,23 +116,23 @@ function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHu
         <h4 className="font-sans font-bold text-base">Atoms</h4>
         <p className="mb-4">I picked out colour, icon, and typography tokens from the design system, that had evolved from our product and marketing website, to form the primitives for building components.</p>
         <p className="mb-4">I selected colour, icon, and typography tokens from the design system, evolved from our product and marketing website, to form the primitives for building components.</p>
-        <figure className="my-12">
+        <figure className="-mx-8 @3xl:-mx-12 my-12">
           <Image src="/product-palette-iconography.png" alt="Reusing our product palette and iconography extended visual continuity across product, marketing, and documentation." width={800} height={600} className="w-full h-auto" />
-          <figcaption className="text-muted-foreground text-center mt-2">Reusing our product palette and iconography extended visual continuity across product, marketing, and documentation.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">Reusing our product palette and iconography extended visual continuity across product, marketing, and documentation.</figcaption>
         </figure>
-        <figure className="my-12">
+        <figure className="-mx-8 @3xl:-mx-12 my-12">
           <Image src="/type-styles.png" alt="Selecting a concise set of type styles ensured clarity, hierarchy, and consistency across all documentation layouts." width={800} height={600} className="w-full h-auto" />
-          <figcaption className="text-muted-foreground text-center mt-2">Selecting a concise set of type styles ensured clarity, hierarchy, and consistency across all documentation layouts.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">Selecting a concise set of type styles ensured clarity, hierarchy, and consistency across all documentation layouts.</figcaption>
         </figure>
         <h4 className="font-sans font-bold text-base">Molecules</h4>
         <p className="mb-4">I combined these atoms into reusable components to define the tone and rhythm of content. Headings, captions, and links combined to form headers and lists. Icons, covers, and images were added to construct cards.</p>
-        <figure className="my-12">
+        <figure className="-mx-8 @3xl:-mx-12 my-12">
           <Image src="/atomic-components.png" alt="Combining atomic elements into reusable components laid the groundwork for scalable, systematic page layouts." width={800} height={600} className="w-full h-auto" />
-          <figcaption className="text-muted-foreground text-center mt-2">Combining atomic elements into reusable components laid the groundwork for scalable, systematic page layouts.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">Combining atomic elements into reusable components laid the groundwork for scalable, systematic page layouts.</figcaption>
         </figure>
         <h4 className="font-sans font-bold text-base">Organisms</h4>
         <p className="mb-4">These molecules then combined into flexible page sections used across galleries, departments, and the homepage.</p>
-        <figure className="my-12">
+        <figure className="-mx-8 @3xl:-mx-12 my-12">
           <video 
             loop 
             muted 
@@ -142,7 +142,7 @@ function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHu
           >
             <source src="/atomic-design-organisms.mp4" type="video/mp4" />
           </video>
-          <figcaption className="text-muted-foreground text-center mt-2">Patterns defined as organisms made it possible to compose diverse page types without bespoke design work.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">Patterns defined as organisms made it possible to compose diverse page types without bespoke design work.</figcaption>
         </figure>
         <hr className="w-8 border-0.5 color-border mx-auto my-12" />
         <h2 className="font-serif text-lg text-center my-12">Delivering on the Promise</h2>
@@ -166,9 +166,9 @@ function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHu
         <p className="mb-4">Once content was migrated, Teodora and Seulgi, our support engineers, reviewed every page, refining formatting, code samples, and structure.</p>
         <h4 className="font-sans font-bold text-base">Screenshots</h4>
         <p className="mb-4">Adam refreshed over 170 screenshots to match the latest UI. We also established visual guidelines to keep screenshots useful without requiring frequent updates.</p>
-        <figure className="my-12">
+        <figure className="-mx-8 @3xl:-mx-12 my-12">
           <Image src="/updated-screenshots.png" alt="Updated screenshots aligned visual cues with the product." width={800} height={600} className="w-full h-auto" />
-          <figcaption className="text-muted-foreground text-center mt-2">Updated screenshots aligned visual cues with the product.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">Updated screenshots aligned visual cues with the product.</figcaption>
         </figure>
         <hr className="w-8 border-0.5 color-border mx-auto my-12" />
         <h2 className="font-serif text-lg text-center my-12">The Groundwork for a Better Developer Experience</h2>
@@ -177,7 +177,7 @@ function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHu
         <p className="mb-4">With the new foundation in place, I explored ways to bring documentation closer to developers.</p>
         <h3 className="font-serif text-base text-center my-12"><code>Ctrl+P</code> (Quick Open)</h3>
         <p className="mb-4">Inspired by code editors like VS Code and Sublime Text, I introduced a <code>ctrl+p</code> shortcut that surfaced documentation search directly in the product, enabling quick access to any topic.</p>
-        <figure className="mb-4">
+        <figure className="-mx-8 @3xl:-mx-12 mb-4">
           <video 
             loop 
             muted 
@@ -187,10 +187,10 @@ function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHu
           >
             <source src="/quick-open.mp4" type="video/mp4" />
           </video>
-          <figcaption className="text-muted-foreground text-center mt-2">Embedded search brought documentation closer to the workflow.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">Embedded search brought documentation closer to the workflow.</figcaption>
         </figure>
         <h3 className="font-serif text-base text-center my-12">Embedded Documentation</h3>
-        <figure className="my-12">
+        <figure className="-mx-8 @3xl:-mx-12 my-12">
           <video 
             loop 
             muted 
@@ -200,10 +200,10 @@ function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHu
           >
             <source src="/popovers.mp4" type="video/mp4" />
           </video>
-          <figcaption className="text-muted-foreground text-center mt-2">Contextual popovers illustrated how immediate guidance could reduce support dependency and task interruptions.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">Contextual popovers illustrated how immediate guidance could reduce support dependency and task interruptions.</figcaption>
         </figure>
         <p className="mb-4">A year earlier, I had introduced contextual popovers linking to documentation. While helpful, they still forced you into a new tab.</p>
-        <figure className="my-12">
+        <figure className="-mx-8 @3xl:-mx-12 my-12">
           <video 
             loop 
             muted 
@@ -213,7 +213,7 @@ function DocumentationHubCaseStudyWindow({ onClose, windowRef }: DocumentationHu
           >
             <source src="/embedded-documentation.mp4" type="video/mp4" />
           </video>
-          <figcaption className="text-muted-foreground text-center mt-2">Embedded documentation showed how side-by-side context eliminated tab switching and reinforced learning in-flow.</figcaption>
+          <figcaption className="text-muted-foreground text-center mx-8 @3xl:mx-12 mt-2">Embedded documentation showed how side-by-side context eliminated tab switching and reinforced learning in-flow.</figcaption>
         </figure>
         <p>To remove that disruption, I explored embedding documentation directly inside the product, allowing side-by-side reference without breaking flow.</p>
       </WindowContent>
