@@ -67,11 +67,11 @@ function ExplorationWindow({
         <ul>
           <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 pb-1">
             <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={onShowMeetingTranscriber} className="text-muted-foreground font-bold hover:bg-muted">Meeting Transcriber</button></span>
-            <span className="grow">Record and transcribe meetings directly from the terminal.</span>
+            <span className="grow">Lightweight meeting transcription from the terminal with local Whisper.</span>
           </li>
           <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
             <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={onShowGranolaSync} className="text-muted-foreground font-bold hover:bg-muted">Granola Sync</button></span>
-            <span className="grow">Export Granola meeting transcripts as Markdown to a local directory.</span>
+            <span className="grow">Export Granola meeting transcripts as Markdown files.</span>
           </li>
           <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
             <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={onShowSynthesiser} className="text-muted-foreground font-bold hover:bg-muted">Synthesiser</button></span>

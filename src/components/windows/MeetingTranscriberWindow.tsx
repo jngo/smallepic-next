@@ -17,7 +17,7 @@ function MeetingTranscriberWindow({ onClose, windowRef }: MeetingTranscriberWind
     <Window id="meeting-transcriber" ref={windowRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
       <WindowTitle>Meeting Transcriber</WindowTitle>
       <WindowContent>
-        <p className="font-serif text-xl mb-2">Lightweight, private meeting transcription with local Whisper.</p>
+        <p className="font-serif text-xl mb-2">Lightweight meeting transcription from the terminal with local Whisper.</p>
         <div className="flex flex-wrap gap-2 mb-4">
           <Badge variant="secondary">Claude Code</Badge>
           <Badge variant="secondary">Python</Badge>
