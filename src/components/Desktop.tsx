@@ -289,6 +289,7 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
           <AboutWindow
             onClose={() => closeWindow("about")}
             onShowJohnNgo={() => showWindow("johnNgo", "inline")}
+            onShowExploration={() => showWindow("exploration", "inline")}
             windowRef={windowRefs.about}
           />
         </Suspense>
