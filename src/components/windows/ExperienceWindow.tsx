@@ -49,22 +49,22 @@ function ExperienceWindow({
         <ul>
           <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 pb-1">
             <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={onShowMcKinsey} className="text-muted-foreground font-bold hover:bg-muted">McKinsey & Company</button></span>
-            <span className="flex-grow">Leading design across digital transformation initiatives.</span>
+            <span className="flex-grow">Leading McKinsey&apos;s in-house product design capability and the systems consultants rely on daily.</span>
             <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2021–Present</span>
           </li>
           <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
             <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={onShowUP42} className="text-muted-foreground font-bold hover:bg-muted">UP42</button></span>
-            <span className="flex-grow">Established design practice and launched several keystone projects.</span>
+            <span className="flex-grow">Founding design leader who built UP42&apos;s design function from the ground up.</span>
             <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2019–2021</span>
           </li>
           <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t py-1">
             <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={onShowCandis} className="text-muted-foreground font-bold hover:bg-muted">Candis</button></span>
-            <span className="grow">Design team of one, hands-on from research to frontend.</span>
+            <span className="grow">Design team of one, hands-on from research through frontend delivery.</span>
             <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2017–2019</span>
           </li>
           <li className="flex flex-col @3xl:flex-row @3xl:items-center @3xl:gap-4 border-t pt-1">
             <span className="flex-none font-serif @3xl:font-sans text-lg @3xl:text-base"><button onClick={onShowUrbanSportsClub} className="text-muted-foreground font-bold hover:bg-muted">Urban Sports Club</button></span>
-            <span className="grow">Laid the technical and product foundations for European expansion.</span>
+            <span className="grow">Laid the technical and product foundations for Urban Sports Club&apos;s expansion across Europe.</span>
             <span className="flex-none order-first @3xl:order-last @3xl:text-right text-sm @3xl:text-base text-muted-foreground">2015</span>
           </li>
         </ul>

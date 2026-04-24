@@ -15,9 +15,9 @@ export default function UrbanSportsClubWindow({ onClose, windowRef }: UrbanSport
       <WindowTitle>Urban Sports Club</WindowTitle>
       <WindowContent>
         <p className="text-sm text-muted-foreground">2015</p>
-        <p className="font-serif text-xl mb-2">I helped lay the technical and product foundations for European expansion at <a href="https://urbansportsclub.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold bg-secondary hover:bg-accent" onClick={() => track("link_open", { id: "urban_sports_club_site", url: "https://urbansportsclub.com/" })}>Urban Sports Club</a>.</p>
-        <p className="mb-2">I played a key technical leadership and product design role, responsible for the digital transformation of key technical infrastructure and the venue check-in experience. My achievements were instrumental to the ambitious expansion of the flat-rate sports membership from Berlin into over 88 cities and 8,000 sporting venues.</p>
-        <p>My key achievement was leading the delivery team, where I designed the REST API specification and mobile app experiences. Within three months, we replaced the existing manual membership card and log sheet processes with an API and mobile apps enabling members to check-in with their iOS and Android devices.</p>
+        <p className="font-serif text-xl mb-2">I laid the technical and product foundations for <a href="https://urbansportsclub.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold bg-secondary hover:bg-accent" onClick={() => track("link_open", { id: "urban_sports_club_site", url: "https://urbansportsclub.com/" })}>Urban Sports Club&apos;s</a> expansion across Europe.</p>
+        <p className="mb-2">Led the digitisation of venue check-in from a manual card-and-log system to a full mobile product, designing the iOS and Android apps and the API interface powering both, while managing a team of three developers.</p>
+        <p>Shipped in three months, supporting expansion from Berlin to 88 cities and 8,000 venues.</p>
       </WindowContent>
     </Window>
   );
