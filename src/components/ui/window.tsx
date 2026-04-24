@@ -247,10 +247,12 @@ const WindowTitle: React.FC<WindowTitleProps> = ({
           onClick={onClose}
           aria-label="Close"
         >
-          <X className={cn(
-            "size-3 rounded-full group-hover:bg-destructive group-hover:text-destructive-foreground transition-colors",
-            focused ? "bg-input text-primary" : "bg-input text-foreground"
-            )} />
+          <X
+            className={cn(
+              "size-3 rounded-full bg-input text-muted-foreground transition-colors group-hover:bg-destructive group-hover:text-destructive-foreground",
+              focused && "text-primary"
+            )}
+          />
         </button>
       </div>
       {/* Center: Title - absolutely positioned */}
@@ -271,13 +273,11 @@ const WindowTitle: React.FC<WindowTitleProps> = ({
                     setActiveView(view)
                   }}
                   className={cn(
-                    "p-1 rounded-[0.25rem] transition-colors",
+                    "rounded-[0.25rem] p-1 transition-colors",
                     activeView === view
-                      ? focused
-                        ? "bg-input text-primary"
-                        : "bg-input text-foreground"
+                      ? "bg-input text-foreground"
                       : focused
-                        ? "text-primary-foreground hover:bg-background/20"
+                        ? "text-primary-foreground hover:bg-primary-foreground/10"
                         : "text-foreground hover:bg-input/40"
                   )}
                   aria-label={`${view} view`}

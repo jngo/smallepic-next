@@ -157,28 +157,28 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
         <MenubarMenu>
           <MenubarTrigger className="font-bold">John Ngo</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow("about", "menubar")}>About</MenubarItem>
+            <MenubarItem onSelect={() => showWindow("about", "menubar")}>About</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
         <MenubarMenu>
           <MenubarTrigger>Experience</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow("experience", "menubar")}>View All</MenubarItem>
+            <MenubarItem onSelect={() => showWindow("experience", "menubar")}>View All</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem onClick={() => showWindow("mckinseyAndCompany", "menubar")}>
+            <MenubarItem onSelect={() => showWindow("mckinseyAndCompany", "menubar")}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>McKinsey & Company</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("up42", "menubar")}>
+            <MenubarItem onSelect={() => showWindow("up42", "menubar")}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>UP42</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("candis", "menubar")}>
+            <MenubarItem onSelect={() => showWindow("candis", "menubar")}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>Candis</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("urbanSportsClub", "menubar")}>
+            <MenubarItem onSelect={() => showWindow("urbanSportsClub", "menubar")}>
               <BriefcaseBusiness className="mr-2 h-4 w-4" />
               <span>Urban Sports Club</span>
             </MenubarItem>
@@ -188,33 +188,33 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
         <MenubarMenu>
           <MenubarTrigger>Exploration</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem onClick={() => showWindow("exploration", "menubar")}>View All</MenubarItem>
+            <MenubarItem onSelect={() => showWindow("exploration", "menubar")}>View All</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem onClick={() => showWindow("meetingTranscriber", "menubar")}>
+            <MenubarItem onSelect={() => showWindow("meetingTranscriber", "menubar")}>
               <Mic className="mr-2 h-4 w-4" />
               <span>Meeting Transcriber</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("granolaSync", "menubar")}>
+            <MenubarItem onSelect={() => showWindow("granolaSync", "menubar")}>
               <CalendarSync className="mr-2 h-4 w-4" />
               <span>Granola Sync</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("synthesiser", "menubar")}>
+            <MenubarItem onSelect={() => showWindow("synthesiser", "menubar")}>
               <Network className="mr-2 h-4 w-4" />
               <span>Synthesiser</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("podscriber", "menubar")}>
+            <MenubarItem onSelect={() => showWindow("podscriber", "menubar")}>
               <Podcast className="mr-2 h-4 w-4" />
               <span>Podscriber</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("mermaidViewer", "menubar")}>
+            <MenubarItem onSelect={() => showWindow("mermaidViewer", "menubar")}>
               <ScanText className="mr-2 h-4 w-4" />
               <span>Mermaid Viewer</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("filmsAndConversations", "menubar")}>
+            <MenubarItem onSelect={() => showWindow("filmsAndConversations", "menubar")}>
               <Clapperboard className="mr-2 h-4 w-4" />
               <span>Films & Conversations</span>
             </MenubarItem>
-            <MenubarItem onClick={() => showWindow("booksAndConversations", "menubar")}>
+            <MenubarItem onSelect={() => showWindow("booksAndConversations", "menubar")}>
               <LibraryBig className="mr-2 h-4 w-4" />
               <span>Books & Conversations</span>
             </MenubarItem>
