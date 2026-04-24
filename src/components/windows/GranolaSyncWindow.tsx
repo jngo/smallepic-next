@@ -14,7 +14,7 @@ interface GranolaSyncWindowProps {
 
 function GranolaSyncWindow({ onClose, windowRef }: GranolaSyncWindowProps) {
   return (
-    <Window id="granola-sync" ref={windowRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
+    <Window id="granola_sync" ref={windowRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
       <WindowTitle>Granola Sync</WindowTitle>
       <WindowContent>
         <p className="font-serif text-xl mb-2">Export Granola meeting transcripts as Markdown files.</p>

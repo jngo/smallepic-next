@@ -14,7 +14,7 @@ interface MeetingTranscriberWindowProps {
 
 function MeetingTranscriberWindow({ onClose, windowRef }: MeetingTranscriberWindowProps) {
   return (
-    <Window id="meeting-transcriber" ref={windowRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
+    <Window id="meeting_transcriber" ref={windowRef} className="w-96 left-1/2 top-1/2 -translate-1/2" onClose={onClose}>
       <WindowTitle>Meeting Transcriber</WindowTitle>
       <WindowContent>
         <p className="font-serif text-xl mb-2">Lightweight meeting transcription from the terminal with local Whisper.</p>
