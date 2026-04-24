@@ -29,7 +29,7 @@ export default function Clock({ className }: ClockProps) {
   if (!time) return null;
 
   return (
-    <span className={cn("text-sm font-medium text-accent-foreground select-none", className)}>
+    <span className={cn("text-sm font-medium text-foreground select-none", className)}>
       {time}
     </span>
   );
