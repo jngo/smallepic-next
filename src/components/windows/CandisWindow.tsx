@@ -16,8 +16,7 @@ export default function CandisWindow({ onClose, windowRef }: CandisWindowProps) 
       <WindowContent>
         <p className="text-sm text-muted-foreground">2017–2019</p>
         <p className="font-serif text-xl mb-2">I was a design team of one, hands-on from research to frontend at <a href="https://www.candis.io/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold bg-secondary hover:bg-accent" onClick={() => track("link_open", { id: "candis_site", url: "https://www.candis.io/" })}>Candis</a>.</p>
-        <p className="mb-2">As a single person design team, I was responsible for user experience across the portfolio of products at Candis. Practically speaking, I conducted user research, produced design concepts and prototypes, documented epics and user stories, and contributed UI enhancements to the React codebase.</p>
-        <p>I also led the initiative to scale design to meet the needs of a growing engineering team through the development of a design system that served as the style guide and component library for current and future Candis products.</p>
+        <p>As the sole designer on a team of 10 engineers, I established the UI guidelines that defined Smartbooks, the flagship bookkeeping product, and built the design system that scaled across their financial Workflows product.</p>
       </WindowContent>
     </Window>
   );

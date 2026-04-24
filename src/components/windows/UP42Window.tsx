@@ -30,10 +30,8 @@ function UP42Window({
       <WindowTitle>UP42</WindowTitle>
       <WindowContent>
         <p className="text-sm text-muted-foreground">2019–2021</p>
-        <p className="font-serif text-xl mb-4">I established design practice and launched several keystone projects at <a href="https://www.up42.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold bg-secondary hover:bg-accent" onClick={() => track("link_open", { id: "up42_site", url: "https://www.up42.com/" })}>UP42</a>.</p>
-        <p className="mb-4">As the first design hire within the Airbus Defence and Space subsidiary, I established design practice within the organisation.</p>
-        <p className="mb-4">I was responsible for establishing a culture of continuous research through a combination of quantitative (SQL, BigQuery, etc.) and qualitative (user interviews, usability testing, etc.) techniques to ensure decisions were made with the best data and insights at hand.</p>
-        <p className="mb-4">I also worked closely with the frontend team to establish the foundations of our design system, through the design and implementation of token and component libraries.</p>
+        <p className="font-serif text-xl mb-4">I was the founding design leader at <a href="https://www.up42.com/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground font-bold bg-secondary hover:bg-accent" onClick={() => track("link_open", { id: "up42_site", url: "https://www.up42.com/" })}>UP42</a>, building the design function from the ground up at an Airbus-incubated geospatial startup.</p>
+        <p className="mb-4">As the founding design leader at this Airbus-incubated geospatial startup, I built the design function from zero: hiring and leading the team to deliver product vision, research, and go-to-market across a platform and marketplace for geospatial data workflows and a developer API.</p>
         <button onClick={onShowDocumentationHub} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
           <FileText strokeWidth={0.8} className="size-12"/>
           <span>documentation-hub-case-study.html</span>
