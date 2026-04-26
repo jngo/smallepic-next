@@ -311,7 +311,12 @@ const WindowContent: React.FC<WindowContentProps> = ({ view = 'default', childre
   }
 
   return (
-    <div className={cn("relative z-0 flex-1 h-full p-4 overflow-y-auto bg-card", className)} {...props}>
+    <div
+      data-slot="window-content"
+      className={cn("relative z-0 flex-1 h-full p-4 overflow-y-auto bg-card", className)}
+      style={{ backgroundColor: "var(--card)", ...props.style }}
+      {...props}
+    >
       {children}
     </div>
   )
