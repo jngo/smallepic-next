@@ -69,6 +69,7 @@ function MenubarContent({
   align = "start",
   alignOffset = -4,
   sideOffset = 8,
+  style,
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.Content>) {
   return (
@@ -79,9 +80,10 @@ function MenubarContent({
         alignOffset={alignOffset}
         sideOffset={sideOffset}
         className={cn(
-          "bg-popover text-popover-foreground relative z-[100] isolate min-w-[12rem] origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-md before:absolute before:inset-0 before:-z-10 before:bg-popover",
+          "bg-popover text-popover-foreground relative z-[100] isolate min-w-[12rem] origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-md border p-1 opacity-100 shadow-md backdrop-blur-none before:absolute before:inset-0 before:-z-10 before:bg-popover",
           className
         )}
+        style={{ backgroundColor: "var(--popover)", ...style }}
         {...props}
       />
     </MenubarPortal>
@@ -242,15 +244,17 @@ function MenubarSubTrigger({
 
 function MenubarSubContent({
   className,
+  style,
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.SubContent>) {
   return (
     <MenubarPrimitive.SubContent
       data-slot="menubar-sub-content"
       className={cn(
-        "bg-popover text-popover-foreground relative z-[100] isolate min-w-[8rem] origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg before:absolute before:inset-0 before:-z-10 before:bg-popover",
+        "bg-popover text-popover-foreground relative z-[100] isolate min-w-[8rem] origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-md border p-1 opacity-100 shadow-lg backdrop-blur-none before:absolute before:inset-0 before:-z-10 before:bg-popover",
         className
       )}
+      style={{ backgroundColor: "var(--popover)", ...style }}
       {...props}
     />
   )

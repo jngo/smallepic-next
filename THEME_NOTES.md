@@ -24,6 +24,6 @@ The Omarchy Lumon palette is dark-first. Light mode is a conservative derivation
 
 - `src/components/ui/button.tsx`: changed destructive text from a hard-coded white utility to `text-destructive-foreground`.
 - `src/components/ui/badge.tsx`: changed destructive text from a hard-coded white utility to `text-destructive-foreground`.
-- `src/components/ui/menubar.tsx`: raised dropdown content above desktop windows and added a token-backed opaque paint layer so menu surfaces remain readable.
+- `src/components/ui/menubar.tsx`: raised dropdown content above desktop windows and pins menu backgrounds to the popover token so surfaces remain readable.
 - `src/components/ui/window.tsx`: applies the existing card surface to window content panes so overlapping windows do not visually bleed through.
 - `src/app/layout.tsx`: applies the existing `.dark` class at the document root so the faithful Lumon mapping is the default presentation.
