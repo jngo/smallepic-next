@@ -12,7 +12,7 @@ Source theme: [OldJobobo/omarchy-lumon-theme](https://github.com/OldJobobo/omarc
 - `--secondary`, `--muted`, `--input`: blue-gray terminal steps from `color8` and derived navy mixes.
 - `--border`: translucent foreground in dark mode, matching GTK's `alpha(@foreground, 0.1)` border treatment.
 - `--ring`: cursor / active edge white-blue `#f2fcff`.
-- `--destructive`: Lumon ANSI `color1` `#4d86b0`; the source theme uses this blue as its red/error slot.
+- `--destructive`: Lumon ANSI `color1` `#4d86b0`; the source theme uses this blue as its red/error slot, paired with cursor text `#071018` for accessible contrast.
 - `--chart-*`: the terminal ANSI progression from `color1` through `color5`.
 - `--sidebar-*`: mirrors the same background, accent, border, and foreground decisions for shadcn sidebar tokens.
 

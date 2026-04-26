@@ -77,7 +77,7 @@
   --accent: #6fb8e3;
   --accent-foreground: #071018;
   --destructive: #4d86b0;
-  --destructive-foreground: #f2fcff;
+  --destructive-foreground: #071018;
   --border: #9dcae5;
   --input: #b1d8ee;
   --ring: #4d9ed3;
@@ -135,7 +135,7 @@
   --accent: #4d9ed3;
   --accent-foreground: #071018;
   --destructive: #4d86b0;
-  --destructive-foreground: #f2fcff;
+  --destructive-foreground: #071018;
   --border: color-mix(in srgb, #d6e2ee 16%, transparent);
   --input: #4a6b80;
   --ring: #f2fcff;
