@@ -307,7 +307,7 @@ const WindowContent: React.FC<WindowContentProps> = ({ view = 'default', childre
   }
 
   return (
-    <div className={cn("flex-1 h-full p-4 overflow-y-auto", className)} {...props}>
+    <div className={cn("flex-1 h-full p-4 overflow-y-auto bg-card", className)} {...props}>
       {children}
     </div>
   )
