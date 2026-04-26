@@ -169,9 +169,13 @@ const Window = React.forwardRef<WindowRef, WindowProps>(
     return (
       <div
         ref={windowRef}
-        style={position ? { left: position.x, top: position.y, zIndex, ...style } : { zIndex, ...style }}
+        style={
+          position
+            ? { backgroundColor: "var(--card)", left: position.x, top: position.y, zIndex, ...style }
+            : { backgroundColor: "var(--card)", zIndex, ...style }
+        }
         className={cn(
-          "absolute max-w-[90svw] max-h-[90svh] flex flex-col rounded-sm border bg-card text-card-foreground shadow-md",
+          "absolute isolate max-w-[90svw] max-h-[90svh] flex flex-col overflow-hidden rounded-sm border bg-card text-card-foreground shadow-md",
           currentViewSize,
           className
         )}
@@ -232,7 +236,7 @@ const WindowTitle: React.FC<WindowTitleProps> = ({
   return (
     <div
       className={cn(
-        "relative flex flex-shrink-0 select-none items-center justify-between h-8 px-2 py-1.5 text-sm touch-none",
+        "relative z-10 flex flex-shrink-0 select-none items-center justify-between h-8 px-2 py-1.5 text-sm touch-none",
         dragging ? "cursor-grabbing" : "cursor-grab",
         focused ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
       )}
@@ -307,7 +311,7 @@ const WindowContent: React.FC<WindowContentProps> = ({ view = 'default', childre
   }
 
   return (
-    <div className={cn("flex-1 h-full p-4 overflow-y-auto bg-card", className)} {...props}>
+    <div className={cn("relative z-0 flex-1 h-full p-4 overflow-y-auto bg-card", className)} {...props}>
       {children}
     </div>
   )
