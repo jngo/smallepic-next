@@ -1,7 +1,17 @@
 "use client"
 
-import { memo, type ReactNode } from "react";
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+  type RefObject,
+} from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Window, WindowTitle, WindowContent } from "@/components/ui/window";
 import { WindowRef } from "@/components/ui/window";
 import { DesignThinkingProcessDiagram } from "@/components/windows/DesignThinkingProcessDiagram";
@@ -41,6 +51,12 @@ const userInterviewQuotes = [
   "Can test data query images be viewed through the API? E.g. want to be able to show a previewed low-resolution image to customer prior to them making a purchase.",
 ];
 
+function getCarouselSlides(scroller: HTMLElement) {
+  return Array.from(
+    scroller.querySelectorAll<HTMLElement>("[data-carousel-slide]"),
+  );
+}
+
 function scrollCarouselSlide(slide: HTMLElement, index: number, count: number) {
   const scroller = slide.closest("[data-carousel-scroller]");
   if (!(scroller instanceof HTMLElement)) return;
@@ -60,6 +76,130 @@ function scrollCarouselSlide(slide: HTMLElement, index: number, count: number) {
     left = Math.min(max, Math.max(0, left));
   }
   scroller.scrollTo({ left, behavior: "smooth" });
+}
+
+function getNearestCarouselSlideIndex(
+  scroller: HTMLElement,
+  slides: HTMLElement[],
+) {
+  const scrollerRect = scroller.getBoundingClientRect();
+  const center = scrollerRect.left + scrollerRect.width / 2;
+  let best = 0;
+  let bestDist = Number.POSITIVE_INFINITY;
+  slides.forEach((slide, index) => {
+    const rect = slide.getBoundingClientRect();
+    const dist = Math.abs(rect.left + rect.width / 2 - center);
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = index;
+    }
+  });
+  return best;
+}
+
+function scrollCarouselBy(scroller: HTMLElement, delta: -1 | 1) {
+  const slides = getCarouselSlides(scroller);
+  if (slides.length === 0) return;
+  const current = getNearestCarouselSlideIndex(scroller, slides);
+  const next = Math.min(slides.length - 1, Math.max(0, current + delta));
+  scrollCarouselSlide(slides[next], next, slides.length);
+}
+
+function useCarouselControls(scrollerRef: RefObject<HTMLElement | null>) {
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(false);
+
+  const update = useCallback(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    const max = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+    setCanPrev(scroller.scrollLeft > 1);
+    setCanNext(scroller.scrollLeft < max - 1);
+  }, [scrollerRef]);
+
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    update();
+    scroller.addEventListener("scroll", update, { passive: true });
+    const ro = new ResizeObserver(update);
+    ro.observe(scroller);
+    const track = scroller.firstElementChild;
+    if (track instanceof HTMLElement) ro.observe(track);
+
+    return () => {
+      scroller.removeEventListener("scroll", update);
+      ro.disconnect();
+    };
+  }, [scrollerRef, update]);
+
+  const scrollPrev = useCallback(() => {
+    const scroller = scrollerRef.current;
+    if (scroller) scrollCarouselBy(scroller, -1);
+  }, [scrollerRef]);
+
+  const scrollNext = useCallback(() => {
+    const scroller = scrollerRef.current;
+    if (scroller) scrollCarouselBy(scroller, 1);
+  }, [scrollerRef]);
+
+  return { canPrev, canNext, scrollPrev, scrollNext, hasOverflow: canPrev || canNext };
+}
+
+function CarouselArrowButton({
+  direction,
+  disabled,
+  onClick,
+}: {
+  direction: "prev" | "next";
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  const Icon = direction === "prev" ? ChevronLeft : ChevronRight;
+
+  return (
+    <button
+      type="button"
+      className="group p-2 -m-2 disabled:pointer-events-none"
+      aria-label={direction === "prev" ? "Previous slide" : "Next slide"}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      <Icon className="size-5 rounded-full border border-input text-foreground transition-colors group-hover:bg-accent group-hover:text-accent-foreground group-disabled:opacity-50" />
+    </button>
+  );
+}
+
+function CarouselArrows({
+  canPrev,
+  canNext,
+  onPrev,
+  onNext,
+  hidden,
+}: {
+  canPrev: boolean;
+  canNext: boolean;
+  onPrev: () => void;
+  onNext: () => void;
+  hidden?: boolean;
+}) {
+  if (hidden) return null;
+
+  return (
+    <div className="mt-4 flex items-center justify-center gap-1">
+      <CarouselArrowButton
+        direction="prev"
+        disabled={!canPrev}
+        onClick={onPrev}
+      />
+      <CarouselArrowButton
+        direction="next"
+        disabled={!canNext}
+        onClick={onNext}
+      />
+    </div>
+  );
 }
 
 const competitors: CarouselItem[] = [
@@ -142,23 +282,61 @@ function PseudoWindow({
   );
 }
 
+/** Wide competitor slide width — definite px so `w-max` tracks don’t explode. */
+const COMPETITOR_SLOT_WIDE_PX = 28 * 16;
+
 function ImageCarousel({
   items,
   fill = true,
   mutedImages = false,
+  caption,
 }: {
   items: CarouselItem[];
   fill?: boolean;
   /** Full-bleed bg-muted behind the image band only (not captions). */
   mutedImages?: boolean;
+  /** Shared figure caption; when set, per-slide captions are omitted. */
+  caption?: string;
 }) {
   // Prototypes use a fixed scale; competitor slides use a definite px width.
   // Avoid % widths inside `w-max` flex tracks — they stay indefinite during
   // max-content sizing, so scrollWidth blows up to the images' intrinsic size
   // and you can scroll past the painted slides into empty space.
   const prototypeScale = 0.3;
-  const competitorSlotWidthPx = 28 * 16;
   const titleBarPx = 24; // h-6
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [competitorSlotWidthPx, setCompetitorSlotWidthPx] = useState(
+    COMPETITOR_SLOT_WIDE_PX,
+  );
+  const { canPrev, canNext, scrollPrev, scrollNext, hasOverflow } =
+    useCarouselControls(scrollerRef);
+
+  // Narrow: fill the content column (100% minus track padding). Wide: fixed slot.
+  useLayoutEffect(() => {
+    if (!fill) return;
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const update = () => {
+      const track = scroller.firstElementChild;
+      if (!(track instanceof HTMLElement)) return;
+      const styles = getComputedStyle(track);
+      const pad =
+        (parseFloat(styles.paddingLeft) || 0) +
+        (parseFloat(styles.paddingRight) || 0);
+      const contentW = Math.max(0, scroller.clientWidth - pad);
+      if (contentW <= 0) return;
+      setCompetitorSlotWidthPx(
+        contentW < COMPETITOR_SLOT_WIDE_PX ? contentW : COMPETITOR_SLOT_WIDE_PX,
+      );
+    };
+
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(scroller);
+    return () => ro.disconnect();
+  }, [fill]);
+
   const imageHeight = fill
     ? Math.max(
         ...items.map((item) => (competitorSlotWidthPx * item.height) / item.width),
@@ -187,6 +365,7 @@ function ImageCarousel({
           />
         ) : null}
         <div
+          ref={scrollerRef}
           data-carousel-scroller
           className="relative overflow-x-auto overscroll-x-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
@@ -194,6 +373,7 @@ function ImageCarousel({
             {items.map((item, index) => (
               <figure
                 key={item.src}
+                data-carousel-slide
                 className="shrink-0 min-w-0 cursor-pointer"
                 style={{
                   width: fill
@@ -212,7 +392,8 @@ function ImageCarousel({
                 <div
                   className={
                     framed
-                      ? FIGURE_PAD_Y_TOP
+                      ? // Clip shadow only at the band’s bottom; keep top/side falloff.
+                        `${FIGURE_PAD_Y_TOP} [clip-path:inset(0_-12px_0_-12px)]`
                       : mutedImages
                         ? FIGURE_PAD_Y
                         : undefined
@@ -250,21 +431,35 @@ function ImageCarousel({
                     )}
                   </div>
                 </div>
-                <figcaption className="text-muted-foreground mt-2 text-pretty">
-                  {item.title ? (
-                    <>
-                      <strong className="text-foreground">{item.title}</strong>{" "}
-                      {item.caption}
-                    </>
-                  ) : (
-                    item.caption
-                  )}
-                </figcaption>
+                {caption ? null : (
+                  <figcaption className="text-muted-foreground mt-2 text-pretty">
+                    {item.title ? (
+                      <>
+                        <strong className="text-foreground">{item.title}</strong>{" "}
+                        {item.caption}
+                      </>
+                    ) : (
+                      item.caption
+                    )}
+                  </figcaption>
+                )}
               </figure>
             ))}
           </div>
         </div>
       </div>
+      {caption ? (
+        <figcaption className="mx-8 @3xl:mx-12 mt-2 text-center text-muted-foreground">
+          {caption}
+        </figcaption>
+      ) : null}
+      <CarouselArrows
+        canPrev={canPrev}
+        canNext={canNext}
+        onPrev={scrollPrev}
+        onNext={scrollNext}
+        hidden={!hasOverflow}
+      />
     </figure>
   );
 }
@@ -308,9 +503,14 @@ function FramedScreenshot({
 }
 
 function QuoteCarousel({ quotes }: { quotes: string[] }) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const { canPrev, canNext, scrollPrev, scrollNext, hasOverflow } =
+    useCarouselControls(scrollerRef);
+
   return (
     <figure className="my-12 -mx-8 @3xl:-mx-12">
       <div
+        ref={scrollerRef}
         data-carousel-scroller
         className="@container overflow-x-auto overscroll-x-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
@@ -318,7 +518,8 @@ function QuoteCarousel({ quotes }: { quotes: string[] }) {
           {quotes.map((quote, index) => (
             <blockquote
               key={quote}
-              className="flex w-[42cqw] shrink-0 min-w-0 cursor-pointer items-center bg-muted p-6 @3xl:p-8 font-serif text-base text-center text-muted-foreground"
+              data-carousel-slide
+              className="flex w-[76cqw] min-w-48 shrink-0 cursor-pointer items-center bg-muted p-6 @3xl:p-8 font-serif text-base text-center text-muted-foreground @min-[30rem]:w-[42cqw]"
               onClick={(event) => {
                 scrollCarouselSlide(event.currentTarget, index, quotes.length);
               }}
@@ -328,6 +529,13 @@ function QuoteCarousel({ quotes }: { quotes: string[] }) {
           ))}
         </div>
       </div>
+      <CarouselArrows
+        canPrev={canPrev}
+        canNext={canNext}
+        onPrev={scrollPrev}
+        onNext={scrollNext}
+        hidden={!hasOverflow}
+      />
     </figure>
   );
 }
@@ -367,7 +575,10 @@ function CatalogSearchCaseStudyWindow({ onClose, windowRef }: CatalogSearchCaseS
         <h3 className="font-serif text-base text-center my-12">Competitive Analysis</h3>
         <p className="mb-4">Next, we looked at the competitive landscape of other imagery providers, revealing that most follow familiar user interface patterns that we could adopt without reinventing the wheel.</p>
         <p className="mb-4">The challenge would be scaling the experience horizontally across multiple imagery catalogs, as well as vertically to accommodate a variety of geospatial data types.</p>
-        <ImageCarousel items={competitors} />
+        <ImageCarousel
+          items={competitors}
+          caption="Most imagery providers follow familiar user interface patterns."
+        />
         <h3 className="font-serif text-base text-center my-12">User Interviews</h3>
         <QuoteCarousel quotes={userInterviewQuotes} />
         <p className="mb-4">With a clear understanding of our customer needs in mind, our user interviews were focused less on identifying the core problem, and more on understanding customers&apos; pain points and which features would best address their use cases.</p>
