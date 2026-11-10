@@ -374,8 +374,13 @@ function CatalogSearchCaseStudyWindow({ onClose, windowRef }: CatalogSearchCaseS
         <h3 className="font-serif text-base text-center my-12">Analytics</h3>
         <p className="mb-4">While our vision was to surface all available imagery catalogs, we knew we needed to start with the OneAtlas Pléiades and SPOT catalogs first.</p>
         <p className="mb-4">Querying our data warehouse confirmed this assumption and answered the next question customers were already asking—that we would integrate the Sentinel Hub Sentinel-2 and Landsat-8 catalogs next.</p>
-        <figure className={`my-12 -mx-8 @3xl:-mx-12 bg-muted ${FIGURE_PAD_X} ${FIGURE_PAD_Y}`}>
-          <PopularDataSourcesChart />
+        <figure className="my-12 -mx-8 @3xl:-mx-12">
+          <div className={`bg-muted ${FIGURE_PAD_X} ${FIGURE_PAD_Y}`}>
+            <PopularDataSourcesChart />
+          </div>
+          <figcaption className="mx-8 @3xl:mx-12 mt-2 text-center text-muted-foreground">
+            Data Only Workflows Run at Least 5 Times (811 jobs)
+          </figcaption>
         </figure>
         <h3 className="font-serif text-base text-center my-12">Story Mapping</h3>
         <p className="mb-4">For a project with a short deadline and small core team, storymapping enabled us to prioritise immediate customer value for the minimum viable product, while embracing the broader stakeholder product vision.</p>

@@ -1,12 +1,12 @@
 /**
- * Popular data sources pie — fully self-contained SVG (pie, leaders, title,
- * subtitle, caption, callouts). text-sm on screen via ResizeObserver so
- * viewBox font sizes match process-diagram HTML text-sm.
+ * Popular data sources pie — wide: SVG pie + leaders + callouts; narrow:
+ * compact pie + single-column HTML legend. Same slice data; layout from
+ * ResizeObserver. Radial type stays ~text-sm via viewBox font scaling.
  */
 
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 
 type Slice = {
   id: string;
@@ -93,10 +93,13 @@ const PIE_TOP = TOP_BAND + CY - R;
 const PIE_BOTTOM = TOP_BAND + CY + R;
 /**
  * Cropped viewBox — trims unused vertical margin so figure padding isn’t
- * doubled. Geometry below stays in full stage coordinates.
+ * doubled. Top stays low enough for serif ascenders when fontSm grows on
+ * narrower radial widths (text-sm locked via viewBox scaling). Bottom stops
+ * just below the pie; the data footnote lives in the figure caption.
  */
-const VIEW_Y = 48;
-const VIEW_H = 384;
+const VIEW_Y = 16;
+const VIEW_BOTTOM = PIE_BOTTOM + EDGE_GAP;
+const VIEW_H = VIEW_BOTTOM - VIEW_Y;
 const LABEL_GAP = 14;
 /** Right column nudged out so bottom-right can keep visible stubs + a true 45°. */
 const LABEL_X = { left: 268, right: 710 } as const;
@@ -106,6 +109,21 @@ const ROTATION_CW = 22;
 const SLOT_Y = [80, 178, 276] as const;
 /** Callout label Y — mid/bottom nudged up slightly from the leaders. */
 const LABEL_Y = [80, 170, 268] as const;
+
+/** Below this chart width, switch to pie + legend. */
+const STACKED_MAX_PX = 480;
+
+/** Compact pie crop (stacked) — circle only, no leaders. */
+const PIE_PAD = 8;
+const PIE_VIEW = {
+  x: CX - R - PIE_PAD,
+  y: CY - R - PIE_PAD,
+  w: (R + PIE_PAD) * 2,
+  h: (R + PIE_PAD) * 2,
+};
+
+const ARIA_LABEL =
+  "Popular data sources pie chart for October 2019. OneAtlas Pléiades Streaming 43.8%, Sentinel Hub Sentinel-2 18.8%, Sentinel Hub Landsat-8 15.6%, OneAtlas SPOT 9.4%, Sobloo Sentinel-1 GRD and SLC 6.3% each.";
 
 type BuiltSlice = Slice & {
   startDeg: number;
@@ -151,7 +169,13 @@ function buildSlices(): BuiltSlice[] {
   });
 }
 
-function slicePath(cx: number, cy: number, r: number, startDeg: number, endDeg: number) {
+function slicePath(
+  cx: number,
+  cy: number,
+  r: number,
+  startDeg: number,
+  endDeg: number,
+) {
   const start = polar(cx, cy, r, startDeg);
   const end = polar(cx, cy, r, endDeg);
   const sweep = ((startDeg - endDeg) % 360 + 360) % 360;
@@ -300,42 +324,36 @@ function leaderPath(s: BuiltSlice) {
 /** CSS text-sm ≈ 14px — convert to viewBox units so rendered size matches HTML. */
 const CSS_TEXT_SM = 14;
 
-export function PopularDataSourcesChart() {
-  const built = buildSlices();
-  const rootRef = useRef<HTMLDivElement>(null);
-  const [fontSm, setFontSm] = useState(CSS_TEXT_SM);
+function PieSlices({ built }: { built: BuiltSlice[] }) {
+  return built.map((s) => (
+    <path
+      key={s.id}
+      d={slicePath(CX, CY, R, s.startDeg, s.endDeg)}
+      fill={s.color}
+    />
+  ));
+}
 
-  useLayoutEffect(() => {
-    const el = rootRef.current;
-    if (!el) return;
-    const update = () => {
-      const w = el.getBoundingClientRect().width;
-      if (w > 0) setFontSm(CSS_TEXT_SM * (VB_W / w));
-    };
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  // Pin subtitle & caption to the pie with equal EDGE_GAP (not the stage bands)
+function RadialChart({
+  built,
+  fontSm,
+}: {
+  built: BuiltSlice[];
+  fontSm: number;
+}) {
   const subtitleY = PIE_TOP - EDGE_GAP;
   const titleY = subtitleY - fontSm * 1.25;
-  const captionY = PIE_BOTTOM + EDGE_GAP + fontSm;
 
   return (
     <div
-      ref={rootRef}
       className="relative w-full"
       style={{ aspectRatio: `${VB_W} / ${VIEW_H}` }}
     >
       <svg
         viewBox={`0 ${VIEW_Y} ${VB_W} ${VIEW_H}`}
         className="absolute inset-0 size-full"
-        role="img"
-        aria-label="Popular data sources pie chart for October 2019. OneAtlas Pléiades Streaming 43.8%, Sentinel Hub Sentinel-2 18.8%, Sentinel Hub Landsat-8 15.6%, OneAtlas SPOT 9.4%, Sobloo Sentinel-1 GRD and SLC 6.3% each."
+        aria-hidden
       >
-        {/* Title = process hub (serif text-sm); subtitle/caption = process callout size */}
         <text
           x={VB_W / 2}
           y={titleY}
@@ -356,13 +374,7 @@ export function PopularDataSourcesChart() {
         </text>
 
         <g transform={`translate(0 ${TOP_BAND})`}>
-          {built.map((s) => (
-            <path
-              key={s.id}
-              d={slicePath(CX, CY, R, s.startDeg, s.endDeg)}
-              fill={s.color}
-            />
-          ))}
+          <PieSlices built={built} />
 
           {built.map((s) => (
             <path
@@ -380,7 +392,6 @@ export function PopularDataSourcesChart() {
             const lineEndX = isLeft ? LABEL_X.left : LABEL_X.right;
             const textX = isLeft ? lineEndX - LABEL_GAP : lineEndX + LABEL_GAP;
             const lines = wrapLines(s.label, VB_W * 0.28, fontSm);
-            // Match former HTML: leading-4, first line centered on the leader (−0.5 × line box)
             const lineH = fontSm * (16 / 14);
             const y0 = LABEL_Y[s.slot] + fontSm * 0.25;
 
@@ -412,17 +423,88 @@ export function PopularDataSourcesChart() {
             );
           })}
         </g>
-
-        <text
-          x={VB_W / 2}
-          y={captionY}
-          textAnchor="middle"
-          fill="var(--muted-foreground)"
-          style={{ fontSize: fontSm, fontFamily: "var(--font-sans)" }}
-        >
-          Data Only Workflows Run at Least 5 Times (811 jobs)
-        </text>
       </svg>
+    </div>
+  );
+}
+
+function StackedChart({ built }: { built: BuiltSlice[] }) {
+  const legend = useMemo(
+    () => [...built].sort((a, b) => b.pct - a.pct),
+    [built],
+  );
+
+  return (
+    <div className="flex w-full flex-col gap-5">
+      <div className="text-center">
+        <p className="font-serif text-sm text-foreground">
+          Popular Data Sources
+        </p>
+        <p className="text-sm text-muted-foreground">October 2019</p>
+      </div>
+
+      <div
+        className="relative mx-auto w-full max-w-48"
+        style={{ aspectRatio: "1" }}
+      >
+        <svg
+          viewBox={`${PIE_VIEW.x} ${PIE_VIEW.y} ${PIE_VIEW.w} ${PIE_VIEW.h}`}
+          className="absolute inset-0 size-full"
+          aria-hidden
+        >
+          <PieSlices built={built} />
+        </svg>
+      </div>
+
+      <ul className="flex flex-col gap-2.5 text-sm leading-4">
+        {legend.map((s) => (
+          <li key={s.id} className="flex min-w-0 items-start gap-2.5">
+            <span
+              className="mt-0.5 size-2.5 shrink-0 rounded-sm"
+              style={{ background: s.color }}
+              aria-hidden
+            />
+            <span className="min-w-0 flex-1 text-foreground">{s.label}</span>
+            <span className="shrink-0 font-bold" style={{ color: s.color }}>
+              {s.pct.toFixed(1)}%
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export function PopularDataSourcesChart() {
+  const built = useMemo(() => buildSlices(), []);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [layout, setLayout] = useState<"radial" | "stacked">("radial");
+  const [fontSm, setFontSm] = useState(CSS_TEXT_SM);
+
+  useLayoutEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const w = el.getBoundingClientRect().width;
+      if (w <= 0) return;
+      setLayout(w < STACKED_MAX_PX ? "stacked" : "radial");
+      setFontSm(CSS_TEXT_SM * (VB_W / w));
+    };
+
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  return (
+    <div ref={rootRef} className="w-full" role="img" aria-label={ARIA_LABEL}>
+      {layout === "radial" ? (
+        <RadialChart built={built} fontSm={fontSm} />
+      ) : (
+        <StackedChart built={built} />
+      )}
     </div>
   );
 }
