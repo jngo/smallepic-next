@@ -2,18 +2,19 @@
 
 import {
   memo,
-  useCallback,
-  useEffect,
   useLayoutEffect,
   useRef,
   useState,
   type ReactNode,
-  type RefObject,
 } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Window, WindowTitle, WindowContent } from "@/components/ui/window";
 import { WindowRef } from "@/components/ui/window";
+import {
+  CarouselArrows,
+  scrollCarouselSlide,
+  useCarouselControls,
+} from "@/components/windows/carouselControls";
 import { DesignThinkingProcessDiagram } from "@/components/windows/DesignThinkingProcessDiagram";
 import { PopularDataSourcesChart } from "@/components/windows/PopularDataSourcesChart";
 import { StoryMapTable } from "@/components/windows/StoryMapTable";
@@ -50,157 +51,6 @@ const userInterviewQuotes = [
   "Being able to look on a map and see the availability of imagery in a given area is important. Doesn\u2019t want to spend credits to query the catalog. Called it \u2018shooting in the dark\u2019.",
   "Can test data query images be viewed through the API? E.g. want to be able to show a previewed low-resolution image to customer prior to them making a purchase.",
 ];
-
-function getCarouselSlides(scroller: HTMLElement) {
-  return Array.from(
-    scroller.querySelectorAll<HTMLElement>("[data-carousel-slide]"),
-  );
-}
-
-function scrollCarouselSlide(slide: HTMLElement, index: number, count: number) {
-  const scroller = slide.closest("[data-carousel-scroller]");
-  if (!(scroller instanceof HTMLElement)) return;
-  const max = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
-  let left: number;
-  if (index === 0) {
-    left = 0;
-  } else if (index === count - 1) {
-    left = max;
-  } else {
-    const slideRect = slide.getBoundingClientRect();
-    const scrollerRect = scroller.getBoundingClientRect();
-    left =
-      scroller.scrollLeft +
-      (slideRect.left - scrollerRect.left) -
-      (scroller.clientWidth - slideRect.width) / 2;
-    left = Math.min(max, Math.max(0, left));
-  }
-  scroller.scrollTo({ left, behavior: "smooth" });
-}
-
-function getNearestCarouselSlideIndex(
-  scroller: HTMLElement,
-  slides: HTMLElement[],
-) {
-  const scrollerRect = scroller.getBoundingClientRect();
-  const center = scrollerRect.left + scrollerRect.width / 2;
-  let best = 0;
-  let bestDist = Number.POSITIVE_INFINITY;
-  slides.forEach((slide, index) => {
-    const rect = slide.getBoundingClientRect();
-    const dist = Math.abs(rect.left + rect.width / 2 - center);
-    if (dist < bestDist) {
-      bestDist = dist;
-      best = index;
-    }
-  });
-  return best;
-}
-
-function scrollCarouselBy(scroller: HTMLElement, delta: -1 | 1) {
-  const slides = getCarouselSlides(scroller);
-  if (slides.length === 0) return;
-  const current = getNearestCarouselSlideIndex(scroller, slides);
-  const next = Math.min(slides.length - 1, Math.max(0, current + delta));
-  scrollCarouselSlide(slides[next], next, slides.length);
-}
-
-function useCarouselControls(scrollerRef: RefObject<HTMLElement | null>) {
-  const [canPrev, setCanPrev] = useState(false);
-  const [canNext, setCanNext] = useState(false);
-
-  const update = useCallback(() => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-    const max = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
-    setCanPrev(scroller.scrollLeft > 1);
-    setCanNext(scroller.scrollLeft < max - 1);
-  }, [scrollerRef]);
-
-  useEffect(() => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    update();
-    scroller.addEventListener("scroll", update, { passive: true });
-    const ro = new ResizeObserver(update);
-    ro.observe(scroller);
-    const track = scroller.firstElementChild;
-    if (track instanceof HTMLElement) ro.observe(track);
-
-    return () => {
-      scroller.removeEventListener("scroll", update);
-      ro.disconnect();
-    };
-  }, [scrollerRef, update]);
-
-  const scrollPrev = useCallback(() => {
-    const scroller = scrollerRef.current;
-    if (scroller) scrollCarouselBy(scroller, -1);
-  }, [scrollerRef]);
-
-  const scrollNext = useCallback(() => {
-    const scroller = scrollerRef.current;
-    if (scroller) scrollCarouselBy(scroller, 1);
-  }, [scrollerRef]);
-
-  return { canPrev, canNext, scrollPrev, scrollNext, hasOverflow: canPrev || canNext };
-}
-
-function CarouselArrowButton({
-  direction,
-  disabled,
-  onClick,
-}: {
-  direction: "prev" | "next";
-  disabled: boolean;
-  onClick: () => void;
-}) {
-  const Icon = direction === "prev" ? ChevronLeft : ChevronRight;
-
-  return (
-    <button
-      type="button"
-      className="group p-2 -m-2 disabled:pointer-events-none"
-      aria-label={direction === "prev" ? "Previous slide" : "Next slide"}
-      disabled={disabled}
-      onClick={onClick}
-    >
-      <Icon className="size-5 rounded-full border border-input text-foreground transition-colors group-hover:bg-accent group-hover:text-accent-foreground group-disabled:opacity-50" />
-    </button>
-  );
-}
-
-function CarouselArrows({
-  canPrev,
-  canNext,
-  onPrev,
-  onNext,
-  hidden,
-}: {
-  canPrev: boolean;
-  canNext: boolean;
-  onPrev: () => void;
-  onNext: () => void;
-  hidden?: boolean;
-}) {
-  if (hidden) return null;
-
-  return (
-    <div className="mt-4 flex items-center justify-center gap-1">
-      <CarouselArrowButton
-        direction="prev"
-        disabled={!canPrev}
-        onClick={onPrev}
-      />
-      <CarouselArrowButton
-        direction="next"
-        disabled={!canNext}
-        onClick={onNext}
-      />
-    </div>
-  );
-}
 
 const competitors: CarouselItem[] = [
   { src: "/catalog-search-competitors/blacksky.png", alt: "BlackSky catalog search interface.", caption: "BlackSky", width: 1200, height: 655 },
@@ -596,8 +446,8 @@ function CatalogSearchCaseStudyWindow({ onClose, windowRef }: CatalogSearchCaseS
         <h3 className="font-serif text-base text-center my-12">Story Mapping</h3>
         <p className="mb-4">For a project with a short deadline and small core team, storymapping enabled us to prioritise immediate customer value for the minimum viable product, while embracing the broader stakeholder product vision.</p>
         <p className="mb-4">With technical constraints changing almost daily, having a lightweight representation of the product was key to aligning stakeholders, focus engineering on key features, and draw boundaries for a design solution.</p>
-        <figure className="my-12 -mx-8 @3xl:-mx-12 bg-muted">
-          <StoryMapTable />
+        <figure className="my-12 -mx-8 @3xl:-mx-12">
+          <StoryMapTable caption="Story mapping was used to prioritise features for the first release." />
         </figure>
         <hr className="w-8 border-0.5 color-border mx-auto my-12" />
         <h2 className="font-serif text-lg text-center my-12">Explore</h2>

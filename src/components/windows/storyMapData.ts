@@ -105,6 +105,16 @@ export const STORY_LANE = {
   backlog: "var(--chart-3)",
 } as const;
 
+/**
+ * Activity colors — same hub mapping as the process diagram:
+ * Search → Understand, Select → Explore, Acquire → Materialise.
+ */
+export const STORY_ACTIVITY = {
+  search: "var(--chart-2)",
+  select: "var(--chart-4)",
+  acquire: "var(--chart-3)",
+} as const;
+
 /** Fixed card box — two-line text-sm; ~4 columns fit in the w-200 window. */
 export const STORY_CARD_H = "3rem";
 export const STORY_CARD_W = "10rem";
