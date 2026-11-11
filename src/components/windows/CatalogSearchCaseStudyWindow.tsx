@@ -2,18 +2,21 @@
 
 import {
   memo,
-  useLayoutEffect,
   useRef,
-  useState,
   type ReactNode,
 } from "react";
 import Image from "next/image";
-import { Window, WindowTitle, WindowContent } from "@/components/ui/window";
-import { WindowRef } from "@/components/ui/window";
+import {
+  Window,
+  WindowTitle,
+  WindowContent,
+  type WindowRef,
+} from "@/components/ui/window";
 import {
   CarouselArrows,
   scrollCarouselSlide,
   useCarouselControls,
+  useScrollerContentWidth,
 } from "@/components/windows/carouselControls";
 import { DesignThinkingProcessDiagram } from "@/components/windows/DesignThinkingProcessDiagram";
 import { PopularDataSourcesChart } from "@/components/windows/PopularDataSourcesChart";
@@ -129,7 +132,7 @@ function PseudoWindow({
           <span className="size-2 rounded-full bg-[color-mix(in_oklch,var(--muted-foreground)_45%,var(--muted))]" />
           <span className="size-2 rounded-full bg-[color-mix(in_oklch,var(--muted-foreground)_45%,var(--muted))]" />
         </div>
-        <span className="pointer-events-none absolute inset-0 flex items-center justify-center text-[0.65rem] text-muted-foreground">
+        <span className="pointer-events-none absolute inset-0 flex items-center justify-center text-xs text-muted-foreground">
           {title}
         </span>
       </div>
@@ -157,37 +160,12 @@ function ImageCarousel({
   /** Shared figure caption; when set, per-slide captions are omitted. */
   caption?: string;
 }) {
-  // Prototypes share one scale (largest image fits the content column); competitor
-  // slides use a definite px width. Avoid % widths inside `w-max` flex tracks —
-  // they stay indefinite during max-content sizing, so scrollWidth blows up.
+  // Definite px widths inside `w-max` tracks — % stays indefinite and blows up scrollWidth.
   const titleBarPx = 24; // h-6
   const scrollerRef = useRef<HTMLDivElement>(null);
-  const [contentWidthPx, setContentWidthPx] = useState(0);
+  const contentWidthPx = useScrollerContentWidth(scrollerRef);
   const { canPrev, canNext, scrollPrev, scrollNext, hasOverflow } =
     useCarouselControls(scrollerRef);
-
-  // Content column = scroller width minus track padding (both carousel modes).
-  useLayoutEffect(() => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    const update = () => {
-      const track = scroller.firstElementChild;
-      if (!(track instanceof HTMLElement)) return;
-      const styles = getComputedStyle(track);
-      const pad =
-        (parseFloat(styles.paddingLeft) || 0) +
-        (parseFloat(styles.paddingRight) || 0);
-      const contentW = Math.max(0, scroller.clientWidth - pad);
-      if (contentW <= 0) return;
-      setContentWidthPx(contentW);
-    };
-
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(scroller);
-    return () => ro.disconnect();
-  }, []);
 
   const competitorSlotWidthPx =
     contentWidthPx > 0 && contentWidthPx < COMPETITOR_SLOT_WIDE_PX
@@ -209,18 +187,14 @@ function ImageCarousel({
         ...items.map((item) => (competitorSlotWidthPx * item.height) / item.width),
       )
     : Math.max(...items.map((item) => item.height)) * prototypeScale;
-  // Competitor slides use window chrome; include the title bar in the muted band.
+  // Framed slides include title-bar height in the muted band.
   const framed = fill;
   const imageBandHeight = framed ? imageHeight + titleBarPx : imageHeight;
   const stageMuted = mutedImages || framed;
 
   return (
     <figure className="my-12 -mx-8 @3xl:-mx-12">
-      {/*
-        Full-bleed scroller; inset is padding on the inner track (not spacer
-        nodes), so the first/last slides align with content and nothing empty
-        can scroll into view past either end.
-      */}
+      {/* Full-bleed scroller; track padding (not spacers) keeps ends flush with content. */}
       <div className="relative">
         {stageMuted ? (
           <div
@@ -241,9 +215,7 @@ function ImageCarousel({
               const imageWidthPx = fill
                 ? competitorSlotWidthPx
                 : item.width * prototypeScale;
-              // Prototypes: image keeps its own width; caption uses a shared
-              // measure. Slide is the wider of the two so rhythm stays in the
-              // images without clipping the caption.
+              // Prototype slide = max(image, shared caption) so captions don’t clip.
               const slideWidthPx = fill
                 ? competitorSlotWidthPx
                 : Math.max(imageWidthPx, prototypeCaptionWidthPx);
@@ -260,15 +232,11 @@ function ImageCarousel({
                   scrollCarouselSlide(event.currentTarget, index, items.length);
                 }}
               >
-                {/*
-                  Vertical padding lives on the image band only so the muted
-                  strip doesn’t run into the caption. Framed slides peek from
-                  the bottom (top padding only).
-                */}
+                {/* Image-band padding only — muted strip must not cover captions. */}
                 <div
                   className={
                     framed
-                      ? // Clip shadow only at the band’s bottom; keep top/side falloff.
+                      ? // Clip shadow on the band bottom; keep top/side falloff.
                         `${FIGURE_PAD_Y_TOP} [clip-path:inset(0_-12px_0_-12px)]`
                       : mutedImages
                         ? FIGURE_PAD_Y
@@ -427,39 +395,13 @@ function QuoteCarousel({ quotes }: { quotes: string[] }) {
 const BETA_EMAIL_MIN_PX = 14 * 16;
 const BETA_EMAIL_GAP_PX = 24; // gap-6
 
-/**
- * BETA feedback as email cards: muted stage + window chrome (like framed
- * screenshots), mono header fields, body in default case-study type.
- * Wide: both cards share the content width. Narrow: min width + carousel.
- */
+/** BETA feedback as email cards — wide: two-up; narrow: min width + carousel. */
 function BetaFeedbackEmails({ emails }: { emails: string[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
-  const [contentWidthPx, setContentWidthPx] = useState(0);
+  const contentWidthPx = useScrollerContentWidth(scrollerRef);
   const { canPrev, canNext, scrollPrev, scrollNext, hasOverflow } =
     useCarouselControls(scrollerRef);
   const subject = "RE: Catalog Search BETA";
-
-  useLayoutEffect(() => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    const update = () => {
-      const track = scroller.firstElementChild;
-      if (!(track instanceof HTMLElement)) return;
-      const styles = getComputedStyle(track);
-      const pad =
-        (parseFloat(styles.paddingLeft) || 0) +
-        (parseFloat(styles.paddingRight) || 0);
-      const contentW = Math.max(0, scroller.clientWidth - pad);
-      if (contentW <= 0) return;
-      setContentWidthPx(contentW);
-    };
-
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(scroller);
-    return () => ro.disconnect();
-  }, []);
 
   const slideWidthPx =
     contentWidthPx > 0

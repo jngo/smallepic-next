@@ -11,6 +11,7 @@
 "use client";
 
 import { useLayoutEffect, useRef, useState } from "react";
+import { STACKED_MAX_PX } from "@/components/windows/caseStudyLayout";
 
 type Phase = {
   id: string;
@@ -39,9 +40,6 @@ const VIEW_X = 96;
 const VIEW_Y = 52;
 const VIEW_W = 732;
 const VIEW_H = 332;
-
-/** Below this diagram width, switch to stacked layout. */
-const STACKED_MAX_PX = 480;
 
 /** Midpoints every 60°. */
 const phases: Phase[] = [

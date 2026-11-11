@@ -3,6 +3,7 @@
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useState,
   type RefObject,
 } from "react";
@@ -12,6 +13,40 @@ export function getCarouselSlides(scroller: HTMLElement) {
   return Array.from(
     scroller.querySelectorAll<HTMLElement>("[data-carousel-slide]"),
   );
+}
+
+/**
+ * Content column width for full-bleed carousels: scroller client width minus
+ * the track’s horizontal padding (so slides align with WindowContent).
+ */
+export function useScrollerContentWidth(
+  scrollerRef: RefObject<HTMLElement | null>,
+) {
+  const [contentWidthPx, setContentWidthPx] = useState(0);
+
+  useLayoutEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const update = () => {
+      const track = scroller.firstElementChild;
+      if (!(track instanceof HTMLElement)) return;
+      const styles = getComputedStyle(track);
+      const pad =
+        (parseFloat(styles.paddingLeft) || 0) +
+        (parseFloat(styles.paddingRight) || 0);
+      const contentW = Math.max(0, scroller.clientWidth - pad);
+      if (contentW <= 0) return;
+      setContentWidthPx(contentW);
+    };
+
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(scroller);
+    return () => ro.disconnect();
+  }, [scrollerRef]);
+
+  return contentWidthPx;
 }
 
 export function scrollCarouselSlide(

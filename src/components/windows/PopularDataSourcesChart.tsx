@@ -7,6 +7,7 @@
 "use client";
 
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { STACKED_MAX_PX } from "@/components/windows/caseStudyLayout";
 
 type Slice = {
   id: string;
@@ -109,9 +110,6 @@ const ROTATION_CW = 22;
 const SLOT_Y = [80, 178, 276] as const;
 /** Callout label Y — mid/bottom nudged up slightly from the leaders. */
 const LABEL_Y = [80, 170, 268] as const;
-
-/** Below this chart width, switch to pie + legend. */
-const STACKED_MAX_PX = 480;
 
 /** Compact pie crop (stacked) — circle only, no leaders. */
 const PIE_PAD = 8;

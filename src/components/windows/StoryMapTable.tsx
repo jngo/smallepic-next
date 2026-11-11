@@ -14,6 +14,7 @@ import {
   useCarouselControls,
   useHorizontalOverflow,
 } from "@/components/windows/carouselControls";
+import { STACKED_MAX_PX } from "@/components/windows/caseStudyLayout";
 import {
   STORY_ACTIVITY,
   STORY_BACKLOG_STACK_H,
@@ -33,9 +34,6 @@ function activityColor(phaseId: string) {
     "var(--chart-4)"
   );
 }
-
-/** Match process/chart hybrid switch. */
-const STACKED_MAX_PX = 480;
 
 const stickyLabel =
   "sticky left-0 z-20 box-border bg-muted/70 text-left align-top font-mono text-sm leading-4";

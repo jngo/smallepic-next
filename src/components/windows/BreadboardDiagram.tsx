@@ -282,18 +282,12 @@ export function BreadboardDiagram({ caption }: { caption?: string }) {
           data-carousel-scroller
           className="overflow-x-auto overscroll-x-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {/*
-            Full-bleed muted stage; inset is padding on the track so the board
-            can scroll into the side bleed like the carousels and story map.
-            Small: board stays at BOARD_MIN_WIDTH so PLACE_MIN actually sizes
-            columns (min-w-full was stretching them to the window). Large:
-            stretch to fill.
-          */}
+          {/* Track padding bleeds into the muted stage; board mins so PLACE_MIN holds when scrolling. */}
           <div className="w-max px-8 py-8 @3xl:min-w-full @3xl:px-12 @3xl:py-12">
             <div
               ref={boardRef}
-              className="relative @3xl:!w-full"
-              style={{ width: BOARD_MIN_WIDTH, minWidth: BOARD_MIN_WIDTH }}
+              className="relative w-full"
+              style={{ minWidth: BOARD_MIN_WIDTH }}
               role="img"
               aria-label="Breadboard connecting map, search, filters, selection, metadata, and workflow parameters."
             >
