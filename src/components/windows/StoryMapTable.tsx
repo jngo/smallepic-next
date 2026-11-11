@@ -1,7 +1,8 @@
 /**
  * Catalog Search story map — wide: HTML table with sticky swim-lane labels and
- * horizontal scroll + arrow affordances beneath the muted stage. Narrow: stack
- * by release (MVP, then Backlog), each walking Search → Select → Acquire.
+ * horizontal scroll + arrow affordances beneath the muted stage. Narrow: two
+ * release slides (MVP | Backlog) as a carousel, each walking Search → Select →
+ * Acquire.
  */
 
 "use client";
@@ -9,6 +10,8 @@
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import {
   CarouselArrows,
+  scrollCarouselSlide,
+  useCarouselControls,
   useHorizontalOverflow,
 } from "@/components/windows/carouselControls";
 import {
@@ -339,92 +342,130 @@ function StoryMapWide({ caption }: { caption?: string }) {
   );
 }
 
-function StoryMapStacked({ caption }: { caption?: string }) {
+function ReleaseTimeline({
+  release,
+}: {
+  release: (typeof releases)[number];
+}) {
   return (
     <>
-    <div className="bg-muted">
-      <div className="flex flex-col gap-12 px-[var(--story-inset)] py-8 @3xl:py-12">
-        {releases.map((release) => {
+      <h4 className="font-serif text-base font-normal leading-5 text-foreground">
+        {release.label}
+      </h4>
+
+      {/* Keep Search → Select → Acquire even when a release has no stories in a beat. */}
+      <ol className="relative flex flex-col gap-5 pl-1">
+        <span
+          className="pointer-events-none absolute top-2 bottom-2 left-[calc(0.25rem+3px)] w-px bg-border"
+          aria-hidden
+        />
+        {storyMapPhases.map((phase) => {
+          const color = activityColor(phase.id);
+          const columns = phase.columns.filter(
+            (column) => column[release.key].length > 0,
+          );
+
           return (
-            <section key={release.id} className="flex flex-col gap-6">
-              <h4 className="font-serif text-base font-normal leading-5 text-foreground">
-                {release.label}
-              </h4>
-
-              {/* Keep Search → Select → Acquire even when a release has no stories in a beat. */}
-              <ol className="relative flex flex-col gap-5 pl-1">
+            <li
+              key={`${release.id}-${phase.id}`}
+              className="flex flex-col gap-3"
+            >
+              <div className="relative flex items-center gap-4">
                 <span
-                  className="pointer-events-none absolute top-2 bottom-2 left-[calc(0.25rem+3px)] w-px bg-border"
+                  className="relative z-10 flex w-1.5 shrink-0 justify-center"
                   aria-hidden
-                />
-                {storyMapPhases.map((phase) => {
-                  const color = activityColor(phase.id);
-                  const columns = phase.columns.filter(
-                    (column) => column[release.key].length > 0,
-                  );
-
-                  return (
-                    <li
-                      key={`${release.id}-${phase.id}`}
-                      className="flex flex-col gap-3"
-                    >
-                      <div className="relative flex items-center gap-4">
-                        <span
-                          className="relative z-10 flex w-1.5 shrink-0 justify-center"
-                          aria-hidden
-                        >
-                          <span
-                            className="size-1.5 rounded-full"
-                            style={{ background: color }}
-                          />
-                        </span>
-                        <h5
-                          className="font-serif text-sm font-normal leading-4"
-                          style={{ color }}
-                        >
-                          {phase.title}
-                        </h5>
-                      </div>
-                      {columns.map((column) => (
-                        <div
-                          key={`${release.id}-${phase.id}-${column.title}`}
-                          className="relative flex items-center gap-4"
-                        >
-                          <span
-                            className="relative z-10 flex w-1.5 shrink-0 justify-center self-start pt-[5px]"
-                            aria-hidden
-                          >
-                            <span
-                              className="size-1.5 rounded-full"
-                              style={{ background: color }}
-                            />
-                          </span>
-                          <div className="min-w-0 flex-1 text-sm leading-4">
-                            <p className="font-bold" style={{ color }}>
-                              {column.title}
-                            </p>
-                            <ul className="text-muted-foreground">
-                              {column[release.key].map((item) => (
-                                <li key={item}>{item}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
+                >
+                  <span
+                    className="size-1.5 rounded-full"
+                    style={{ background: color }}
+                  />
+                </span>
+                <h5
+                  className="font-serif text-sm font-normal leading-4"
+                  style={{ color }}
+                >
+                  {phase.title}
+                </h5>
+              </div>
+              {columns.map((column) => (
+                <div
+                  key={`${release.id}-${phase.id}-${column.title}`}
+                  className="relative flex items-center gap-4"
+                >
+                  <span
+                    className="relative z-10 flex w-1.5 shrink-0 justify-center self-start pt-[5px]"
+                    aria-hidden
+                  >
+                    <span
+                      className="size-1.5 rounded-full"
+                      style={{ background: color }}
+                    />
+                  </span>
+                  <div className="min-w-0 flex-1 text-sm leading-4">
+                    <p className="font-bold" style={{ color }}>
+                      {column.title}
+                    </p>
+                    <ul className="text-muted-foreground">
+                      {column[release.key].map((item) => (
+                        <li key={item}>{item}</li>
                       ))}
-                    </li>
-                  );
-                })}
-              </ol>
-            </section>
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </li>
           );
         })}
+      </ol>
+    </>
+  );
+}
+
+function StoryMapStacked({ caption }: { caption?: string }) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const { canPrev, canNext, scrollPrev, scrollNext, hasOverflow } =
+    useCarouselControls(scrollerRef);
+
+  return (
+    <>
+      <div className="bg-muted">
+        <div
+          ref={scrollerRef}
+          data-carousel-scroller
+          className="overflow-x-auto overscroll-x-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          <div className="flex">
+            {releases.map((release, index) => (
+              <section
+                key={release.id}
+                data-carousel-slide
+                className="flex w-full min-w-full shrink-0 cursor-pointer flex-col gap-6 px-[var(--story-inset)] py-8 @3xl:py-12"
+                onClick={(event) => {
+                  scrollCarouselSlide(
+                    event.currentTarget,
+                    index,
+                    releases.length,
+                  );
+                }}
+              >
+                <ReleaseTimeline release={release} />
+              </section>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
-    {caption ? (
-      <figcaption className="mx-8 @3xl:mx-12 mt-2 text-center text-muted-foreground">
-        {caption}
-      </figcaption>
-    ) : null}
+      {caption ? (
+        <figcaption className="mx-8 @3xl:mx-12 mt-2 text-center text-muted-foreground">
+          {caption}
+        </figcaption>
+      ) : null}
+      <CarouselArrows
+        canPrev={canPrev}
+        canNext={canNext}
+        onPrev={scrollPrev}
+        onNext={scrollNext}
+        hidden={!hasOverflow}
+      />
     </>
   );
 }
@@ -457,7 +498,7 @@ export function StoryMapTable({ caption }: { caption?: string }) {
       aria-label={
         layout === "table"
           ? "Story map: Search, Select, and Acquire across Minimum Viable Product and Backlog swim lanes. Swim-lane labels and the current activity header stay fixed while scrolling horizontally."
-          : "Story map stacked by release: Minimum Viable Product, then Backlog, each walking Search, Select, and Acquire."
+          : "Story map by release: swipe or use arrows to switch between Minimum Viable Product and Backlog, each walking Search, Select, and Acquire."
       }
     >
       {layout === "table" ? (
