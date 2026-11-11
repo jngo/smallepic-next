@@ -67,7 +67,7 @@ const uiPrototypes: CarouselItem[] = [
     alt: "Search chips, filters panel, and dual-month calendar for date range, cloud cover, and data sources.",
     title: "Filters",
     caption:
-      "Customer feedback guided us towards date range and cloud cover as the most important options for narrowing search results. Quantitative data indicated that displaying two months side-by-side would satisfy the majority of date range queries.",
+      "Feedback pointed to date range and cloud cover as key filters. Most date queries needed only a two-month range.",
     width: 1308,
     height: 1200,
   },
@@ -92,7 +92,7 @@ const uiPrototypes: CarouselItem[] = [
     alt: "Popover for finding and running a workflow with selected imagery.",
     title: "Workflow Configuration",
     caption:
-      "Popover for quickly finding and running a workflow with selected imagery. A key feature for allowing customers to acquire data.",
+      "Takes customers from selected imagery into workflow configuration, the key unlock for acquisition.",
     width: 936,
     height: 1208,
   },
@@ -101,7 +101,7 @@ const uiPrototypes: CarouselItem[] = [
     alt: "Interim solution for replicating search parameters or selected images.",
     title: "Workflow Parameters",
     caption:
-      "Given that workflow creation was out of scope, a quick way to replicate search parameters or selected images was required as an interim solution.",
+      "With workflow creation out of scope, users could still reuse parameters or selections to run a job.",
     width: 1364,
     height: 1248,
   },
@@ -134,6 +134,9 @@ function PseudoWindow({
 
 /** Wide competitor slide width — definite px so `w-max` tracks don’t explode. */
 const COMPETITOR_SLOT_WIDE_PX = 28 * 16;
+/** Shared caption measure under variable-width prototype images. */
+const PROTOTYPE_CAPTION_WIDTH_PX = 20 * 16;
+const PROTOTYPE_SCALE = 0.3;
 
 function ImageCarousel({
   items,
@@ -148,22 +151,17 @@ function ImageCarousel({
   /** Shared figure caption; when set, per-slide captions are omitted. */
   caption?: string;
 }) {
-  // Prototypes use a fixed scale; competitor slides use a definite px width.
-  // Avoid % widths inside `w-max` flex tracks — they stay indefinite during
-  // max-content sizing, so scrollWidth blows up to the images' intrinsic size
-  // and you can scroll past the painted slides into empty space.
-  const prototypeScale = 0.3;
+  // Prototypes share one scale (largest image fits the content column); competitor
+  // slides use a definite px width. Avoid % widths inside `w-max` flex tracks —
+  // they stay indefinite during max-content sizing, so scrollWidth blows up.
   const titleBarPx = 24; // h-6
   const scrollerRef = useRef<HTMLDivElement>(null);
-  const [competitorSlotWidthPx, setCompetitorSlotWidthPx] = useState(
-    COMPETITOR_SLOT_WIDE_PX,
-  );
+  const [contentWidthPx, setContentWidthPx] = useState(0);
   const { canPrev, canNext, scrollPrev, scrollNext, hasOverflow } =
     useCarouselControls(scrollerRef);
 
-  // Narrow: fill the content column (100% minus track padding). Wide: fixed slot.
+  // Content column = scroller width minus track padding (both carousel modes).
   useLayoutEffect(() => {
-    if (!fill) return;
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
@@ -176,16 +174,29 @@ function ImageCarousel({
         (parseFloat(styles.paddingRight) || 0);
       const contentW = Math.max(0, scroller.clientWidth - pad);
       if (contentW <= 0) return;
-      setCompetitorSlotWidthPx(
-        contentW < COMPETITOR_SLOT_WIDE_PX ? contentW : COMPETITOR_SLOT_WIDE_PX,
-      );
+      setContentWidthPx(contentW);
     };
 
     update();
     const ro = new ResizeObserver(update);
     ro.observe(scroller);
     return () => ro.disconnect();
-  }, [fill]);
+  }, []);
+
+  const competitorSlotWidthPx =
+    contentWidthPx > 0 && contentWidthPx < COMPETITOR_SLOT_WIDE_PX
+      ? contentWidthPx
+      : COMPETITOR_SLOT_WIDE_PX;
+
+  const maxPrototypeWidth = Math.max(...items.map((item) => item.width));
+  const prototypeScale =
+    !fill && contentWidthPx > 0
+      ? Math.min(PROTOTYPE_SCALE, contentWidthPx / maxPrototypeWidth)
+      : PROTOTYPE_SCALE;
+  const prototypeCaptionWidthPx =
+    !fill && contentWidthPx > 0
+      ? Math.min(PROTOTYPE_CAPTION_WIDTH_PX, contentWidthPx)
+      : PROTOTYPE_CAPTION_WIDTH_PX;
 
   const imageHeight = fill
     ? Math.max(
@@ -220,16 +231,25 @@ function ImageCarousel({
           className="relative overflow-x-auto overscroll-x-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           <div className={`flex w-max gap-8 @3xl:gap-12 ${FIGURE_PAD_X}`}>
-            {items.map((item, index) => (
+            {items.map((item, index) => {
+              const imageWidthPx = fill
+                ? competitorSlotWidthPx
+                : item.width * prototypeScale;
+              // Prototypes: image keeps its own width; caption uses a shared
+              // measure. Slide is the wider of the two so rhythm stays in the
+              // images without clipping the caption.
+              const slideWidthPx = fill
+                ? competitorSlotWidthPx
+                : Math.max(imageWidthPx, prototypeCaptionWidthPx);
+
+              return (
               <figure
                 key={item.src}
                 data-carousel-slide
-                className="shrink-0 min-w-0 cursor-pointer"
-                style={{
-                  width: fill
-                    ? competitorSlotWidthPx
-                    : item.width * prototypeScale,
-                }}
+                className={`shrink-0 min-w-0 cursor-pointer ${
+                  fill ? "" : "flex flex-col items-center"
+                }`}
+                style={{ width: slideWidthPx }}
                 onClick={(event) => {
                   scrollCarouselSlide(event.currentTarget, index, items.length);
                 }}
@@ -248,6 +268,7 @@ function ImageCarousel({
                         ? FIGURE_PAD_Y
                         : undefined
                   }
+                  style={fill ? undefined : { width: imageWidthPx }}
                 >
                   <div
                     className="flex items-end"
@@ -282,7 +303,12 @@ function ImageCarousel({
                   </div>
                 </div>
                 {caption ? null : (
-                  <figcaption className="text-muted-foreground mt-2 text-pretty">
+                  <figcaption
+                    className="text-muted-foreground mt-2 text-pretty"
+                    style={
+                      fill ? undefined : { width: prototypeCaptionWidthPx }
+                    }
+                  >
                     {item.title ? (
                       <>
                         <strong className="text-foreground">{item.title}</strong>{" "}
@@ -294,7 +320,8 @@ function ImageCarousel({
                   </figcaption>
                 )}
               </figure>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
