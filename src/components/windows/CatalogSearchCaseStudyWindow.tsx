@@ -52,6 +52,12 @@ const userInterviewQuotes = [
   "Can test data query images be viewed through the API? E.g. want to be able to show a previewed low-resolution image to customer prior to them making a purchase.",
 ];
 
+/** Early BETA replies — shown as email cards rather than interview pull-quotes. */
+const betaFeedbackEmails = [
+  "I have seen the new UI and features of the platform, it looks great, specifically the search feature in the catalog is really helpful. I am satisfied with the current features and data sources available on the platform.",
+  "thanks for sending the update - i just logged in and it looks great so far!",
+];
+
 const competitors: CarouselItem[] = [
   { src: "/catalog-search-competitors/blacksky.png", alt: "BlackSky catalog search interface.", caption: "BlackSky", width: 1200, height: 655 },
   { src: "/catalog-search-competitors/eos-land-viewer.png", alt: "EOS Land Viewer catalog search interface.", caption: "EOS Land Viewer", width: 1200, height: 655 },
@@ -417,6 +423,100 @@ function QuoteCarousel({ quotes }: { quotes: string[] }) {
   );
 }
 
+/** Floor before the two-up email layout starts scrolling. */
+const BETA_EMAIL_MIN_PX = 14 * 16;
+const BETA_EMAIL_GAP_PX = 24; // gap-6
+
+/**
+ * BETA feedback as email cards: muted stage + window chrome (like framed
+ * screenshots), mono header fields, body in default case-study type.
+ * Wide: both cards share the content width. Narrow: min width + carousel.
+ */
+function BetaFeedbackEmails({ emails }: { emails: string[] }) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [contentWidthPx, setContentWidthPx] = useState(0);
+  const { canPrev, canNext, scrollPrev, scrollNext, hasOverflow } =
+    useCarouselControls(scrollerRef);
+  const subject = "RE: Catalog Search BETA";
+
+  useLayoutEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const update = () => {
+      const track = scroller.firstElementChild;
+      if (!(track instanceof HTMLElement)) return;
+      const styles = getComputedStyle(track);
+      const pad =
+        (parseFloat(styles.paddingLeft) || 0) +
+        (parseFloat(styles.paddingRight) || 0);
+      const contentW = Math.max(0, scroller.clientWidth - pad);
+      if (contentW <= 0) return;
+      setContentWidthPx(contentW);
+    };
+
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(scroller);
+    return () => ro.disconnect();
+  }, []);
+
+  const slideWidthPx =
+    contentWidthPx > 0
+      ? Math.max(
+          BETA_EMAIL_MIN_PX,
+          (contentWidthPx - BETA_EMAIL_GAP_PX) / emails.length,
+        )
+      : BETA_EMAIL_MIN_PX;
+
+  return (
+    <figure className="my-12 -mx-8 @3xl:-mx-12">
+      <div className="bg-muted">
+        <div
+          ref={scrollerRef}
+          data-carousel-scroller
+          className="overflow-x-auto overscroll-x-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          <div
+            className={`flex w-max items-end gap-6 ${FIGURE_PAD_X} ${FIGURE_PAD_Y_TOP}`}
+          >
+            {emails.map((body, index) => (
+              <article
+                key={body}
+                data-carousel-slide
+                className="shrink-0 cursor-pointer"
+                style={{ width: slideWidthPx }}
+                onClick={(event) => {
+                  scrollCarouselSlide(event.currentTarget, index, emails.length);
+                }}
+              >
+                <PseudoWindow title={subject}>
+                  <div className="border-b border-border px-4 py-3 font-mono text-sm leading-relaxed text-foreground">
+                    <p>
+                      <span className="text-muted-foreground">To:</span> John
+                    </p>
+                    <p className="font-bold">{subject}</p>
+                  </div>
+                  <p className="m-0 px-4 py-3 text-sm leading-relaxed text-pretty text-foreground">
+                    {body}
+                  </p>
+                </PseudoWindow>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+      <CarouselArrows
+        canPrev={canPrev}
+        canNext={canNext}
+        onPrev={scrollPrev}
+        onNext={scrollNext}
+        hidden={!hasOverflow}
+      />
+    </figure>
+  );
+}
+
 function CatalogSearchCaseStudyWindow({ onClose, windowRef }: CatalogSearchCaseStudyWindowProps) {
   return (
     <Window id="catalog_search_case_study" ref={windowRef} className="w-200 left-1/2 top-1/2 -translate-1/2 @container" onClose={onClose}>
@@ -499,10 +599,7 @@ function CatalogSearchCaseStudyWindow({ onClose, windowRef }: CatalogSearchCaseS
         <h3 className="font-serif text-base text-center my-12">Customer Feedback</h3>
         <p className="mb-4">As a result of parallelising design and engineering exploration, much of the backend and frontend code was already written, so the test phase was focused on cleaning up the code and polishing the user experience.</p>
         <p className="mb-4">This provided an opportunity to share an early BETA release to gather last minute feedback.</p>
-        <ul className="list-disc list-outside marker:text-input mb-4">
-          <li>&ldquo;I have seen the new UI and features of the platform, it looks great, specifically the search feature in the catalog is really helpful. I am satisfied with the current features and data sources available on the platform.&rdquo;</li>
-          <li>&ldquo;thanks for sending the update - i just logged in and it looks great so far!&rdquo;</li>
-        </ul>
+        <BetaFeedbackEmails emails={betaFeedbackEmails} />
         <h3 className="font-serif text-base text-center my-12">Reporting</h3>
         <p className="mb-4">Realtime dashboards were setup to monitor analytics for the search and acquisition phases of the customer journey.</p>
         <p className="mb-4">Search volume and geometry uploads provided awareness into general adoption for the search phase. For the acquire phase, job configuration and dry runs analytics provided insight into whether customers were able to acquire the data they were looking for.</p>
