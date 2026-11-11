@@ -1,13 +1,16 @@
 /**
  * UX breadboard: places + affordances + connection lines.
- * Places are HTML (content-sized, readable type); connectors are SVG
- * paths from a specific signifier to a destination place title, measured
- * via ResizeObserver and drawn above the boxes.
+ * Places are HTML; connectors are SVG measured via ResizeObserver.
+ * Narrow viewports: horizontal scroll + arrow affordances under the stage.
  */
 
 "use client";
 
-import { useId, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useId, useLayoutEffect, useRef, useState } from "react";
+import {
+  CarouselArrows,
+  useHorizontalOverflow,
+} from "@/components/windows/carouselControls";
 
 type Affordance = {
   label: string;
@@ -158,6 +161,11 @@ const links: Link[] = [
 
 type Box = { x: number; y: number; w: number; h: number };
 
+/** Tight enough for single-line affordances at the small type size; title may wrap. */
+const PLACE_MIN = "7.5rem";
+const COL_GAP = "0.75rem";
+const BOARD_MIN_WIDTH = `calc(5 * ${PLACE_MIN} + 4 * ${COL_GAP})`;
+
 function itemKey(placeId: string, label: string) {
   return `${placeId}::${label}`;
 }
@@ -206,38 +214,60 @@ const boxBg =
 /** Connector stroke — process-diagram Materialise. */
 const linkStroke = "var(--chart-3)";
 
-export function BreadboardDiagram() {
+function scrollBoardByColumn(scroller: HTMLElement, delta: -1 | 1) {
+  const step = scroller.clientWidth * 0.55;
+  const max = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+  const left = Math.min(max, Math.max(0, scroller.scrollLeft + delta * step));
+  scroller.scrollTo({ left, behavior: "smooth" });
+}
+
+export function BreadboardDiagram({ caption }: { caption?: string }) {
   const uid = useId().replace(/:/g, "");
   const arrowId = `bb-arrow-${uid}`;
-  const rootRef = useRef<HTMLDivElement>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Record<string, HTMLElement | null>>({});
   const [boxes, setBoxes] = useState<Record<string, Box>>({});
   const [size, setSize] = useState({ w: 1, h: 1 });
+  const { canPrev, canNext, hasOverflow } = useHorizontalOverflow(scrollerRef);
+
+  const scrollPrev = useCallback(() => {
+    const scroller = scrollerRef.current;
+    if (scroller) scrollBoardByColumn(scroller, -1);
+  }, []);
+
+  const scrollNext = useCallback(() => {
+    const scroller = scrollerRef.current;
+    if (scroller) scrollBoardByColumn(scroller, 1);
+  }, []);
 
   useLayoutEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
+    const board = boardRef.current;
+    if (!board) return;
 
     const measure = () => {
-      const rootRect = root.getBoundingClientRect();
+      const boardRect = board.getBoundingClientRect();
       const next: Record<string, Box> = {};
       for (const [key, el] of Object.entries(nodeRefs.current)) {
         if (!el) continue;
         const r = el.getBoundingClientRect();
         next[key] = {
-          x: r.left - rootRect.left,
-          y: r.top - rootRect.top,
+          x: r.left - boardRect.left,
+          y: r.top - boardRect.top,
           w: r.width,
           h: r.height,
         };
       }
       setBoxes(next);
-      setSize({ w: rootRect.width, h: rootRect.height });
+      setSize({
+        w: Math.max(board.scrollWidth, boardRect.width),
+        h: Math.max(board.scrollHeight, boardRect.height),
+      });
     };
 
     measure();
     const ro = new ResizeObserver(measure);
-    ro.observe(root);
+    ro.observe(board);
     for (const el of Object.values(nodeRefs.current)) {
       if (el) ro.observe(el);
     }
@@ -245,110 +275,145 @@ export function BreadboardDiagram() {
   }, []);
 
   return (
-    <div
-      ref={rootRef}
-      className="relative w-full"
-      role="img"
-      aria-label="Breadboard connecting map, search, filters, selection, metadata, and workflow parameters."
-    >
-      <div
-        className="relative grid items-start gap-3 @3xl:gap-4"
-        style={{
-          gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
-          gridTemplateRows: "auto auto auto",
-        }}
-      >
-        {places.map((place) => (
-          <div
-            key={place.id}
-            ref={(el) => {
-              nodeRefs.current[placeKey(place.id)] = el;
-            }}
-            className={`h-fit px-2.5 py-2 text-foreground ${boxBg}`}
-            style={{
-              gridColumn: place.col,
-              gridRow: `${place.row} / span ${place.rowSpan ?? 1}`,
-              alignSelf: "start",
-            }}
-          >
-            <p
-              ref={(el) => {
-                nodeRefs.current[titleKey(place.id)] = el;
-              }}
-              className="font-mono text-xs font-bold leading-tight"
+    <div className="w-full">
+      <div className="bg-muted">
+        <div
+          ref={scrollerRef}
+          data-carousel-scroller
+          className="overflow-x-auto overscroll-x-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {/*
+            Full-bleed muted stage; inset is padding on the track so the board
+            can scroll into the side bleed like the carousels and story map.
+            Small: board stays at BOARD_MIN_WIDTH so PLACE_MIN actually sizes
+            columns (min-w-full was stretching them to the window). Large:
+            stretch to fill.
+          */}
+          <div className="w-max px-8 py-8 @3xl:min-w-full @3xl:px-12 @3xl:py-12">
+            <div
+              ref={boardRef}
+              className="relative @3xl:!w-full"
+              style={{ width: BOARD_MIN_WIDTH, minWidth: BOARD_MIN_WIDTH }}
+              role="img"
+              aria-label="Breadboard connecting map, search, filters, selection, metadata, and workflow parameters."
             >
-              {place.title}
-            </p>
-            <ul className="mt-1.5 space-y-0.5 font-mono text-[0.65rem] leading-snug">
-              {place.items.map((item) => (
-                <li
-                  key={item.label}
+            <div
+              className="relative grid items-start"
+              style={{
+                gridTemplateColumns: `repeat(5, minmax(0, 1fr))`,
+                gridTemplateRows: "auto auto auto",
+                columnGap: COL_GAP,
+                rowGap: COL_GAP,
+              }}
+            >
+              {places.map((place) => (
+                <div
+                  key={place.id}
                   ref={(el) => {
-                    nodeRefs.current[itemKey(place.id, item.label)] = el;
+                    nodeRefs.current[placeKey(place.id)] = el;
                   }}
-                  className={
-                    item.link ? "underline underline-offset-2" : undefined
-                  }
+                  className={`h-fit min-w-0 px-2.5 py-2 text-foreground ${boxBg}`}
+                  style={{
+                    gridColumn: place.col,
+                    gridRow: `${place.row} / span ${place.rowSpan ?? 1}`,
+                    alignSelf: "start",
+                  }}
                 >
-                  {item.label}
-                </li>
+                  <p
+                    ref={(el) => {
+                      nodeRefs.current[titleKey(place.id)] = el;
+                    }}
+                    className="font-mono text-xs font-bold leading-tight break-normal @3xl:text-sm @3xl:leading-4"
+                  >
+                    {place.title}
+                  </p>
+                  <ul className="mt-1.5 space-y-0.5 font-mono text-[0.65rem] leading-snug @3xl:text-sm @3xl:leading-4">
+                    {place.items.map((item) => (
+                      <li
+                        key={item.label}
+                        ref={(el) => {
+                          nodeRefs.current[itemKey(place.id, item.label)] = el;
+                        }}
+                        className={`whitespace-nowrap ${
+                          item.link
+                            ? "underline underline-offset-2"
+                            : ""
+                        }`}
+                      >
+                        {item.label}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </ul>
+            </div>
+
+            <svg
+              className="pointer-events-none absolute inset-0 z-10 size-full"
+              viewBox={`0 0 ${size.w} ${size.h}`}
+              aria-hidden
+            >
+              <defs>
+                <marker
+                  id={arrowId}
+                  viewBox="0 0 8 8"
+                  markerWidth="8"
+                  markerHeight="8"
+                  refX="1.5"
+                  refY="4"
+                  orient="auto"
+                  markerUnits="userSpaceOnUse"
+                  overflow="visible"
+                >
+                  <path
+                    d="M1.5 1.5 L6.5 4 L1.5 6.5"
+                    fill="none"
+                    stroke={linkStroke}
+                    strokeWidth={1.5}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </marker>
+              </defs>
+              {links.map((link) => {
+                const fromPlace = boxes[placeKey(link.fromPlace)];
+                const fromItem = boxes[itemKey(link.fromPlace, link.fromItem)];
+                const toPlace = boxes[placeKey(link.toPlace)];
+                const toTitle = boxes[titleKey(link.toPlace)];
+                if (!fromPlace || !fromItem || !toPlace || !toTitle) return null;
+                const d = linkPath(fromPlace, fromItem, toPlace, toTitle);
+                const key = `${link.fromPlace}-${link.fromItem}-${link.toPlace}`;
+                return (
+                  <path
+                    key={key}
+                    d={d}
+                    fill="none"
+                    stroke={linkStroke}
+                    strokeWidth={1.5}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    markerEnd={`url(#${arrowId})`}
+                  />
+                );
+              })}
+            </svg>
           </div>
-        ))}
+          </div>
+        </div>
       </div>
 
-      {/* Connectors above places */}
-      <svg
-        className="pointer-events-none absolute inset-0 z-10 size-full"
-        viewBox={`0 0 ${size.w} ${size.h}`}
-        aria-hidden
-      >
-        <defs>
-          {/* refX at the chevron’s open rear so the stroke meets there, tip ahead */}
-          <marker
-            id={arrowId}
-            viewBox="0 0 8 8"
-            markerWidth="8"
-            markerHeight="8"
-            refX="1.5"
-            refY="4"
-            orient="auto"
-            markerUnits="userSpaceOnUse"
-            overflow="visible"
-          >
-            <path
-              d="M1.5 1.5 L6.5 4 L1.5 6.5"
-              fill="none"
-              stroke={linkStroke}
-              strokeWidth={1.5}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </marker>
-        </defs>
-        {links.map((link) => {
-          const fromPlace = boxes[placeKey(link.fromPlace)];
-          const fromItem = boxes[itemKey(link.fromPlace, link.fromItem)];
-          const toPlace = boxes[placeKey(link.toPlace)];
-          const toTitle = boxes[titleKey(link.toPlace)];
-          if (!fromPlace || !fromItem || !toPlace || !toTitle) return null;
-          const d = linkPath(fromPlace, fromItem, toPlace, toTitle);
-          const key = `${link.fromPlace}-${link.fromItem}-${link.toPlace}`;
-          return (
-            <path
-              key={key}
-              d={d}
-              fill="none"
-              stroke={linkStroke}
-              strokeWidth={1.5}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              markerEnd={`url(#${arrowId})`}
-            />
-          );
-        })}
-      </svg>
+      {caption ? (
+        <figcaption className="mx-8 @3xl:mx-12 mt-2 text-center text-muted-foreground">
+          {caption}
+        </figcaption>
+      ) : null}
+      <CarouselArrows
+        canPrev={canPrev}
+        canNext={canNext}
+        onPrev={scrollPrev}
+        onNext={scrollNext}
+        hidden={!hasOverflow}
+      />
     </div>
   );
 }

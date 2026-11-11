@@ -455,8 +455,8 @@ function CatalogSearchCaseStudyWindow({ onClose, windowRef }: CatalogSearchCaseS
         <p className="mb-4">Enabling search and preview for a satellite imagery catalog has heavy dependencies on third party platforms and APIs; doing so for multiple catalogs from different providers would be an order of magnitude more challenging.</p>
         <p className="mb-4">During the exploration phase, engineering focused on investigating and clarifying the technical capabilities that would determine the boundaries for design to create the user experience.</p>
         <p className="mb-4">As boundaries began to emerge, we used a breadboard to identify the user interface components and their connections. This shorthand technique allowed us to quickly explore ideas and discuss their technical viability before committing to a path.</p>
-        <figure className={`my-12 -mx-8 @3xl:-mx-12 bg-muted ${FIGURE_PAD_X} ${FIGURE_PAD_Y}`}>
-          <BreadboardDiagram />
+        <figure className="my-12 -mx-8 @3xl:-mx-12">
+          <BreadboardDiagram caption="Breadboarding was used to identify interface components and their connections." />
         </figure>
         <h3 className="font-serif text-base text-center my-12">UI Design &amp; Prototyping</h3>
         <p className="mb-4">With clarity over the technical boundaries and a good sense of the components and connections, it was time to flesh out the user experience and interface in higher fidelity.</p>
