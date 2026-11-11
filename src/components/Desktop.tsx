@@ -45,6 +45,7 @@ const CatalogSearchCaseStudyWindow = lazy(() => import("@/components/windows/Cat
 const CatalogSearchPrototypeWindow = lazy(() => import("@/components/windows/CatalogSearchPrototypeWindow"));
 const MarketingWebsiteCaseStudyWindow = lazy(() => import("@/components/windows/MarketingWebsiteCaseStudyWindow"));
 const GISOSPrototypeWindow = lazy(() => import("@/components/windows/GISOSPrototypeWindow"));
+const PaletteWindow = lazy(() => import("@/components/windows/PaletteWindow"));
 
 interface DesktopProps {
   initialPathSegments?: string[];
@@ -84,6 +85,7 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
     gisosPrototype: useRef<WindowRef | null>(null),
     candis: useRef<WindowRef | null>(null),
     urbanSportsClub: useRef<WindowRef | null>(null),
+    theme: useRef<WindowRef | null>(null),
   }).current;
 
   useEffect(() => {
@@ -449,6 +451,15 @@ export default function Desktop({ initialPathSegments }: DesktopProps) {
           <MeetingTranscriberWindow
             onClose={() => closeWindow("meetingTranscriber")}
             windowRef={windowRefs.meetingTranscriber}
+          />
+        </Suspense>
+      )}
+
+      {windows.theme && (
+        <Suspense>
+          <PaletteWindow
+            onClose={() => closeWindow("theme")}
+            windowRef={windowRefs.theme}
           />
         </Suspense>
       )}

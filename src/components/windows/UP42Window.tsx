@@ -37,8 +37,8 @@ function UP42Window({
           <span>documentation-hub-case-study.html</span>
         </button>
         <button onClick={onShowCatalogSearchCaseStudy} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
-          <FileChartPie strokeWidth={0.8} className="size-12"/>
-          <span>catalog-search-case-study.figma</span>
+          <FileText strokeWidth={0.8} className="size-12"/>
+          <span>catalog-search-case-study.html</span>
         </button>
         <button onClick={onShowCatalogSearchPrototype} className="text-xs/4 text-muted-foreground font-bold hover:bg-muted p-2 w-28 inline-flex flex-col items-center">
           <FileBox strokeWidth={0.8} className="size-12"/>

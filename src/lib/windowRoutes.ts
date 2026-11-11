@@ -19,6 +19,7 @@ export const WINDOW_KEYS = [
   "gisosPrototype",
   "candis",
   "urbanSportsClub",
+  "theme",
 ] as const
 
 export type WindowKey = (typeof WINDOW_KEYS)[number]
@@ -50,6 +51,8 @@ const WINDOW_ROUTE_NODES: Record<WindowKey, WindowRouteNode> = {
   gisosPrototype: { segment: "gis-os-prototype", parent: "up42" },
   candis: { segment: "candis", parent: "experience" },
   urbanSportsClub: { segment: "urban-sports-club", parent: "experience" },
+  /** Easter egg — no menu entry; open via /theme */
+  theme: { segment: "theme" },
 }
 
 const WINDOW_COMPONENT_ID_BY_KEY: Record<WindowKey, string> = {
@@ -73,6 +76,7 @@ const WINDOW_COMPONENT_ID_BY_KEY: Record<WindowKey, string> = {
   gisosPrototype: "gis_os_prototype",
   candis: "candis",
   urbanSportsClub: "urban_sports_club",
+  theme: "theme",
 }
 
 const windowChainCache = new Map<WindowKey, WindowKey[]>()
@@ -149,6 +153,7 @@ export const DEFAULT_WINDOWS_STATE: WindowsState = {
   gisosPrototype: false,
   candis: false,
   urbanSportsClub: false,
+  theme: false,
 }
 
 const buildEmptyWindowsState = (): WindowsState =>
